@@ -1,0 +1,203 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithImage from "../../components/HeroWithImage.astro";
+import {
+  getAllNews,
+  formatJSTDate,
+  type NewsItem,
+} from "../../library/microcms";
+
+export const prerender = true;
+
+const allNews = await getAllNews();
+const sorted = [...allNews].sort(
+  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+);
+
+const NEW_THRESHOLD_DAYS = 14;
+const isNewItem = (dateStr: string) => {
+  const diffDays =
+    (Date.now() - new Date(dateStr).valueOf()) / (1000 * 60 * 60 * 24);
+  return diffDays <= NEW_THRESHOLD_DAYS;
+};
+---
+
+<BaseLayout title="お知らせ | 足立税理士事務所">
+  <HeroWithImage
+    englishTitle="News"
+    japaneseTitle="お知らせ"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  />
+
+  <section class="news-list-section">
+    <div class="container">
+      {
+        sorted.length > 0 ? (
+          <ul class="news-list">
+            {sorted.map((entry: NewsItem) => {
+              const tagLabel = entry.category?.name ?? "お知らせ";
+              const isNew = isNewItem(entry.date);
+              const href = entry.externalLink
+                ? entry.externalLink
+                : entry.content
+                  ? `/news/${entry.id}`
+                  : null;
+
+              return href ? (
+                <li class="news-item">
+                  <a
+                    href={href}
+                    target={entry.externalLink ? "_blank" : undefined}
+                    rel={entry.externalLink ? "noopener noreferrer" : undefined}
+                  >
+                    <span class="news-date">
+                      {formatJSTDate(new Date(entry.date))}
+                    </span>
+                    <span class="news-tag">{tagLabel}</span>
+                    <span class="news-title">{entry.title}</span>
+                    {entry.externalLink && (
+                      <i class="ph-bold ph-arrow-square-out news-external-icon" />
+                    )}
+                    {isNew && <span class="news-new">NEW</span>}
+                  </a>
+                </li>
+              ) : (
+                <li class="news-item news-item--plain">
+                  <span class="news-date">
+                    {formatJSTDate(new Date(entry.date))}
+                  </span>
+                  <span class="news-tag">{tagLabel}</span>
+                  <span class="news-title">{entry.title}</span>
+                  {isNew && <span class="news-new">NEW</span>}
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div class="news-empty">
+            <i class="ph-bold ph-megaphone news-empty-icon" />
+            <p>現在お知らせはありません。</p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .news-list-section {
+    padding: 60px 0 80px;
+    background-color: #ffffff;
+  }
+
+  .news-list {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 780px;
+  }
+
+  /* 行全体の定義（区切り線と上下パディングの維持） */
+  .news-item {
+    border-bottom: 1px solid #eaeaea;
+    padding: 20px 4px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    min-width: 0;
+  }
+  .news-item:first-child {
+    border-top: 1px solid #eaeaea;
+  }
+
+  /* inline-flex により、文字領域以外はホバーに反応させない */
+  .news-item a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 16px;
+    min-width: 0;
+    max-width: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-date {
+    flex: 0 0 auto;
+    font-size: 13px;
+    color: #999999;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .news-tag {
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    background: #e6f4f4;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .news-title {
+    font-size: 15px;
+    color: #222222;
+    line-height: 1.6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .news-item a:hover .news-title {
+    color: var(--primary-color, #0f8b8d);
+    text-decoration: underline;
+  }
+
+  .news-external-icon {
+    font-size: 14px;
+    color: #999999;
+    flex: 0 0 auto;
+  }
+
+  .news-new {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #e11d48;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .news-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666666;
+  }
+  .news-empty-icon {
+    font-size: 32px;
+    color: #cbdcdc;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    .news-item,
+    .news-item a {
+      flex-wrap: wrap;
+      gap: 8px 12px;
+    }
+    .news-title {
+      white-space: normal;
+    }
+  }
+</style>

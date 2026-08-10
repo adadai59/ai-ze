@@ -1,0 +1,299 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithIcon from "../../components/HeroWithIcon.astro";
+
+// 共通コンポーネントのインポート
+import PainSection from "../../components/services/PainSection.astro";
+import ReasonsSection from "../../components/services/ReasonsSection.astro";
+import ServiceDetailSection from "../../components/services/ServiceDetailSection.astro";
+import RecommendSection from "../../components/services/RecommendSection.astro";
+import FlowSection from "../../components/services/FlowSection.astro";
+import { dxSupportFlowSteps as flowSteps } from "../../data/flowsteps/dx-support";
+import FaqSection from "../../components/services/FaqSection.astro";
+
+// ==========================================
+// このページ（顧問契約）専用のデータ
+// ==========================================
+const painItems = [
+  {
+    icon: "ph-files",
+    title: "アナログ管理の限界",
+    bullets: ["紙の書類が多く管理が大変", "作業が属人化している"],
+  },
+  {
+    icon: "ph-cloud",
+    title: "クラウド会計への不安",
+    bullets: [
+      "クラウド会計への切り替え方が分からない",
+      "使い方に慣れず定着しない",
+    ],
+  },
+  {
+    icon: "ph-receipt",
+    title: "電子化・インボイス対応",
+    bullets: [
+      "請求書や経費精算をデータ化したい",
+      "インボイス対応で作業が増えて困っている",
+    ],
+  },
+  {
+    icon: "ph-robot",
+    title: "自動化・IT活用",
+    bullets: [
+      "繰り返し作業を効率化したい",
+      "自社サイトを作りたいが手が回らない",
+    ],
+  },
+];
+
+const reasonItems = [
+  {
+    icon: "ph-git-merge",
+    title: "アナログ管理から脱却",
+    desc: "紙の書類や属人化した作業を整理し、誰でも回せる業務フローに組み立て直します。",
+  },
+  {
+    icon: "ph-handshake",
+    title: "お客様に合わせた伴走支援",
+    desc: "お使いのソフトや業務のやり方に合わせて、無理のない範囲で運用方法をご提案します。",
+  },
+  {
+    icon: "ph-scan",
+    title: "ペーパーレス化を支援",
+    desc: "請求書・経費精算の電子化やインボイス対応など、実務レベルでサポートします。",
+  },
+  {
+    icon: "ph-robot",
+    title: "自動化・制作にも対応",
+    desc: "	Excelマクロによる業務自動化や、ホームページ作成まで幅広く対応します。",
+  },
+];
+
+const serviceDetails = [
+  {
+    icon: "ph-cloud",
+    title: "クラウド会計 使い方サポート",
+    desc: "お客様が導入されたクラウド会計ソフトについて、操作方法や仕訳入力、初期設定などを調べながら丁寧にサポートします。",
+  },
+  {
+    icon: "ph-git-merge",
+    title: "経理フロー構築・見直し",
+    desc: "日々の記帳から月次締めまでの流れを整理し、無理のない運用に落とし込みます。",
+  },
+  {
+    icon: "ph-scan",
+    title: "請求書・経費精算の電子化",
+    desc: "紙のやり取りを減らし、データでの管理に移行するための手順をご案内します。",
+  },
+  {
+    icon: "ph-receipt",
+    title: "インボイス制度対応",
+    desc: "登録番号の管理や請求書様式の見直しなど、実務レベルでサポートします。",
+  },
+  {
+    icon: "ph-robot",
+    title: "Excelマクロ作成・業務自動化",
+    desc: "お客様の業務に合わせたExcelマクロを作成し、日々の定型業務をより簡単・正確に行えるよう支援します。",
+  },
+  {
+    icon: "ph-browser",
+    title: "ホームページ作成支援",
+    desc: "事業内容や実績が伝わるシンプルなホームページを制作し、信頼感のある情報発信をサポートします。",
+  },
+];
+
+const recommendItems = [
+  "経理業務を効率化したい方",
+  "クラウド会計に切り替えたい方",
+  "ペーパーレス化を進めたい方",
+  "自社サイトを新しく作りたい方",
+];
+
+const faqItems = [
+  {
+    q: "クラウド会計ソフトはどれを使えばいいですか？",
+    a: "ソフトの選定はお客様にお任せしております。freee・マネーフォワード等、既にお使いのソフトがあればそのまま使い方をサポートいたします。",
+  },
+  {
+    q: "経理担当者がいなくても導入できますか？",
+    a: "はい。経理担当者がいない場合でも、現在の業務を整理し、無理なく運用できる流れづくりからサポートいたします。",
+  },
+  {
+    q: "ホームページ作成はどこまで対応してもらえますか？",
+    a: "実際に当事務所のホームページも自作しています。見た目のデザインだけでなく、情報が分かりやすく伝わる構成にもこだわり、ホームページ制作をサポートいたします。",
+  },
+  {
+    q: "マクロは専門知識がなくても使えるようになりますか？",
+    a: "使い方はマクロの操作画面を丁寧にご説明するので、専門知識がなくても問題なくお使いいただけます。ただし、業務内容の変更に伴う機能追加や修正については、別途ご相談の上で対応いたします。",
+  },
+  {
+    q: "なぜ税理士が業務効率化支援を行っているのですか？",
+    a: "国税職員時代からExcelマクロや業務改善に取り組み、日々の業務を効率化してきました。その経験を活かし、小規模事業者の皆さまが、より効率的に業務を進められる仕組みづくりをご提案しています。",
+  },
+];
+---
+
+<BaseLayout title="サービス内容 | 業務効率化支援 | 足立税理士事務所">
+  <HeroWithIcon
+    englishTitle="DX Support"
+    japaneseTitle="業務効率化支援"
+    parentLinks={[{ name: "サービス内容", url: "/services" }]}
+  >
+    <i class="ph ph-cpu" slot="icon"></i>
+  </HeroWithIcon>
+
+  {/* 各セクションをコンポーネント化してデータを渡す */}
+  <PainSection items={painItems} />
+
+  <ReasonsSection title="業務効率化支援で選ばれる理由" items={reasonItems} />
+
+  <ServiceDetailSection items={serviceDetails} />
+
+  <RecommendSection items={recommendItems} />
+
+  {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">料金の目安</h2>
+      <div class="pricing-card">
+        <p class="pricing-label">相続税申告</p>
+        <p class="pricing-amount">遺産総額の <span>0.5%</span> 〜</p>
+        <p class="pricing-note">
+          財産構成・相続人数により変動します。正式なお見積りは初回相談時にご提示いたします。
+        </p>
+        <a href="/pricing" class="btn-flow-detail">
+          料金表を詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FlowSection
+    title="ご相談から導入までの流れ"
+    steps={flowSteps}
+    showDesc={false}
+    detailUrl="/flow#dx-support"
+  />
+
+  <FaqSection items={faqItems} />
+</BaseLayout>
+
+<style>
+  /* ページ全体で共通する最小限のグローバルスタイルのみ残す */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  :global(.icon-ph),
+  :global(.icon-ph-lg),
+  :global(.feature-icon-ph) {
+    color: var(--primary-color, #0f8b8d) !important;
+    display: inline-block;
+  }
+  :global(.icon-ph) {
+    font-size: 26px !important;
+  }
+  :global(.icon-ph-lg) {
+    font-size: 32px !important;
+    margin-bottom: 14px;
+  }
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    margin-bottom: 15px;
+  }
+
+  /* 料金目安セクションのスタイル */
+  .pricing-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .pricing-card {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f4fafb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-sizing: border-box;
+  }
+  .pricing-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    margin: 0 0 12px;
+  }
+  .pricing-amount {
+    font-size: 20px;
+    color: #222222;
+    margin: 0 0 16px;
+  }
+  .pricing-amount span {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 30px;
+  }
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+  @media (max-width: 768px) {
+    .pricing-section {
+      padding: 60px 0;
+    }
+    .pricing-card {
+      padding: 36px 24px;
+    }
+    .btn-flow-detail {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

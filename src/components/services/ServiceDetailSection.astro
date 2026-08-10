@@ -1,0 +1,78 @@
+---
+interface Props {
+  items: { icon: string; title: string; desc: string }[];
+}
+const { items } = Astro.props;
+---
+
+<section class="service-detail-section">
+  <div class="container">
+    <h2 class="section-title">対応業務</h2>
+    <div class="detail-grid">
+      {
+        items.map((item) => (
+          <div class="detail-card">
+            <i class={`ph-bold ${item.icon} icon-ph-lg`} />
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-detail-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    justify-content: center;
+  }
+  .detail-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .detail-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 128, 128, 0.1);
+    border-color: var(--primary-color, #0f8b8d);
+  }
+  .detail-card {
+    text-align: center;
+  }
+  .detail-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222222;
+    margin: 0 0 10px;
+    text-align: center;
+  }
+  .detail-card p {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+  }
+  @media (max-width: 768px) {
+    .service-detail-section {
+      padding: 60px 0;
+    }
+    .section-title {
+      font-size: 24px;
+    }
+    .detail-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+</style>

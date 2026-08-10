@@ -1,0 +1,294 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithIcon from "../../components/HeroWithIcon.astro";
+
+// 共通コンポーネントのインポート
+import PainSection from "../../components/services/PainSection.astro";
+import ReasonsSection from "../../components/services/ReasonsSection.astro";
+import ServiceDetailSection from "../../components/services/ServiceDetailSection.astro";
+import RecommendSection from "../../components/services/RecommendSection.astro";
+import FlowSection from "../../components/services/FlowSection.astro";
+import { estatePlanningFlowSteps as flowSteps } from "../../data/flowsteps/estate-planning";
+import FaqSection from "../../components/services/FaqSection.astro";
+
+// ==========================================
+// このページ（生前対策・贈与）専用のデータ
+// ==========================================
+const painItems = [
+  {
+    icon: "ph-question",
+    title: "生前贈与",
+    bullets: [
+      "	贈与税がいくらかかるか不安",
+      "子や孫へどのように贈与すべきか分からない",
+    ],
+  },
+  {
+    icon: "ph-hourglass-medium",
+    title: "相続税対策",
+    bullets: [
+      "相続税対策を何から始めればよいか分からない",
+      "	不動産は贈与と相続どちらが有利か知りたい",
+    ],
+  },
+  {
+    icon: "ph-users-three",
+    title: "円満な相続",
+    bullets: [
+      "家族で相続トラブルにならないか心配",
+      "遺言書を作るべきか迷っている",
+    ],
+  },
+  {
+    icon: "ph-magnifying-glass",
+    title: "専門家への相談",
+    bullets: [
+      "どの専門家に相談すればよいか分からない",
+      "今相談すべきか迷っている",
+    ],
+  },
+];
+
+const reasonItems = [
+  {
+    icon: "ph-clipboard-text",
+    title: "最適な贈与プランの提案",
+    desc: "暦年贈与・相続時精算課税でそれぞれ各種特例を適用した上での税額を試算し、最適なプランをご提案します。",
+  },
+  {
+    icon: "ph-compass",
+    title: "将来を見据えたご提案",
+    desc: "贈与だけでなく、将来の相続や不動産の承継まで見据え、長期的な視点で最適な方法をご提案します。",
+  },
+  {
+    icon: "ph-handshake",
+    title: "円満な財産承継",
+    desc: "ご家族間のトラブル防止にも配慮し、安心して財産を引き継げるようサポートします。",
+  },
+  {
+    icon: "ph-chats-circle",
+    title: "相談しやすい体制",
+    desc: "「相談するほどではないかもしれない」と感じる段階でもお気軽にご相談ください。分かりやすく丁寧にご説明します。",
+  },
+];
+
+const serviceDetails = [
+  {
+    icon: "ph-calculator",
+    title: "暦年贈与のご提案",
+    desc: "毎年の非課税枠を活用した、計画的な贈与プランをご提案します。",
+  },
+  {
+    icon: "ph-scales",
+    title: "相続時精算課税制度の活用",
+    desc: "制度のメリット・デメリットを踏まえ、ご家族に合った活用方法をご提案します。",
+  },
+  {
+    icon: "ph-chart-line",
+    title: "生前贈与シミュレーション",
+    desc: "贈与税と将来の相続税を比較試算し、最も有利な方法をご提案します。",
+  },
+  {
+    icon: "ph-house-line",
+    title: "不動産の生前贈与",
+    desc: "不動産の評価額を適正に算定し、贈与税額の試算から申告書の作成までサポートします。",
+  },
+  {
+    icon: "ph-tree-structure",
+    title: "自社株の生前贈与（事業承継対策）",
+    desc: "非上場株式の評価額を適正に算定し、後継者への贈与や納税猶予制度の活用をサポートします。",
+  },
+  {
+    icon: "ph-users-three",
+    title: "結婚・子育て資金の一括贈与",
+    desc: "各種非課税制度を活用した、子や孫への資金贈与をサポートします。",
+  },
+];
+
+const recommendItems = [
+  "子や孫へ資産を早めに引き継ぎたい方",
+  "生前贈与で将来の相続税を減らしたい方",
+  "不動産・自社株など評価が難しい資産をお持ちの方",
+  "ご家族が円満に資産を引き継げるよう備えたい方",
+];
+
+const faqItems = [
+  {
+    q: "贈与税はいくらからかかりますか？",
+    a: "暦年贈与の場合、年間110万円の基礎控除額を超える部分に贈与税がかかります。贈与する時期や相手を工夫することで、非課税枠を有効に活用できます。",
+  },
+
+  {
+    q: "相続時精算課税制度を使うとどうなりますか？",
+    a: "累計2,500万円まで贈与税がかからない一方、贈与した財産は将来の相続税の計算に加算されます。暦年贈与との違いを踏まえ、ご家族に合った制度選択をご提案します。",
+  },
+  {
+    q: "生前贈与と相続、どちらが有利ですか？",
+    a: "ご家族の資産状況や将来の相続税額によって異なります。まずは無料相談で贈与税と相続税を比較試算し、最適な方法をご提案します。",
+  },
+];
+---
+
+<BaseLayout title="サービス内容 | 生前対策・贈与 | 足立税理士事務所">
+  <HeroWithIcon
+    englishTitle="Estate Planning"
+    japaneseTitle="生前対策・贈与"
+    parentLinks={[{ name: "サービス内容", url: "/services" }]}
+  >
+    <i class="ph ph-gift" slot="icon"></i>
+  </HeroWithIcon>
+
+  {/* 各セクションをコンポーネント化してデータを渡す */}
+  <PainSection items={painItems} />
+
+  <ReasonsSection title="生前対策・贈与で選ばれる理由" items={reasonItems} />
+
+  <ServiceDetailSection items={serviceDetails} />
+
+  <RecommendSection items={recommendItems} />
+
+  {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">料金の目安</h2>
+      <div class="pricing-card">
+        <p class="pricing-label">相続税申告</p>
+        <p class="pricing-amount">遺産総額の <span>0.5%</span> 〜</p>
+        <p class="pricing-note">
+          財産構成・相続人数により変動します。正式なお見積りは初回相談時にご提示いたします。
+        </p>
+        <a href="/pricing" class="btn-flow-detail">
+          料金表を詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FlowSection
+    steps={flowSteps}
+    showDesc={false}
+    detailUrl="/flow#estate-planning"
+  />
+
+  <FaqSection items={faqItems} />
+</BaseLayout>
+
+<style>
+  /* ページ全体で共通する最小限のグローバルスタイルのみ残す */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  :global(.icon-ph),
+  :global(.icon-ph-lg),
+  :global(.feature-icon-ph) {
+    color: var(--primary-color, #0f8b8d) !important;
+    display: inline-block;
+  }
+  :global(.icon-ph) {
+    font-size: 26px !important;
+  }
+  :global(.icon-ph-lg) {
+    font-size: 32px !important;
+    margin-bottom: 14px;
+  }
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    margin-bottom: 15px;
+  }
+
+  /* 料金目安セクションのスタイル */
+  .pricing-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .pricing-card {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f4fafb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-sizing: border-box;
+  }
+  .pricing-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    margin: 0 0 12px;
+  }
+  .pricing-amount {
+    font-size: 20px;
+    color: #222222;
+    margin: 0 0 16px;
+  }
+  .pricing-amount span {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 30px;
+  }
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+  @media (max-width: 768px) {
+    .pricing-section {
+      padding: 60px 0;
+    }
+    .pricing-card {
+      padding: 36px 24px;
+    }
+    .btn-flow-detail {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

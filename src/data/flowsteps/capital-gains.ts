@@ -1,0 +1,51 @@
+// 譲渡所得：ご相談から申告までの流れ
+export const capitalGainsFlowSteps = [
+  {
+    step: 1,
+    icon: "ph-chats-circle",
+    title: "お問い合わせ・ご相談",
+    desc: "まずはお気軽にお問い合わせください。初回相談無料です。",
+    duration: "即日〜数日",
+    prep: "特になし",
+  },
+  {
+    step: 2,
+    icon: "ph-clipboard-text",
+    title: "ヒアリング",
+    desc: "売却の経緯や取得時の資料状況を丁寧にヒアリングします。",
+    duration: "1週間程度",
+    prep: "売買契約書、取得時の資料（あれば）",
+  },
+  {
+    step: 3,
+    icon: "ph-file-magnifying-glass",
+    title: "概算税額・各種特例のご案内",
+    desc: "現時点で分かる範囲で概算の税額をお伝えするとともに、代表的な特例の一覧をご案内します。個別の適用可否は、ご契約後に詳しく確認いたします。",
+    duration: "1〜2週間",
+    prep: "特になし",
+  },
+  {
+    step: 4,
+    icon: "ph-signature",
+    title: "ご契約",
+    desc: "プラン内容にご納得いただけましたら、正式にご契約となります。",
+    duration: "即日",
+    prep: "認印",
+  },
+  {
+    step: 5,
+    icon: "ph-file-text",
+    title: "必要書類の収集・申告書の作成",
+    desc: "取得費の根拠資料等の収集をサポートし、具体的な特例適用を検討した上で申告書を作成します。",
+    duration: "3〜4週間",
+    prep: "取得費の根拠資料、譲渡費用の領収書等",
+  },
+  {
+    step: 6,
+    icon: "ph-calendar-check",
+    title: "確定申告・納付",
+    desc: "税務署への所得税申告と納付手続きを代行いたします。",
+    duration: "1日（期限内）",
+    prep: "納税資金のご準備",
+  },
+];

@@ -1,0 +1,897 @@
+---
+// src/components/Header.astro
+const pathname = Astro.url.pathname.replace(/\/$/, ""); // 末尾のスラッシュを丸める
+const isHomeActive = pathname === "";
+const isAboutActive = pathname.startsWith("/about");
+const isServicesActive = pathname.startsWith("/services");
+const isPricingActive = pathname.startsWith("/pricing");
+const isFlowActive = pathname.startsWith("/flow");
+const isColumnActive = pathname.startsWith("/column");
+
+interface Props {
+  // 💡trueにすると、ロゴだけのシンプルなヘッダーになる（お問い合わせページなど用）
+  simple?: boolean;
+}
+
+const { simple = false } = Astro.props;
+---
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo">
+      <a href="/">
+        <span class="logo-main">足立税理士事務所</span>
+        <span class="logo-en">ADACHI TAX OFFICE</span>
+      </a>
+    </div>
+
+    {
+      !simple && (
+        <nav class="nav-menu" id="navMenu" aria-label="メインナビゲーション">
+          <ul class="nav-list">
+            <li>
+              <a href="/" class:list={[{ active: isHomeActive }]}>
+                ホーム
+              </a>
+            </li>
+
+            <li>
+              <a href="/about" class:list={[{ active: isAboutActive }]}>
+                事務所紹介
+              </a>
+            </li>
+
+            <li class="has-dropdown">
+              <a
+                href="/services"
+                class:list={["dropdown-toggle", { active: isServicesActive }]}
+                role="button"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                サービス内容{" "}
+                <span class="arrow" aria-hidden="true">
+                  ▼
+                </span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="mobile-only-link">
+                  <a
+                    href="/services"
+                    class:list={[{ active: pathname === "/services" }]}
+                  >
+                    すべてのサービスを見る
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services/inheritance"
+                    class:list={[
+                      { active: pathname === "/services/inheritance" },
+                    ]}
+                  >
+                    相続税申告
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services/estate-planning"
+                    class:list={[
+                      { active: pathname === "/services/estate-planning" },
+                    ]}
+                  >
+                    生前対策・贈与
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services/capital-gains"
+                    class:list={[
+                      { active: pathname === "/services/capital-gains" },
+                    ]}
+                  >
+                    譲渡所得
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services/advisory"
+                    class:list={[{ active: pathname === "/services/advisory" }]}
+                  >
+                    顧問契約
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/services/dx-support"
+                    class:list={[
+                      { active: pathname === "/services/dx-support" },
+                    ]}
+                  >
+                    業務効率化支援
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="/pricing" class:list={[{ active: isPricingActive }]}>
+                料金表
+              </a>
+            </li>
+            <li>
+              <a href="/flow" class:list={[{ active: isFlowActive }]}>
+                ご依頼の流れ
+              </a>
+            </li>
+            <li>
+              <a href="/column" class:list={[{ active: isColumnActive }]}>
+                コラム
+              </a>
+            </li>
+          </ul>
+
+          <div class="header-cta-container">
+            <button
+              type="button"
+              class="btn-contact js-contact-btn"
+              aria-haspopup="dialog"
+              aria-controls="contactModal"
+            >
+              <i class="fa-regular fa-comment-dots" aria-hidden="true" />
+              お問い合わせ
+            </button>
+          </div>
+        </nav>
+      )
+    }
+
+    {
+      !simple && (
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="メニューを開閉する"
+          aria-expanded="false"
+          aria-controls="navMenu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      )
+    }
+  </div>
+
+  <div class="menu-overlay" id="menuOverlay"></div>
+
+  <script>
+    const initHeader = () => {
+      const menuToggle = document.getElementById("menuToggle");
+      const navMenu = document.getElementById("navMenu");
+      const menuOverlay = document.getElementById("menuOverlay");
+
+      if (menuToggle && navMenu) {
+        menuToggle.addEventListener("click", () => {
+          const isActive = menuToggle.classList.toggle("is-active");
+          navMenu.classList.toggle("is-active");
+          menuOverlay?.classList.toggle("is-active");
+          menuToggle.setAttribute("aria-expanded", String(isActive));
+
+          if (isActive) {
+            document.body.style.overflow = "hidden";
+          } else {
+            document.body.style.overflow = "";
+          }
+
+          if (!isActive) {
+            const openMenus = document.querySelectorAll(
+              ".has-dropdown.has-open",
+            );
+            openMenus.forEach((openMenu) => {
+              openMenu.classList.remove("has-open");
+              openMenu
+                .querySelector(".dropdown-toggle")
+                ?.setAttribute("aria-expanded", "false");
+            });
+          }
+        });
+
+        menuOverlay?.addEventListener("click", () => {
+          menuToggle.click();
+        });
+      }
+
+      const dropdownToggles = document.querySelectorAll(
+        ".nav-menu .has-dropdown .dropdown-toggle",
+      );
+      dropdownToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (e) => {
+          if (window.innerWidth <= 1080) {
+            e.preventDefault();
+            const parent = toggle.closest(".has-dropdown");
+            if (!parent) return;
+
+            const currentlyOpen = document.querySelectorAll(
+              ".has-dropdown.has-open",
+            );
+            currentlyOpen.forEach((openMenu) => {
+              if (openMenu !== parent) {
+                openMenu.classList.remove("has-open");
+                openMenu
+                  .querySelector(".dropdown-toggle")
+                  ?.setAttribute("aria-expanded", "false");
+              }
+            });
+
+            const isOpen = parent.classList.toggle("has-open");
+            toggle.setAttribute("aria-expanded", String(isOpen));
+          }
+        });
+      });
+    };
+
+    const initScrollHeader = () => {
+      const header = document.querySelector(".site-header");
+      const footer = document.querySelector<HTMLElement>("footer"); // フッターのタグ名/クラス名に合わせて調整してください
+      const ctaContainer = document.querySelector<HTMLElement>(
+        ".header-cta-container",
+      );
+      if (!header) return;
+
+      const onScroll = () => {
+        // ヘッダーのカプセル化
+        if (window.scrollY > 100) {
+          header.classList.add("is-scrolled");
+        } else {
+          header.classList.remove("is-scrolled");
+        }
+
+        // フッターに近づいたらボタンを隠す
+        if (footer && ctaContainer) {
+          const footerTop = footer.getBoundingClientRect().top;
+          const isNearFooter = footerTop < window.innerHeight - 450; // ★数値を増やすほど早めに消える
+          ctaContainer.style.opacity = isNearFooter ? "0" : "1";
+          ctaContainer.style.pointerEvents = isNearFooter ? "none" : "auto";
+        }
+      };
+
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initHeader();
+      initScrollHeader();
+    });
+    document.addEventListener("astro:after-swap", () => {
+      initHeader();
+      initScrollHeader();
+    });
+  </script>
+
+  <style>
+    /* ==========================================================================
+      共通スタイル（画面サイズに関係なく常に適用）
+      ========================================================================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 64px;
+      z-index: 100;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 0;
+      box-sizing: border-box;
+      transition:
+        top 0.4s ease,
+        width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        border-radius 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        background-color 0.4s ease,
+        backdrop-filter 0.4s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+    }
+    .header-container {
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      padding: 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      transition:
+        max-width 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        padding 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+        height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .logo a {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      white-space: nowrap;
+      line-height: 1.25;
+      min-width: auto;
+    }
+    .logo-main {
+      font-family:
+        "Times New Roman", "YuMincho", "Yu Mincho", "Hiragino Mincho ProN",
+        "Biz Serif", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 0.08em;
+    }
+    .logo-en {
+      font-family: Georgia, Garamond, "Times New Roman", serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #666666;
+      letter-spacing: 0.22em;
+      margin-top: 2px;
+      transform: scale(0.95);
+      transform-origin: left;
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+      width: auto;
+      margin-left: 60px;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+      margin-left: auto;
+    }
+    .nav-menu a:link,
+    .nav-menu a:visited,
+    .dropdown-toggle {
+      text-decoration: none;
+      color: #0a0909;
+      font-weight: 500;
+      font-size: 1.05rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      position: relative;
+      transition: color 0.2s;
+      padding: 0.35rem 0.8rem !important; /* ★ 0.5rem → 0.35rem に縮小（カプセルの上下高さを狭める） */
+      border-radius: 20px;
+      white-space: nowrap;
+      box-sizing: border-box !important;
+    }
+
+    .nav-list > li:hover > a:not(.active) {
+      font-weight: 900 !important;
+      color: var(--primary-color) !important;
+    }
+    .nav-list .has-dropdown:hover .dropdown-toggle:not(.active) {
+      font-weight: 900 !important;
+      color: var(--primary-color) !important;
+    }
+
+    /* 現在地（アクティブ）の上品なカプセル型背景スタイル */
+    .nav-menu a.active,
+    .nav-menu .dropdown-toggle.active {
+      font-weight: 500 !important;
+      color: var(--primary-color) !important;
+      background-color: rgba(11, 111, 114, 0.08) !important;
+    }
+
+    /* サービス内容がアクティブのときも、外側のボタン枠サイズを他と完全に揃える */
+    .nav-menu .dropdown-toggle.active {
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 0.35rem 0.8rem !important; /* ★ここも連動して 0.35rem に縮小 */
+    }
+
+    .arrow {
+      font-size: 0.6rem;
+      margin-left: 5px;
+      transition: transform 0.2s;
+    }
+    .header-cta-container {
+      margin-left: auto;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-menu .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: max-content;
+      background-color: var(--primary-color);
+      color: #ffffff;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-sizing: border-box;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .btn-contact i {
+      font-size: 1.2rem;
+      margin-right: 12px;
+    }
+
+    .has-dropdown {
+      position: relative;
+      padding-bottom: 15px;
+      margin-bottom: -15px;
+      display: inline-block !important;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50% !important;
+      width: 150px !important;
+      transform: translateX(-50%) translateY(10px) !important;
+      list-style: none;
+      background-color: #ffffff;
+      padding: 0.4rem 0;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+      z-index: 200;
+      overflow: hidden;
+    }
+    .dropdown-menu li {
+      width: 100%;
+      display: block !important;
+    }
+    .dropdown-menu li + li {
+      border-top: 1px solid #f0eeea;
+    }
+    .dropdown-menu li.mobile-only-link + li {
+      border-top: none;
+    }
+    .dropdown-menu a {
+      display: block;
+      width: 100%;
+      font-size: 0.9rem !important;
+      white-space: nowrap;
+      box-sizing: border-box;
+      color: #333333;
+      text-align: center !important;
+      padding: 0.5rem 1rem !important;
+      position: relative;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+      border-radius: 0 !important;
+    }
+
+    .dropdown-menu li a:hover {
+      background-color: #f0f6ff;
+      color: #0b6f72;
+    }
+    .has-dropdown:hover .dropdown-toggle {
+      color: var(--primary-color) !important;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .dropdown-menu li.mobile-only-link {
+      display: none !important;
+    }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100dvh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 90;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+    }
+    .menu-overlay.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* ==========================================================================
+      PC表示専用（1081px以上）
+      ========================================================================== */
+    @media (min-width: 1081px) {
+      .nav-list > li > a:not(.active)::after,
+      .nav-list > li > .dropdown-toggle:not(.active)::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.25s ease-out;
+      }
+      .nav-list > li:hover > a:not(.active)::after,
+      .nav-list > li:hover > .dropdown-toggle:not(.active)::after {
+        transform: scaleX(1);
+      }
+
+      .nav-menu .btn-contact:hover {
+        background-color: #0b6f72;
+        opacity: 1;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(15, 139, 141, 0.25);
+      }
+
+      .dropdown-menu a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: #0b6f72;
+        display: none;
+      }
+      .dropdown-menu li a:hover::before {
+        display: block;
+      }
+
+      .has-dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0) !important;
+      }
+      .has-dropdown:hover .arrow {
+        transform: rotate(180deg);
+      }
+      .has-dropdown:hover .dropdown-toggle::after {
+        transform: scaleX(1);
+      }
+      .site-header.is-scrolled {
+        top: 14px;
+        width: calc(100% - 40px);
+        max-width: 1100px;
+        height: 56px;
+        border-radius: 999px;
+        background-color: rgba(255, 255, 255, 0.97);
+        backdrop-filter: blur(6px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border-bottom-color: rgba(0, 0, 0, 0.06);
+      }
+
+      .site-header.is-scrolled .header-container {
+        padding: 0 24px;
+        height: 56px;
+      }
+
+      .site-header.is-scrolled .logo-main {
+        font-size: 1.1rem;
+      }
+      .site-header.is-scrolled .logo-en {
+        font-size: 0.5rem;
+      }
+      .site-header.is-scrolled .nav-menu {
+        margin-left: 32px;
+      }
+      .site-header.is-scrolled .nav-list {
+        gap: 1.5rem;
+      }
+      .site-header.is-scrolled .nav-menu a:link,
+      .site-header.is-scrolled .nav-menu a:visited,
+      .site-header.is-scrolled .dropdown-toggle {
+        font-size: 0.9rem !important;
+        padding: 0.3rem 0.6rem !important;
+      }
+      .site-header.is-scrolled .btn-contact {
+        padding: 10px 28px !important;
+        font-size: 1.05rem !important;
+      }
+      .site-header.is-scrolled .btn-contact i {
+        margin-right: 10px !important;
+      }
+
+      .site-header.is-scrolled .header-cta-container {
+        position: absolute;
+        top: 150%;
+        right: 32px;
+        transform: translateY(-50%);
+      }
+
+      .site-header.is-scrolled .btn-contact {
+        border-radius: 999px !important;
+        box-shadow: 0 8px 20px rgba(15, 139, 141, 0.3);
+      }
+    }
+
+    /* ==========================================================================
+      中途半端な画面サイズ（1081px〜1350px）での文字溢れ・重なり対策
+      ========================================================================== */
+    @media (min-width: 1081px) and (max-width: 1350px) {
+      .nav-menu {
+        margin-left: 40px !important;
+      }
+      .nav-list {
+        gap: 1.2rem !important;
+        margin-left: auto !important;
+      }
+      .nav-menu a:link,
+      .nav-menu a:visited,
+      .dropdown-toggle {
+        font-size: 0.95rem !important;
+        padding: 0.35rem 0.6rem !important; /* ★上下を狭める */
+      }
+      .nav-menu .btn-contact {
+        padding: 10px 18px !important;
+        font-size: 1rem !important;
+      }
+    }
+
+    /* ==========================================================================
+      ハンバーガー表示（スマホ）専用（1080px以下）
+      ========================================================================== */
+    @media (max-width: 1080px) {
+      .site-header {
+        top: 0;
+        padding: 0;
+      }
+      .header-container {
+        height: 64px;
+        border-radius: 0;
+      }
+      .logo a {
+        min-width: auto;
+      }
+      .logo-main {
+        font-size: 1.4rem;
+      }
+      .logo-en {
+        font-size: 0.55rem;
+      }
+      .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 18px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        position: relative;
+        z-index: 220;
+      }
+      .menu-toggle span {
+        width: 100%;
+        height: 2px;
+        background-color: #333;
+        transition: all 0.3s ease;
+      }
+      .menu-toggle.is-active span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .menu-toggle.is-active span:nth-child(2) {
+        opacity: 0;
+      }
+      .menu-toggle.is-active span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+      .nav-menu {
+        position: fixed;
+        top: 64px;
+        right: -100%;
+        width: 70%;
+        max-width: 250px;
+        max-height: calc(100dvh - 120px);
+        overflow-y: auto;
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        border-radius: 0 0 0 16px;
+        transition: right 0.3s ease;
+        z-index: 200;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0 !important;
+      }
+      .nav-menu.is-active {
+        right: 0;
+      }
+      .nav-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        margin-left: 0 !important;
+      }
+      .nav-list > li {
+        width: 100% !important;
+        display: block !important;
+      }
+      .nav-list > li > a,
+      .nav-menu .dropdown-toggle {
+        font-size: 1.1rem;
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0.4rem 0.8rem !important; /* ★ 0.6rem 0.5rem → 0.4rem 0.8rem に変更して上下高さをスマートに */
+        white-space: normal;
+      }
+      .nav-list > li > a:not(.active)::after,
+      .nav-list > li > .dropdown-toggle:not(.active)::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: var(--primary-color);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 0.25s ease-out;
+      }
+      .nav-list > li:hover > a:not(.active)::after,
+      .nav-list > li:hover > .dropdown-toggle:not(.active)::after,
+      .nav-list > li:active > a:not(.active)::after,
+      .nav-list > li:active > .dropdown-toggle:not(.active)::after {
+        transform: scaleX(1);
+      }
+      .header-cta-container {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .nav-menu .btn-contact {
+        width: 100%;
+        display: flex;
+        padding: 12px 15px;
+        white-space: nowrap;
+      }
+      .nav-menu .btn-contact:hover,
+      .nav-menu .btn-contact:active {
+        background-color: #0b6f72;
+        opacity: 0.9;
+        color: #ffffff;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .has-dropdown {
+        width: 100%;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+      .dropdown-menu {
+        position: static;
+        left: 0 !important;
+        transform: none !important;
+        border-radius: 0 !important;
+        width: calc(
+          100% - 12px
+        ) !important; /* ★右側のはみ出しを防ぎメニュー幅に美しく収める */
+        box-shadow: none;
+        border: none;
+        margin-left: 15px;
+        margin-top: 6px; /* ★追加：サービス内容のカプセルと物理的に隙間を開け、合体を解消 */
+        padding: 0;
+        background: none;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        overflow: visible !important; /* ★追加：中のカプセルの丸角が削られないように保護 */
+      }
+      .dropdown-menu a {
+        display: block !important;
+        width: 100% !important;
+        padding: 0.4rem 1rem 0.4rem 1.5rem !important; /* ★ 0.6rem → 0.4rem に縮小（上下高さを狭める） */
+        text-align: left !important;
+        position: relative;
+        border-radius: 20px !important; /* ★追加：ドロップダウン内のアクティブ背景も綺麗なカプセル型に統一 */
+      }
+      .dropdown-menu a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: #0b6f72;
+        display: none !important;
+      }
+      .dropdown-menu a:hover::before,
+      .dropdown-menu a:active::before,
+      .dropdown-menu a:focus::before {
+        display: block !important;
+      }
+      .has-open .dropdown-menu {
+        display: block;
+      }
+      .has-open .arrow {
+        transform: rotate(180deg);
+      }
+
+      .dropdown-menu li.mobile-only-link {
+        display: block !important;
+      }
+
+      .mobile-only-link a {
+        font-weight: 500 !important;
+        color: #333333 !important;
+        background-color: transparent !important;
+        border-bottom: 1px solid #f0eeea;
+      }
+
+      .mobile-only-link a:hover,
+      .mobile-only-link a:active {
+        background-color: #f0f6ff !important;
+        color: var(--primary-color, #0f8b8d) !important;
+      }
+
+      .dropdown-menu li:not(.mobile-only-link) a {
+        padding-left: 3.2rem !important;
+        position: relative;
+        background-image: linear-gradient(#c8c8c8, #c8c8c8);
+        background-size: 1px 100%;
+        background-repeat: no-repeat;
+        background-position: 1.6rem 0;
+      }
+
+      .dropdown-menu li:last-child a {
+        background-size: 1px 50%;
+      }
+
+      .dropdown-menu li:not(.mobile-only-link) a::after {
+        content: "";
+        position: absolute;
+        left: 1.6rem;
+        top: 50%;
+        width: 12px;
+        height: 1px;
+        background-color: #c8c8c8;
+        pointer-events: none;
+      }
+
+      .dropdown-menu li + li {
+        border-top: none;
+      }
+    }
+  </style>
+</header>

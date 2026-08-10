@@ -1,0 +1,1294 @@
+---
+// src/pages/contact.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+let statusMessage = "";
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+
+    const subject = data.get("subject");
+
+    // 姓・名をそれぞれ取得して、メール用に結合
+    const lastName = data.get("lastName");
+    const firstName = data.get("firstName");
+    const fullName = `${lastName} ${firstName}`;
+
+    // セイ・メイ（フリガナ）をそれぞれ取得して、メール用に結合
+    const lastKana = data.get("lastKana");
+    const firstKana = data.get("firstKana");
+    const fullKana = `${lastKana} ${firstKana}`;
+
+    const company = data.get("company") || "（未入力）";
+    const email = data.get("email");
+    const tel = data.get("tel");
+    const message = data.get("message");
+
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "onboarding@resend.dev",
+        to: import.meta.env.TO_EMAIL,
+        subject: `【お問い合わせ：${subject}】${fullName}様より`,
+        html: `
+          <p><strong>お問い合わせ内容:</strong> ${subject}</p>
+          <p><strong>お名前:</strong> ${fullName}（${fullKana}）</p>
+          <p><strong>会社名・団体名:</strong> ${company}</p>
+          <p><strong>メールアドレス:</strong> ${email}</p>
+          <p><strong>電話番号:</strong> ${tel}</p>
+          <p><strong>詳しいご相談内容:</strong></p>
+          <p>${message ? message.toString().replace(/\n/g, "<br />") : ""}</p>
+        `,
+      }),
+    });
+
+    if (response.ok) {
+      statusMessage = "お問い合わせを送信しました。ありがとうございました！";
+    } else {
+      statusMessage = "送信に失敗しました。時間をおいて再度お試しください。";
+    }
+  } catch (error) {
+    console.error(error);
+    statusMessage = "エラーが発生しました。";
+  }
+}
+
+const isComplete =
+  statusMessage === "お問い合わせを送信しました。ありがとうございました！";
+---
+
+<BaseLayout
+  title="お問い合わせ | 足立税理士事務所"
+  hideFooter={true}
+  simpleHeader={true}
+>
+  <section class="contact-page-header">
+    <div class="contact-page-header-inner">
+      <div class="contact-icon-wrapper">
+        <i class="ph ph-envelope-simple"></i>
+      </div>
+      <h1 class="contact-page-title">お問い合わせ</h1>
+      <p class="contact-page-lead">
+        相続税・贈与税・譲渡所得のご相談、税理士変更のご相談など、お気軽にお問い合わせください。
+      </p>
+    </div>
+  </section>
+
+  <div class="form-container">
+    <!-- ステップ進捗バー -->
+    <div class="progress-bar" id="progress-bar">
+      <div class="progress-step is-active" data-step="input">
+        <div class="progress-circle">1</div>
+        <span class="progress-label">入力</span>
+      </div>
+      <div class="progress-line" id="line-1"></div>
+      <div class="progress-step" data-step="confirm">
+        <div class="progress-circle">2</div>
+        <span class="progress-label">確認</span>
+      </div>
+      <div class="progress-line" id="line-2"></div>
+      <div class="progress-step" data-step="complete">
+        <div class="progress-circle">3</div>
+        <span class="progress-label">完了</span>
+      </div>
+    </div>
+
+    {statusMessage && <div class="status">{statusMessage}</div>}
+
+    {
+      !isComplete && (
+        <form method="POST" id="main-form" novalidate>
+          {/* 1. お問い合わせ内容 */}
+          <div class="field">
+            <div class="label-title">
+              お問い合わせ内容<span class="badge required">必須</span>
+              <span class="field-error" id="err-subject" />
+            </div>
+            <div class="subject-field-wrap">
+              <div class="radio-group">
+                <label>
+                  <input
+                    type="radio"
+                    name="mainSubject"
+                    value="相続税申告について"
+                    checked
+                  />
+                  相続税申告について
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mainSubject"
+                    value="生前対策・贈与について"
+                  />
+                  生前対策・贈与について
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="mainSubject"
+                    value="譲渡所得（不動産・株式等）について"
+                  />
+                  譲渡所得（不動産・株式等）について
+                </label>
+                <label>
+                  <input type="radio" name="mainSubject" value="その他" />
+                  その他
+                </label>
+              </div>
+
+              <div
+                class="subject-other-wrap"
+                id="subject-other-wrap"
+                style="display: none;"
+              >
+                <div class="subject-dropdown" id="subject-dropdown">
+                  <button
+                    type="button"
+                    class="subject-dropdown-toggle"
+                    aria-haspopup="listbox"
+                    aria-expanded="false"
+                  >
+                    <span class="subject-dropdown-label">
+                      業務内容を選択してください
+                    </span>
+                    <span class="arrow" aria-hidden="true">
+                      ▼
+                    </span>
+                  </button>
+                  <ul class="subject-dropdown-menu" role="listbox">
+                    <li
+                      role="option"
+                      data-value="顧問契約について"
+                      aria-selected="false"
+                    >
+                      顧問契約について
+                    </li>
+                    <li
+                      role="option"
+                      data-value="業務効率化支援について"
+                      aria-selected="false"
+                    >
+                      業務効率化支援について
+                    </li>
+                    <li role="option" data-value="custom" aria-selected="false">
+                      その他（自由記述）
+                    </li>
+                  </ul>
+                </div>
+
+                <input
+                  type="text"
+                  id="subject-custom-input"
+                  class="subject-custom-input"
+                  placeholder="ご相談内容を簡単にご記入ください。"
+                  style="display: none;"
+                />
+                <p
+                  class="subject-custom-hint"
+                  id="subject-custom-hint"
+                  style="display: none;"
+                >
+                  例：確定申告について
+                </p>
+              </div>
+
+              <input
+                type="hidden"
+                name="subject"
+                id="subject-hidden"
+                value="相続税申告について"
+              />
+            </div>
+            <div class="confirm-text" id="text-subject" />
+          </div>
+
+          {/* 2. お名前（姓名分割） */}
+          <div class="field">
+            <div class="label-title">
+              お名前<span class="badge required">必須</span>
+              <span class="field-error" id="err-name" />
+            </div>
+            <div class="name-group">
+              <div class="name-input-wrap">
+                <span class="name-label">姓</span>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="山田"
+                  required
+                />
+              </div>
+              <div class="name-input-wrap">
+                <span class="name-label">名</span>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="太郎"
+                  required
+                />
+              </div>
+            </div>
+            <div class="confirm-text" id="text-name" />
+          </div>
+
+          {/* 3. フリガナ（姓名分割） */}
+          <div class="field">
+            <div class="label-title">
+              フリガナ<span class="badge required">必須</span>
+              <span class="field-error" id="err-kana" />
+            </div>
+            <div class="name-group">
+              <div class="name-input-wrap">
+                <span class="name-label">セイ</span>
+                <input
+                  type="text"
+                  id="lastKana"
+                  name="lastKana"
+                  placeholder="ヤマダ"
+                  required
+                />
+              </div>
+              <div class="name-input-wrap">
+                <span class="name-label">メイ</span>
+                <input
+                  type="text"
+                  id="firstKana"
+                  name="firstKana"
+                  placeholder="タロウ"
+                  required
+                />
+              </div>
+            </div>
+            <div class="confirm-text" id="text-kana" />
+          </div>
+
+          {/* 4. 会社名・団体名 */}
+          <div class="field">
+            <div class="label-title">
+              会社名・団体名<span class="badge optional">任意</span>
+            </div>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              placeholder="例：株式会社〇〇"
+            />
+            <div class="confirm-text" id="text-company" />
+          </div>
+
+          {/* 5. メールアドレス */}
+          <div class="field">
+            <div class="label-title">
+              メールアドレス<span class="badge required">必須</span>
+              <span class="field-error" id="err-email" />
+            </div>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="例：example@domain.com"
+              required
+            />
+            <div class="confirm-text" id="text-email" />
+          </div>
+
+          {/* 6. 電話番号 */}
+          <div class="field">
+            <div class="label-title">
+              電話番号<span class="badge required">必須</span>
+              <span class="field-error" id="err-tel" />
+            </div>
+            <input
+              type="tel"
+              id="tel"
+              name="tel"
+              placeholder="例：03-1234-5678"
+              required
+            />
+            <div class="confirm-text" id="text-tel" />
+          </div>
+
+          {/* 7. 詳しいご相談内容 */}
+          <div class="field">
+            <div class="label-title">
+              詳しいご相談内容<span class="badge required">必須</span>
+              <span class="field-error" id="err-message" />
+            </div>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              placeholder="ご相談内容を自由にご記入ください。"
+              required
+            />
+            <div class="confirm-text" id="text-message" />
+          </div>
+
+          {/* 8. 同意チェック */}
+          <div class="agreement-field" id="agreement-area">
+            <label>
+              <input type="checkbox" id="agreement" name="agreement" required />
+              <span>
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  個人情報保護方針
+                </a>
+                に同意する
+              </span>
+            </label>
+            <span class="field-error" id="err-agreement" />
+          </div>
+
+          {/* 9. 操作ボタンエリア */}
+          <div class="btn-container">
+            <button type="button" id="btn-to-confirm" class="btn-next">
+              確認画面へ進む
+            </button>
+            <button
+              type="button"
+              id="btn-back-to-input"
+              class="btn-back"
+              style="display: none;"
+            >
+              戻る
+            </button>
+            <button
+              type="submit"
+              id="btn-submit-form"
+              class="btn-submit"
+              style="display: none;"
+            >
+              この内容で送信する
+            </button>
+          </div>
+        </form>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --font-sans:
+      "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+      Meiryo, sans-serif;
+  }
+
+  /* --- ページ上部（画像なしのシンプルなヘッダー） --- */
+  .contact-page-header {
+    background-color: #f4fafb;
+    border-bottom: 1px solid #e2eeee;
+    padding: 70px 20px 36px;
+    text-align: center;
+  }
+  .contact-page-header-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .contact-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background-color: #ffffff;
+    border: 1px solid #0f8b8d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  .contact-icon-wrapper i {
+    color: var(--primary-color, #0f8b8d);
+    font-size: 30px;
+  }
+  .contact-page-title {
+    font-family: var(--font-sans);
+    font-size: 32px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.03em;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .contact-page-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  .contact-page-lead {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #555555;
+    margin: 0;
+  }
+
+  /* --- 基本スタイル --- */
+  .form-container {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 36px 20px 100px;
+    font-family: var(--font-sans);
+  }
+
+  /* --- ステップ進捗バー --- */
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .progress-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #e2eeee;
+    color: #a8bcbc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.25s ease;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: #a8bcbc;
+    font-weight: 500;
+    transition: color 0.25s ease;
+  }
+  .progress-step.is-active .progress-circle,
+  .progress-step.is-done .progress-circle {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+  }
+  .progress-step.is-active .progress-label,
+  .progress-step.is-done .progress-label {
+    color: var(--primary-color, #0f8b8d);
+    font-weight: bold;
+  }
+  .progress-line {
+    width: 60px;
+    height: 2px;
+    background: #e2eeee;
+    margin: 0 10px 24px;
+    transition: background 0.25s ease;
+  }
+  .progress-line.is-done {
+    background: var(--primary-color, #0f8b8d);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 28px;
+  }
+
+  /* 各項目（行）のスタイル */
+  .field {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 25px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .field:first-of-type {
+    border-top: 1px solid #eee;
+  }
+
+  /* 左側のラベル（項目名） */
+  .field .label-title {
+    width: 220px;
+    flex-shrink: 0;
+    font-weight: bold;
+    font-size: 15px;
+    color: #222222;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  /* バッジ */
+  .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: white;
+  }
+  .badge.required {
+    background: var(--primary-color, #0f8b8d);
+  }
+  .badge.optional {
+    background: #a8bcbc;
+  }
+
+  /* 未入力時のエラーメッセージ（項目名の下に赤文字で表示） */
+  .field-error {
+    display: none;
+    font-size: 12.5px;
+    font-weight: normal;
+    color: #d64545;
+  }
+  .field-error.is-visible {
+    display: block;
+  }
+
+  /* エラー時は対象の入力欄のみ枠線を赤く */
+  .is-error {
+    border-color: #d64545 !important;
+  }
+
+  /* 右側の入力欄 */
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="tel"],
+  .field textarea,
+  .radio-group,
+  .name-group {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  /* 🛠️ 姓名・フリガナの枠を綺麗に揃えるための調整 */
+  .name-group {
+    display: flex;
+    gap: 20px; /* 左右の入力欄の隙間 */
+  }
+  .name-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .name-label {
+    width: 50px; /* 🛠️ ここを固定幅にすることで「姓」「セイ」の幅が揃い、入力枠のスタート位置が完璧に一致します */
+    font-size: 14px;
+    color: #4a5568;
+    white-space: nowrap;
+  }
+  .name-input-wrap input {
+    flex-grow: 1; /* ラベル以外の残りの横幅をいっぱいに広げる */
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .radio-group label {
+    width: auto;
+    font-weight: normal;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #333333;
+  }
+  .radio-group input[type="radio"],
+  .agreement-field input[type="checkbox"] {
+    accent-color: var(--primary-color, #0f8b8d);
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+  }
+  .agreement-field.has-error input[type="checkbox"] {
+    outline: 2px solid #d64545;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* その他選択時に表示されるドロップダウン・自由記述欄 */
+  .subject-other-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+    margin-left: 25px;
+    padding-left: 14px;
+    border-left: 2px solid #e2eeee;
+  }
+
+  /* --- カスタムドロップダウン（コラムページのfilter-dropdownと同じ見た目・挙動） --- */
+  .subject-dropdown {
+    position: relative;
+    max-width: 320px;
+  }
+
+  .subject-dropdown-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 14.5px;
+    font-weight: normal;
+    color: #222222;
+    background: #ffffff;
+    border: 1.5px solid #e2eeee;
+    border-radius: 20px;
+    padding: 10px 16px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: border-color 0.2s ease;
+  }
+  .subject-dropdown-toggle:hover,
+  .subject-dropdown-toggle:focus-visible,
+  .subject-dropdown.is-open .subject-dropdown-toggle {
+    border-color: var(--primary-color, #0f8b8d);
+    outline: none;
+  }
+  .subject-dropdown-toggle .arrow {
+    font-size: 10px;
+    color: var(--primary-color, #0f8b8d);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .subject-dropdown.is-open .subject-dropdown-toggle .arrow {
+    transform: rotate(180deg);
+  }
+
+  .subject-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    background-color: #ffffff;
+    padding: 0.4rem 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: all 0.2s ease;
+    z-index: 50;
+    overflow: hidden;
+  }
+  .subject-dropdown.is-open .subject-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .subject-dropdown-menu li {
+    font-size: 0.9rem;
+    color: #222222;
+    text-align: left;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    position: relative;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .subject-dropdown-menu li + li {
+    border-top: 1px solid #f0eeea;
+  }
+  .subject-dropdown-menu li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #0b6f72;
+    display: none;
+  }
+  .subject-dropdown-menu li:hover {
+    background-color: #f0f6ff;
+    color: #0b6f72;
+  }
+  .subject-dropdown-menu li:hover::before {
+    display: block;
+  }
+  .subject-dropdown-menu li.is-selected {
+    font-weight: 500;
+    color: var(--primary-color, #0f8b8d);
+    background-color: rgba(11, 111, 114, 0.08);
+  }
+
+  .subject-other-wrap .subject-custom-input {
+    padding: 10px 14px;
+    box-sizing: border-box;
+    border: 1.5px solid #e2eeee;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-family: var(--font-sans);
+    color: #222222;
+    background-color: #ffffff;
+    max-width: 320px;
+    transition: border-color 0.2s ease;
+  }
+  .subject-other-wrap .subject-custom-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #0f8b8d);
+  }
+  .subject-custom-hint {
+    font-size: 12.5px;
+    color: #888888;
+    margin: 2px 0 0 2px;
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="tel"],
+  .field textarea {
+    padding: 12px 16px;
+    box-sizing: border-box;
+    border: 1.5px solid #e2eeee;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: var(--font-sans);
+    color: #222222;
+    transition: border-color 0.2s ease;
+  }
+  .field input[type="text"]:focus,
+  .field input[type="email"]:focus,
+  .field input[type="tel"]:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--primary-color, #0f8b8d);
+  }
+
+  .agreement-field {
+    margin: 40px 0 20px;
+    text-align: center;
+  }
+  .agreement-field label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #333333;
+  }
+  .agreement-field a {
+    color: var(--primary-color, #0f8b8d);
+  }
+  .agreement-field .field-error {
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* --- ボタン関連のスタイル --- */
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  button {
+    display: block;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    border-radius: 999px;
+    transition: all 0.2s ease;
+  }
+  .btn-next,
+  .btn-submit {
+    background: var(--primary-color, #0f8b8d);
+    color: white;
+    width: 280px;
+    box-shadow: 0 4px 15px rgba(15, 139, 141, 0.25);
+  }
+  .btn-next:hover,
+  .btn-submit:hover {
+    background: #0b6f72;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(15, 139, 141, 0.3);
+  }
+  .btn-back {
+    background: #eef5f5;
+    color: #4a5568;
+    width: 150px;
+  }
+  .btn-back:hover {
+    background: #dfeaea;
+  }
+
+  .status {
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding: 18px 20px;
+    background: #e6f4f4;
+    border: 1px solid #cfe6e6;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #0b6f72;
+    text-align: center;
+  }
+
+  /* --- 確認画面用のスタイル --- */
+  .confirm-mode input,
+  .confirm-mode textarea,
+  .confirm-mode select,
+  .confirm-mode .radio-group,
+  .confirm-mode .subject-other-wrap,
+  .confirm-mode .name-group,
+  .confirm-mode .agreement-field,
+  .confirm-mode .badge {
+    display: none !important;
+  }
+
+  /* 確認画面用のテキスト表示エリア */
+  .confirm-text {
+    display: none;
+    font-size: 15px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    padding: 5px 0;
+    flex-grow: 1;
+    color: #222222;
+  }
+
+  /* 確認画面モードのときだけテキストを表示 */
+  .confirm-mode .confirm-text {
+    display: block;
+  }
+
+  /* スマホ対応 */
+  @media (max-width: 768px) {
+    .contact-page-header {
+      padding: 60px 20px 30px;
+    }
+    .contact-page-title {
+      font-size: 26px;
+    }
+    .progress-line {
+      width: 32px;
+      margin: 0 4px 24px;
+    }
+    .field {
+      flex-direction: column;
+      padding: 15px 0;
+    }
+    .field .label-title {
+      width: 100%;
+      margin-bottom: 10px;
+      flex-direction: row;
+      align-items: center;
+    }
+    .name-group {
+      flex-direction: column;
+      gap: 10px;
+    }
+    .name-label {
+      width: 40px; /* スマホ時は少しタイトに */
+    }
+    .btn-container {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    button {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  const form = document.getElementById("main-form");
+  const btnToConfirm = document.getElementById("btn-to-confirm");
+  const btnBack = document.getElementById("btn-back-to-input");
+  const btnSubmit = document.getElementById("btn-submit-form");
+  const agreementArea = document.getElementById("agreement-area");
+
+  const stepInput = document.querySelector('.progress-step[data-step="input"]');
+  const stepConfirm = document.querySelector(
+    '.progress-step[data-step="confirm"]',
+  );
+  const line1 = document.getElementById("line-1");
+
+  // --- 「お問い合わせ内容」の段階的な絞り込み ---
+  const mainSubjectRadios = document.querySelectorAll(
+    'input[name="mainSubject"]',
+  );
+  const subjectOtherWrap = document.getElementById("subject-other-wrap");
+  const subjectDropdown = document.getElementById("subject-dropdown");
+  const subjectDropdownToggle = subjectDropdown?.querySelector(
+    ".subject-dropdown-toggle",
+  );
+  const subjectDropdownLabel = subjectDropdown?.querySelector(
+    ".subject-dropdown-label",
+  );
+  const subjectDropdownItems = subjectDropdown
+    ? Array.from(subjectDropdown.querySelectorAll(".subject-dropdown-menu li"))
+    : [];
+  const subjectCustomInput = document.getElementById("subject-custom-input");
+  const subjectCustomHint = document.getElementById("subject-custom-hint");
+  const subjectHidden = document.getElementById("subject-hidden");
+
+  let subjectDropdownValue = "";
+  const subjectDropdownDefaultLabel = "業務内容を選択してください";
+
+  function updateSubjectHidden() {
+    const main = document.querySelector(
+      'input[name="mainSubject"]:checked',
+    )?.value;
+
+    if (main !== "その他") {
+      subjectHidden.value = main || "";
+      return;
+    }
+
+    if (subjectDropdownValue === "custom") {
+      const custom = subjectCustomInput.value.trim();
+      subjectHidden.value = custom ? `その他（${custom}）` : "その他";
+    } else if (subjectDropdownValue) {
+      subjectHidden.value = subjectDropdownValue;
+    } else {
+      subjectHidden.value = "その他";
+    }
+  }
+
+  function closeSubjectDropdown() {
+    subjectDropdown?.classList.remove("is-open");
+    subjectDropdownToggle?.setAttribute("aria-expanded", "false");
+  }
+
+  function selectSubjectDropdownValue(value, label) {
+    subjectDropdownValue = value;
+    if (subjectDropdownLabel) subjectDropdownLabel.textContent = label;
+    subjectDropdownItems.forEach((item) => {
+      const isMatch = item.dataset.value === value;
+      item.classList.toggle("is-selected", isMatch);
+      item.setAttribute("aria-selected", String(isMatch));
+    });
+  }
+
+  subjectDropdownToggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = subjectDropdown.classList.contains("is-open");
+    if (isOpen) {
+      closeSubjectDropdown();
+    } else {
+      subjectDropdown.classList.add("is-open");
+      subjectDropdownToggle.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  subjectDropdownItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      selectSubjectDropdownValue(item.dataset.value, item.textContent.trim());
+      closeSubjectDropdown();
+
+      if (item.dataset.value === "custom") {
+        subjectCustomInput.style.display = "block";
+        subjectCustomHint.style.display = "block";
+      } else {
+        subjectCustomInput.style.display = "none";
+        subjectCustomInput.value = "";
+        subjectCustomHint.style.display = "none";
+      }
+      updateSubjectHidden();
+    });
+  });
+
+  document.addEventListener("click", () => closeSubjectDropdown());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSubjectDropdown();
+  });
+
+  function toggleSubjectOther() {
+    const main = document.querySelector(
+      'input[name="mainSubject"]:checked',
+    )?.value;
+
+    if (main === "その他") {
+      subjectOtherWrap.style.display = "flex";
+    } else {
+      subjectOtherWrap.style.display = "none";
+      closeSubjectDropdown();
+      selectSubjectDropdownValue("", subjectDropdownDefaultLabel);
+      subjectCustomInput.style.display = "none";
+      subjectCustomInput.value = "";
+      subjectCustomHint.style.display = "none";
+    }
+    updateSubjectHidden();
+  }
+
+  mainSubjectRadios.forEach((radio) => {
+    radio.addEventListener("change", toggleSubjectOther);
+  });
+  subjectCustomInput?.addEventListener("input", updateSubjectHidden);
+
+  // --- 未入力時のエラーメッセージ表示（項目名の下に赤文字で統一） ---
+  function showFieldError(id, message) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    el.textContent = message;
+    el.classList.add("is-visible");
+    el.closest(".field, .agreement-field")?.classList.add("has-error");
+    return el;
+  }
+
+  function clearAllFieldErrors() {
+    document.querySelectorAll(".field-error").forEach((el) => {
+      el.textContent = "";
+      el.classList.remove("is-visible");
+    });
+    document
+      .querySelectorAll(".field.has-error, .agreement-field.has-error")
+      .forEach((el) => el.classList.remove("has-error"));
+    // ★追加: 個別の入力欄に付与したエラー枠もリセット
+    document
+      .querySelectorAll(".is-error")
+      .forEach((el) => el.classList.remove("is-error"));
+  }
+
+  function validateForm() {
+    clearAllFieldErrors();
+    let firstErrorEl = null;
+
+    // ★変更: 第4引数にエラー枠を赤くする要素の配列を受け取れるように拡張
+    const markError = (id, message, focusEl, errorEls = [focusEl]) => {
+      showFieldError(id, message);
+      // 対象の要素のみに .is-error を付与
+      errorEls.forEach((el) => el && el.classList.add("is-error"));
+      if (!firstErrorEl) firstErrorEl = focusEl;
+    };
+
+    // 1. お問い合わせ内容（その他選択時のみ、詳細な選択が必要）
+    const mainSubject = document.querySelector(
+      'input[name="mainSubject"]:checked',
+    )?.value;
+    if (mainSubject === "その他") {
+      if (!subjectDropdownValue) {
+        markError(
+          "err-subject",
+          "お問い合わせ内容の詳細を選択してください。",
+          subjectDropdownToggle,
+        );
+      } else if (
+        subjectDropdownValue === "custom" &&
+        !subjectCustomInput.value.trim()
+      ) {
+        markError(
+          "err-subject",
+          "ご相談内容を簡単にご記入ください。",
+          subjectCustomInput,
+        );
+      }
+    }
+
+    // 2. お名前（空いている方だけ具体的に指摘）
+    const lastName = document.getElementById("lastName");
+    const firstName = document.getElementById("firstName");
+    const lastNameEmpty = !lastName.value.trim();
+    const firstNameEmpty = !firstName.value.trim();
+    if (lastNameEmpty && firstNameEmpty) {
+      // 両方空なら両方赤くする
+      markError("err-name", "姓・名を入力してください。", lastName, [
+        lastName,
+        firstName,
+      ]);
+    } else if (lastNameEmpty) {
+      // 姓だけ空なら姓だけ赤くする
+      markError("err-name", "姓を入力してください。", lastName, [lastName]);
+    } else if (firstNameEmpty) {
+      // 名だけ空なら名だけ赤くする
+      markError("err-name", "名を入力してください。", firstName, [firstName]);
+    }
+
+    // 3. フリガナ（空いている方だけ具体的に指摘）
+    const lastKana = document.getElementById("lastKana");
+    const firstKana = document.getElementById("firstKana");
+    const lastKanaEmpty = !lastKana.value.trim();
+    const firstKanaEmpty = !firstKana.value.trim();
+    if (lastKanaEmpty && firstKanaEmpty) {
+      markError("err-kana", "セイ・メイを入力してください。", lastKana, [
+        lastKana,
+        firstKana,
+      ]);
+    } else if (lastKanaEmpty) {
+      markError("err-kana", "セイを入力してください。", lastKana, [lastKana]);
+    } else if (firstKanaEmpty) {
+      markError("err-kana", "メイを入力してください。", firstKana, [firstKana]);
+    }
+
+    // 5. メールアドレス
+    const email = document.getElementById("email");
+    if (!email.value.trim()) {
+      markError("err-email", "メールアドレスを入力してください。", email);
+    } else if (!email.checkValidity()) {
+      markError("err-email", "メールアドレスの形式が正しくありません。", email);
+    }
+
+    // 6. 電話番号
+    const tel = document.getElementById("tel");
+    if (!tel.value.trim()) {
+      markError("err-tel", "電話番号を入力してください。", tel);
+    }
+
+    // 7. 詳しいご相談内容
+    const message = document.getElementById("message");
+    if (!message.value.trim()) {
+      markError("err-message", "ご相談内容を入力してください。", message);
+    }
+
+    // 8. 同意チェック
+    const agreement = document.getElementById("agreement");
+    if (!agreement.checked) {
+      markError(
+        "err-agreement",
+        "個人情報保護方針への同意が必要です。",
+        agreement,
+      );
+    }
+
+    if (firstErrorEl) {
+      firstErrorEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      firstErrorEl.focus?.();
+      return false;
+    }
+    return true;
+  }
+
+  // 入力・選択し直したら、その入力欄のエラー（赤枠）を個別に消す
+  form.addEventListener("input", (e) => {
+    const target = e.target;
+
+    // 入力された要素が文字を持っていれば、その要素の赤枠だけを外す
+    if (target.value.trim() !== "") {
+      target.classList.remove("is-error");
+    }
+
+    const field = target.closest(".field");
+    if (field) {
+      // フィールド内にまだ赤枠（.is-error）の要素が残っていなければ、全体のエラーメッセージも非表示にする
+      const remainingErrors = field.querySelectorAll(".is-error");
+      if (remainingErrors.length === 0) {
+        field.classList.remove("has-error");
+        field
+          .querySelectorAll(".field-error")
+          .forEach((el) => el.classList.remove("is-visible"));
+      }
+    }
+  });
+
+  form.addEventListener("change", (e) => {
+    const target = e.target;
+    target.classList.remove("is-error");
+
+    const field = target.closest(".field, .agreement-field");
+    if (field) {
+      const remainingErrors = field.querySelectorAll(".is-error");
+      if (remainingErrors.length === 0) {
+        field.classList.remove("has-error");
+        field
+          .querySelectorAll(".field-error")
+          .forEach((el) => el.classList.remove("is-visible"));
+      }
+    }
+  });
+
+  if (form) {
+    // 「確認画面へ進む」が押された時
+    btnToConfirm.addEventListener("click", () => {
+      if (!validateForm()) {
+        return;
+      }
+
+      // 各入力欄から【最新の】値を取得して確認画面用テキストに反映
+      const lastName = document.getElementById("lastName").value;
+      const firstName = document.getElementById("firstName").value;
+      const lastKana = document.getElementById("lastKana").value;
+      const firstKana = document.getElementById("firstKana").value;
+
+      document.getElementById("text-subject").textContent = subjectHidden.value;
+      document.getElementById("text-name").textContent =
+        `${lastName} ${firstName}`;
+      document.getElementById("text-kana").textContent =
+        `${lastKana} ${firstKana}`;
+
+      document.getElementById("text-company").textContent =
+        document.getElementById("company").value || "（未入力）";
+      document.getElementById("text-email").textContent =
+        document.getElementById("email").value;
+      document.getElementById("text-tel").textContent =
+        document.getElementById("tel").value;
+      document.getElementById("text-message").textContent =
+        document.getElementById("message").value;
+
+      // 画面の表示切り替え
+      form.classList.add("confirm-mode");
+
+      btnToConfirm.style.display = "none";
+      btnBack.style.display = "block";
+      btnSubmit.style.display = "block";
+      agreementArea.style.display = "none";
+
+      // 進捗バーを「確認」ステップへ
+      stepInput.classList.remove("is-active");
+      stepInput.classList.add("is-done");
+      stepConfirm.classList.add("is-active");
+      line1.classList.add("is-done");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 「戻る」が押された時
+    btnBack.addEventListener("click", () => {
+      form.classList.remove("confirm-mode");
+
+      btnToConfirm.style.display = "block";
+      btnBack.style.display = "none";
+      btnSubmit.style.display = "none";
+      agreementArea.style.display = "block";
+
+      // 進捗バーを「入力」ステップへ戻す
+      stepConfirm.classList.remove("is-active");
+      stepInput.classList.remove("is-done");
+      stepInput.classList.add("is-active");
+      line1.classList.remove("is-done");
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 送信時の二重送信防止
+    form.addEventListener("submit", () => {
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "送信中...";
+    });
+  } else {
+    // 送信完了ページ：進捗バーを全て完了状態にする
+    document
+      .querySelectorAll(".progress-step")
+      .forEach((el) => el.classList.add("is-done"));
+    document
+      .querySelectorAll(".progress-line")
+      .forEach((el) => el.classList.add("is-done"));
+  }
+</script>

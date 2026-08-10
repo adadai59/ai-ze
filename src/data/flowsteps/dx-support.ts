@@ -1,0 +1,51 @@
+// 業務効率化支援：ご相談から導入までの流れ
+export const dxSupportFlowSteps = [
+  {
+    step: 1,
+    icon: "ph-chats-circle",
+    title: "お問い合わせ・ご相談",
+    desc: "まずはお気軽にお問い合わせください。初回相談無料です。",
+    duration: "即日〜数日",
+    prep: "特になし",
+  },
+  {
+    step: 2,
+    icon: "ph-clipboard-text",
+    title: "ヒアリング・現状確認",
+    desc: "現在の経理業務やお困りごとを丁寧にヒアリングします。",
+    duration: "1週間程度",
+    prep: "現在の経理のやり方が分かる資料（あれば）",
+  },
+  {
+    step: 3,
+    icon: "ph-note-pencil",
+    title: "改善案のご提案・お見積り",
+    desc: "現状に合わせた改善案と概算の費用をご提案します。",
+    duration: "1〜2週間",
+    prep: "特になし",
+  },
+  {
+    step: 4,
+    icon: "ph-signature",
+    title: "ご契約",
+    desc: "プラン内容にご納得いただけましたら、正式にご契約となります。",
+    duration: "即日",
+    prep: "認印",
+  },
+  {
+    step: 5,
+    icon: "ph-wrench",
+    title: "導入・設定サポート",
+    desc: "ソフトの設定や業務フローの構築など、実際の導入作業をサポートします。",
+    duration: "2〜4週間",
+    prep: "使用中のPC・ソフトの環境情報",
+  },
+  {
+    step: 6,
+    icon: "ph-calendar-check",
+    title: "運用開始・継続フォロー",
+    desc: "運用を開始した後も、操作方法のご質問や見直しに継続的に対応します。",
+    duration: "導入後も継続",
+    prep: "特になし",
+  },
+];

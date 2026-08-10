@@ -1,0 +1,169 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import {
+  getAllNews,
+  formatJSTDate,
+  type NewsItem,
+} from "../../library/microcms";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const allNews = await getAllNews();
+
+  // 詳細ページを作るのは「本文(content)があり、外部リンクを持たない」項目だけ。
+  // externalLink がある項目はそちらへ直接飛ばすため、詳細ページ自体を生成しない。
+  return allNews
+    .filter((entry) => entry.content && !entry.externalLink)
+    .map((entry) => ({
+      params: { slug: entry.id },
+      props: { entry },
+    }));
+}
+
+interface Props {
+  entry: NewsItem;
+}
+
+const { entry } = Astro.props;
+const tagLabel = entry.category?.name ?? "お知らせ";
+---
+
+<BaseLayout
+  title={`${entry.title} | お知らせ | 足立税理士事務所`}
+  description={entry.title}
+>
+  <div class="container news-article-wrapper">
+    <div class="breadcrumb-wrap">
+      <Breadcrumb
+        parentLinks={[{ name: "お知らせ", url: "/news" }]}
+        currentPage={entry.title}
+      />
+    </div>
+
+    <article class="news-article">
+      <span class="article-tag">{tagLabel}</span>
+      <h1 class="article-title">{entry.title}</h1>
+      <p class="article-date">公開日：{formatJSTDate(new Date(entry.date))}</p>
+
+      <div class="article-body">
+        <Fragment set:html={entry.content} />
+      </div>
+    </article>
+
+    <div class="news-back-link-wrap">
+      <a href="/news" class="news-back-link">
+        <i class="ph-bold ph-arrow-left anim-arrow-left"></i>
+        お知らせ一覧へ戻る
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .news-article-wrapper {
+    padding-top: 24px;
+    padding-bottom: 80px;
+  }
+
+  .breadcrumb-wrap {
+    width: 100%;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .news-article {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .article-tag {
+    display: inline-block;
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .article-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #222222;
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+
+  .article-date {
+    font-size: 13px;
+    color: #999999;
+    margin: 0 0 40px;
+  }
+
+  .article-body {
+    font-size: 15.5px;
+    color: #333333;
+    line-height: 1.9;
+  }
+  .article-body :global(h2) {
+    font-size: 20px;
+    font-weight: bold;
+    color: #222222;
+    margin: 40px 0 16px;
+  }
+  .article-body :global(h3) {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222222;
+    margin: 28px 0 12px;
+  }
+  .article-body :global(p) {
+    margin: 0 0 20px;
+  }
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin: 0 0 20px;
+    padding-left: 24px;
+  }
+  .article-body :global(img) {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+
+  .news-back-link-wrap {
+    max-width: 760px;
+    margin: 50px auto 0;
+    text-align: center;
+  }
+  .news-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+  }
+  .news-back-link:hover {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  @media (max-width: 768px) {
+    .article-title {
+      font-size: 21px;
+    }
+  }
+</style>

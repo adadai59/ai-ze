@@ -1,0 +1,537 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroWithImage from "../components/HeroWithImage.astro";
+---
+
+<BaseLayout title="料金表 | 足立税理士事務所">
+  <HeroWithImage
+    englishTitle="Pricing"
+    japaneseTitle="料金表"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  >
+    <nav class="page-toc">
+      <ul>
+        <li><a href="#inheritance">相続税申告</a></li>
+        <li><a href="#estate-planning">生前対策・贈与</a></li>
+        <li><a href="#capital-gains">譲渡所得</a></li>
+        <li><a href="#advisory">顧問契約</a></li>
+        <li><a href="#dx-support">業務効率化支援</a></li>
+        <li><a href="#common">共通事項</a></li>
+      </ul>
+    </nav>
+  </HeroWithImage>
+
+  <!-- 1. 相続税申告 -->
+  <section id="inheritance" class="pricing-detail-section">
+    <div class="container">
+      <h2 class="sub-section-title">相続税申告</h2>
+
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>遺産総額</th>
+              <th>報酬額（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>〜5,000万円</td>
+              <td>30万円〜</td>
+            </tr>
+            <tr>
+              <td>〜1億円</td>
+              <td>50万円〜</td>
+            </tr>
+            <tr>
+              <td>〜2億円</td>
+              <td>80万円〜</td>
+            </tr>
+            <tr>
+              <td>2億円超</td>
+              <td>別途お見積り</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="price-sub-title">加算項目</h3>
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>内容</th>
+              <th>加算額（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>相続人が2名以上の場合</td>
+              <td>1名につき +5万円</td>
+            </tr>
+            <tr>
+              <td>非上場株式の評価が必要な場合</td>
+              <td>+10万円〜</td>
+            </tr>
+            <tr>
+              <td>土地の評価（1利用区分につき）</td>
+              <td>+5万円〜</td>
+            </tr>
+            <tr>
+              <td>書面添付制度の適用</td>
+              <td>+報酬額の10%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 生前対策・贈与 -->
+  <section id="estate-planning" class="pricing-detail-section alt-bg">
+    <div class="container">
+      <h2 class="sub-section-title">生前対策・贈与</h2>
+
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>内容</th>
+              <th>料金（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>贈与税申告書の作成</td>
+              <td>3万円〜（1人あたり）</td>
+            </tr>
+            <tr>
+              <td>生前対策コンサルティング（シミュレーション等）</td>
+              <td>5万円〜</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 譲渡所得 -->
+  <section id="capital-gains" class="pricing-detail-section">
+    <div class="container">
+      <h2 class="sub-section-title">譲渡所得（不動産・株式等）</h2>
+
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>内容</th>
+              <th>料金（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>譲渡所得の確定申告書作成（不動産）</td>
+              <td>譲渡価額の1%〜（最低8万円）</td>
+            </tr>
+            <tr>
+              <td>譲渡所得の確定申告書作成（株式等）</td>
+              <td>5万円〜</td>
+            </tr>
+            <tr>
+              <td>その他資産（ゴルフ会員権・金地金等）</td>
+              <td>別途お見積り</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 顧問契約 -->
+  <section id="advisory" class="pricing-detail-section alt-bg">
+    <div class="container">
+      <h2 class="sub-section-title">顧問契約</h2>
+
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>売上規模の目安</th>
+              <th>月額顧問料</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>〜1,000万円</td>
+              <td>2万円〜</td>
+            </tr>
+            <tr>
+              <td>〜3,000万円</td>
+              <td>3万円〜</td>
+            </tr>
+            <tr>
+              <td>3,000万円超</td>
+              <td>別途お見積り</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="price-note-list">
+        <li>決算料：月額顧問料の6ヶ月分を目安にいただいております。</li>
+        <li>
+          期の途中からご契約いただく場合：契約開始月までの経過月数分の整理が必要となるため、経過月数
+          × 月額顧問料 × 1/2 を初回に別途申し受けます。
+        </li>
+      </ul>
+
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 業務効率化支援 -->
+  <section id="dx-support" class="pricing-detail-section">
+    <div class="container">
+      <h2 class="sub-section-title">業務効率化支援</h2>
+
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>内容</th>
+              <th>料金（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>クラウド会計 使い方サポート</td>
+              <td>3万円〜</td>
+            </tr>
+            <tr>
+              <td>経理フロー構築・見直し</td>
+              <td>5万円〜</td>
+            </tr>
+            <tr>
+              <td>Excelマクロ作成</td>
+              <td>内容に応じてお見積り</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="price-sub-title">ホームページ作成支援</h3>
+      <div class="price-table-wrapper">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th>規模</th>
+              <th>想定内容</th>
+              <th>料金（目安）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>シンプル</td>
+              <td>1〜5ページ程度、既存テンプレート活用</td>
+              <td>10万円〜</td>
+            </tr>
+            <tr>
+              <td>標準</td>
+              <td>5〜10ページ程度、ある程度のカスタムデザイン</td>
+              <td>20万円〜</td>
+            </tr>
+            <tr>
+              <td>本格</td>
+              <td>10ページ超、独自コンポーネント設計・作り込まれたコンテンツ</td
+              >
+              <td>30万円〜</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <div class="back-to-top-wrapper">
+    <a href="#" class="back-to-top-link">
+      <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+    </a>
+  </div>
+  <!-- 6. 共通事項 -->
+  <section id="common" class="pricing-detail-section alt-bg">
+    <div class="container">
+      <h2 class="sub-section-title">共通事項</h2>
+
+      <ul class="price-note-list">
+        <li>表示料金はすべて税別です。</li>
+        <li>交通費・登記費用等の実費は別途申し受けます。</li>
+        <li>
+          期の途中からのご契約の場合、既に経過した月の記帳状況の確認・整理が必要となるため、経過月数分の顧問料の半額を初回にご請求いたします。
+        </li>
+        <li>
+          正式な料金は、初回相談時のヒアリング内容をもとにお見積りいたします。
+        </li>
+      </ul>
+
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 見出しの下線ルール（about.astroと共通） */
+  .sub-section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222;
+    margin-top: 0;
+    margin-bottom: 40px;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    font-weight: bold;
+  }
+  .sub-section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+
+  .price-sub-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #222;
+    margin: 40px 0 16px;
+  }
+
+  /* ページ内目次（about.astroと共通） */
+  .page-toc {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .page-toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px 24px;
+  }
+  .page-toc li {
+    margin: 0;
+  }
+  .page-toc a {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--primary-color, #0f8b8d);
+    text-decoration: none;
+    padding: 6px 16px;
+    background-color: #ffffff;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    border-radius: 20px;
+    transition: all 0.25s ease;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .page-toc a:hover {
+    background-color: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+    border-color: var(--primary-color, #0f8b8d);
+    transform: translateY(-1px);
+  }
+
+  section[id] {
+    scroll-margin-top: 100px;
+  }
+
+  /* 👇 中途半端な画面幅（1024px以下）でボタンが1個だけ孤立して折り返すのを防ぐ */
+  @media (max-width: 1024px) {
+    .page-toc ul {
+      gap: 10px 16px;
+    }
+    .page-toc a {
+      font-size: 13px;
+      padding: 6px 14px;
+    }
+  }
+
+  /* 「トップへ戻る」（about.astroと共通） */
+  .back-to-top-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+    width: 100%;
+  }
+  .back-to-top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #424242;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 5px 0;
+  }
+  .back-to-top-link i {
+    font-size: 14px;
+    transition: transform 0.2s ease;
+  }
+  .back-to-top-link:hover {
+    color: var(--primary-color, #0f8b8d);
+  }
+  .back-to-top-link:hover i {
+    transform: translateY(-3px);
+  }
+
+  @media (max-width: 768px) {
+    .sub-section-title {
+      font-size: 24px;
+    }
+    .back-to-top-wrapper {
+      margin-top: 30px;
+    }
+    .back-to-top-link {
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    /* 👇 768px以下でボタン全体を少し小さくする */
+    .page-toc {
+      margin-top: 30px;
+      padding: 0 10px;
+    }
+    .page-toc ul {
+      gap: 10px 14px; /* ボタン同士の隙間を少し狭く */
+    }
+    .page-toc a {
+      font-size: 12px; /* 文字サイズを14pxから12pxへ縮小 */
+      padding: 6px 12px; /* ボタン内の余白を少し小さく */
+    }
+  }
+
+  /* 料金セクション */
+  .pricing-detail-section {
+    padding: 60px 0;
+    background-color: #ffffff;
+  }
+  .pricing-detail-section.alt-bg {
+    background-color: #f4fafb;
+  }
+
+  /*
+    料金表：色で反転させず、枠線だけで表全体を一つのまとまりとして見せる。
+    背景は常に白固定、外枠はしっかりした黒線にする。
+  */
+  .price-table-wrapper {
+    background-color: #ffffff;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+    background-color: #ffffff;
+  }
+  .price-table th,
+  .price-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 0.5px solid rgba(34, 34, 34, 0.15);
+  }
+  .price-table tbody tr:last-child th,
+  .price-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .price-table thead th {
+    color: #333;
+    font-weight: bold;
+    background-color: rgba(15, 139, 141, 0.08);
+    border-bottom: 1px solid rgba(34, 34, 34, 0.6);
+    text-align: left;
+  }
+  .price-table tbody td:last-child {
+    color: var(--primary-color, #0f8b8d);
+    font-weight: bold;
+  }
+
+  .price-note-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.8;
+  }
+  .price-note-list li {
+    margin-bottom: 10px;
+  }
+  .price-note-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    .page-toc {
+      margin-top: 20px;
+      padding: 0 10px;
+    }
+    .page-toc ul {
+      gap: 8px 10px; /* 隙間をさらにキュッと詰める */
+    }
+    .page-toc a {
+      padding: 5px 10px; /* 余白をさらに少し小さく */
+    }
+
+    /* （料金表の調整はそのまま残します） */
+    .price-table th,
+    .price-table td {
+      padding: 12px 14px;
+      font-size: 13px;
+    }
+  }
+</style>

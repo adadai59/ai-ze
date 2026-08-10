@@ -1,0 +1,709 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroWithImage from "../components/HeroWithImage.astro";
+---
+
+<BaseLayout title="事務所紹介">
+  <!-- 💡既存の .page-header を HeroWithImage に置き換えました。bgImageUrl に画像パスを渡しています -->
+  <HeroWithImage
+    englishTitle="About Us"
+    japaneseTitle="事務所紹介"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  >
+    <nav class="page-toc">
+      <ul>
+        <li><a href="#greeting">ご挨拶</a></li>
+        <li><a href="#strengths">私の強み</a></li>
+        <li><a href="#profile">プロフィール</a></li>
+        <li><a href="#features">お伝えできること</a></li>
+        <li><a href="#overview">事務所概要</a></li>
+      </ul>
+    </nav>
+  </HeroWithImage>
+
+  <!-- 1. ご挨拶 -->
+  <section id="greeting" class="about-greeting">
+    <div class="container">
+      <h2 class="sub-section-title">代表税理士からのご挨拶</h2>
+
+      <div class="greeting-image-area-center">
+        <div class="greeting-image-dummy-circle">
+          <i class="ph-bold ph-user"></i>
+        </div>
+      </div>
+
+      <div class="leader-info-center">
+        <h3 class="leader-name">足立 太郎（あだち たろう）</h3>
+        <p class="leader-title">足立税理士事務所 代表税理士</p>
+      </div>
+
+      <div class="greeting-content-aligned">
+        <p class="greeting-text">
+          はじめまして、足立税理士事務所の代表を務める足立太郎です。大学及び大学院では数学を学び、物事を論理的に捉える力を身につけました。卒業後は株式会社ファミリーマートに入社し、店舗運営の現場でマネジメントと接客の基礎を学びました。
+        </p>
+        <p class="greeting-text">
+          その後、学習塾講師として小学1年生から高校3年生まで幅広い世代の指導に携わり、特に中学受験の算数を担当してきました。複雑な問題を、いかに噛み砕いて分かりやすく伝えるか――この経験は、税務の専門用語を一般の方にも理解できる言葉でお伝えする、今の仕事の姿勢につながっています。
+        </p>
+        <p class="greeting-text">
+          その後、国税専門官として採用され、国税調査官として相続税・贈与税・譲渡所得の一般調査・特別調査や財産評価基準の作成に携わってきました。また、宅地建物取引士の資格も取得し、税務実務の経験とあわせて、相続で重要となる不動産についての知見も深めてきました。
+        </p>
+        <p class="greeting-text">
+          遠回りに見えるかもしれませんが、これまで積み重ねてきた経験のすべてが、今の仕事につながっています。相続税は、多くの方にとって人生で一度か二度しか経験しない手続きです。税務署側の視点、不動産の知見、分かりやすい説明。この3つを大切に、皆様の資産税に関するお悩みに向き合います。
+        </p>
+      </div>
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 私の強み -->
+  <section id="strengths" class="about-strengths-section">
+    <div class="container">
+      <h2 class="strengths-section-title">私の強み</h2>
+
+      <!-- 上段：丸で囲った3つの強みを3列に並べる構造に変更 -->
+      <div class="strengths-top-triple-grid">
+        <div class="strength-card-item">
+          <div class="strength-card-header">
+            <i class="ph-bold ph-building-office strength-icon"></i>
+            <h3>国税で培った資産税の専門知識</h3>
+          </div>
+          <p>
+            複数の税務署にて、資産課税部門 of
+            一般調査・特別調査に従事。また、税額算定のベースとなる財産評価基準の作成にも携わり、その実績が評価され部長表彰を受けました。税務署側の視点を踏まえ、適正な申告と分かりやすいご説明を心掛けています。
+          </p>
+        </div>
+
+        <div class="strength-card-item">
+          <div class="strength-card-header">
+            <i class="ph-bold ph-house strength-icon"></i>
+            <h3>不動産にも強い税理士</h3>
+          </div>
+          <p>
+            税務署時代には数多くの土地評価を行い、譲渡所得に関わる不動産取引の実務にも精通しています。宅地建物取引士の資格も保有しており、税務と不動産の両面から、相続や譲渡にまつわるお悩みにお応えいたします。
+          </p>
+        </div>
+
+        <div class="strength-card-item">
+          <div class="strength-card-header">
+            <i class="ph-bold ph-chat-centered-text strength-icon"></i>
+            <h3>分かりやすく伝える力</h3>
+          </div>
+          <p>
+            学習塾講師として、小学1年生から高校3年生まで幅広い世代を対象に集団授業を担当し、
+            中学受験算数も指導してきました。専門用語を並べるのではなく、理解度の異なる生徒全員に伝わるよう、
+            噛み砕いた説明を大切にしてきました。この経験は、お客様が安心して判断できる分かりやすいご説明にも活きています。
+          </p>
+        </div>
+      </div>
+
+      <!-- 下段：文章量の多い「AI・IT」を横いっぱいの1列（フルサイズ）で配置 -->
+      <div class="strength-bottom-full-card">
+        <div class="strength-card-header">
+          <i class="ph-bold ph-cpu strength-icon"></i>
+          <h3>AI・ITを活用した業務改善</h3>
+        </div>
+        <div class="full-card-content-split">
+          <p>
+            応用情報技術者・基本情報技術者・情報セキュリティマネジメントの資格を活かし、AIやITを積極的に業務へ活用しています。税務署時代には、非上場株式や土地の評価明細書を作成するExcelシステムを構築したほか、Excelマクロによるデータ処理の自動化で、数十万件のデータ処理を要する作業を1〜2週間から半日程度まで短縮した実績もあります。実際、このホームページも自らAIを活用しながら企画・制作しました。
+          </p>
+        </div>
+      </div>
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. プロフィール -->
+  <section id="profile" class="about-profile-card-section">
+    <div class="container">
+      <div class="profile-card">
+        <h2 class="sub-section-title">プロフィール</h2>
+        <table class="info-table">
+          <tr>
+            <th>資格</th>
+            <td>
+              <div class="td-with-icon">
+                <i class="ph-bold ph-file-text table-icon"></i>
+                <span
+                  >税理士（登録番号：〇〇〇〇〇〇）/ 宅地建物取引士 /
+                  基本情報技術者 / 応用情報技術者 / 情報セキュリティマネジメント
+                  / 普通自動車運転免許</span
+                >
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>学歴</th>
+            <td>
+              <div class="td-with-icon">
+                <i class="ph-bold ph-graduation-cap table-icon"></i>
+                <span
+                  >九州大学大学院 数理学府 数理学専攻 修了<br />
+                  山口大学 理学部 数理科学科</span
+                >
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>職歴</th>
+            <td>
+              <div class="td-with-icon">
+                <i class="ph-bold ph-briefcase table-icon"></i>
+                <span
+                  >広島国税局(国税専門官)<br />
+                  ㈱ヒューマン・ブレーン（学習塾講師・正社員、小学1年生〜高校3年生を指導、中学受験算数を担当）<br
+                  />
+                  ㈱ファミリーマート（正社員）
+                </span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>専門分野</th>
+            <td>
+              <div class="td-with-icon">
+                <i class="ph-bold ph-tag table-icon"></i>
+                <span
+                  >相続税申告、生前対策・贈与税、譲渡所得(不動産・株式・その他資産)</span
+                >
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 元国税調査官だからこそ〜 -->
+  <section id="features" class="about-features-detail">
+    <div class="container">
+      <h2 class="features-detail-title">
+        元国税調査官だからこそ、お伝えできること
+      </h2>
+
+      <div class="features-detail-content-aligned">
+        <p class="features-detail-text">
+          相続税は、正解が一つではありません。同じご家庭でも、状況や考え方によって最適な選択肢は変わります。
+          税務署側の立場で数多くの申告を見てきたからこそ、「どこに注意すべきか」「何が後々のトラブルにつながるか」を、身をもって知っています。
+          だからこそ、書類を作るだけの税理士ではなく、皆様の状況に本当に寄り添い、安心して任せていただける税理士でありたいと思っています。相続や資産のことでお悩みの際は、どうぞお気軽にご相談ください。
+        </p>
+      </div>
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 事務所概要 -->
+  <section id="overview" class="office-overview-section">
+    <div class="container">
+      <h2 class="sub-section-title">事務所概要</h2>
+
+      <table class="overview-table">
+        <tbody>
+          <tr>
+            <th>事務所名</th>
+            <td>足立税理士事務所</td>
+          </tr>
+          <tr>
+            <th>代表</th>
+            <td>足立 太郎(あだち たろう)</td>
+          </tr>
+          <tr>
+            <th>登録番号</th>
+            <td>000000</td>
+          </tr>
+          <tr>
+            <th>開業日</th>
+            <td>2026年12月1日</td>
+          </tr>
+          <tr>
+            <th>所属</th>
+            <td>中国税理士会 岡山東支部</td>
+          </tr>
+          <tr>
+            <th>所在地</th>
+            <td>〒700-0000 岡山県岡山市北区</td>
+          </tr>
+          <tr>
+            <th>電話番号</th>
+            <td>086-000-000</td>
+          </tr>
+          <tr>
+            <th>営業時間</th>
+            <td
+              >9:00 〜 18:00（定休日：土日祝日）<br /><span class="note"
+                >※事前のご予約で時間外・土日祝日のご相談も承ります。</span
+              ></td
+            >
+          </tr>
+          <tr>
+            <th>相談方法</th>
+            <td
+              >オンライン(Zoom等)・お電話・メールでのご相談を中心に承っております。<br
+              />ご希望に応じて、こちらから訪問してのご相談も可能です。</td
+            >
+          </tr>
+          <tr>
+            <th>主な対応地域</th>
+            <td
+              >訪問：岡山市、倉敷市、玉野市、総社市を中心に岡山県全域<br
+              />オンライン：全国対応</td
+            >
+          </tr>
+          <tr>
+            <th>業務内容</th>
+            <td>
+              ・資産税（相続税申告・生前対策・贈与・不動産譲渡）<br />
+              ・税務顧問<br />・確定申告<br />
+              ・クラウド会計導入<br />・業務効率化支援
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* ==========================================
+      全体レイアウト幅
+     ========================================== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* 💡既存の .page-header 関連のスタイル（linear-gradient等）は不要になったため削除しました */
+
+    /* 主題の下線ルール */
+    .sub-section-title,
+    .strengths-section-title,
+    .features-detail-title {
+      text-align: center;
+      font-size: 28px;
+      color: #222;
+      margin-top: 0;
+      margin-bottom: 40px;
+      position: relative;
+      display: block;
+      padding-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .sub-section-title::after,
+    .strengths-section-title::after,
+    .features-detail-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary-color, #0f8b8d);
+      border-radius: 2px;
+    }
+
+    /* ==========================================
+      ページ内目次（TOC）のスタイル
+     ========================================== */
+    .page-toc {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+    }
+    .page-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px 24px;
+    }
+    .page-toc li {
+      margin: 0;
+    }
+    .page-toc a {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--primary-color, #0f8b8d);
+      text-decoration: none;
+      padding: 6px 16px;
+      background-color: #ffffff;
+      border: 1.5px solid var(--primary-color, #0f8b8d);
+      border-radius: 20px;
+      transition: all 0.25s ease;
+      font-weight: 500;
+    }
+
+    .page-toc a:hover {
+      background-color: var(--primary-color, #0f8b8d);
+      color: #ffffff;
+      border-color: var(--primary-color, #0f8b8d);
+      transform: translateY(-1px);
+    }
+
+    section[id] {
+      scroll-margin-top: 100px;
+    }
+
+    /* 👇 中途半端な画面幅（1024px以下）でボタンが1個だけ孤立して折り返すのを防ぐ */
+    @media (max-width: 1024px) {
+      .page-toc ul {
+        gap: 10px 16px;
+      }
+      .page-toc a {
+        font-size: 13px;
+        padding: 6px 14px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-toc {
+        margin-top: 20px;
+        padding: 0 10px;
+      }
+      .page-toc ul {
+        gap: 10px 12px;
+      }
+      .page-toc a {
+        font-size: 13px;
+        padding: 5px 12px;
+      }
+    }
+
+    /* ==========================================
+      各セクション下の「トップへ戻る」スタイル
+     ========================================== */
+    .back-to-top-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 40px;
+      width: 100%;
+    }
+    .back-to-top-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #424242;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      padding: 5px 0;
+    }
+    .back-to-top-link i {
+      font-size: 14px;
+      transition: transform 0.2s ease;
+    }
+
+    .back-to-top-link:hover {
+      color: var(--primary-color, #0f8b8d);
+    }
+    .back-to-top-link:hover i {
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .back-to-top-wrapper {
+        margin-top: 30px;
+      }
+      .back-to-top-link {
+        font-size: 13px;
+        padding: 8px 0;
+      }
+    }
+
+    /* ==========================================
+      1. 代表挨拶
+     ========================================== */
+    .about-greeting {
+      padding: 60px 0;
+      text-align: center;
+    }
+    .greeting-image-area-center {
+      margin-top: 20px;
+      margin-bottom: 25px;
+    }
+    .greeting-image-dummy-circle {
+      width: 150px;
+      height: 150px;
+      background-color: #d1e6f3;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .greeting-image-dummy-circle i {
+      font-size: 60px;
+      color: #1e4b7a;
+    }
+    .leader-info-center {
+      margin-bottom: 30px;
+    }
+    .leader-name {
+      font-size: 20px;
+      font-weight: bold;
+      color: #222;
+      margin: 0 0 8px 0;
+    }
+    .leader-title {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+
+    .greeting-content-aligned {
+      text-align: left;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .greeting-text {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    /* ==========================================
+      2. 私の強みセクション
+     ========================================== */
+    .about-strengths-section {
+      background-color: #f4fafb;
+      padding: 60px 0;
+    }
+
+    .strengths-top-triple-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .strength-card-item {
+      background: #ffffff;
+      border: 1px solid #eef5f5;
+      border-radius: 8px;
+      padding: 25px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+    }
+
+    .strength-bottom-full-card {
+      background: #ffffff;
+      border: 1px solid #eef5f5;
+      border-radius: 8px;
+      padding: 30px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+    }
+
+    .strength-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .strength-icon {
+      font-size: 25px;
+      color: var(--primary-color, #0f8b8d);
+      flex-shrink: 0;
+    }
+    .strength-card-header h3 {
+      font-size: 16.5px;
+      font-weight: bold;
+      color: #222;
+      margin: 0;
+    }
+
+    .strengths-top-triple-grid p,
+    .strength-bottom-full-card p {
+      font-size: 14.5px;
+      color: #444;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    @media (max-width: 960px) {
+      .strengths-top-triple-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* ==========================================
+      3. プロフィールカード
+     ========================================== */
+    .about-profile-card-section {
+      background-color: #ffffff;
+      padding: 60px 0;
+    }
+    .profile-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 35px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .info-table tr {
+      border-bottom: 1px solid #eee;
+    }
+    .info-table tr:last-child {
+      border-bottom: none;
+    }
+    .info-table th {
+      width: 150px;
+      text-align: left;
+      padding: 18px 10px;
+      font-size: 14px;
+      color: #555;
+      vertical-align: top;
+      font-weight: bold;
+    }
+    .info-table td {
+      padding: 18px 10px;
+      font-size: 14px;
+      color: #222;
+      line-height: 1.6;
+    }
+    .td-with-icon {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .table-icon {
+      font-size: 18px;
+      color: var(--primary-color, #0f8b8d);
+      margin-top: 2px;
+    }
+
+    /* ==========================================
+      4. 元国税調査官だからこそ〜
+     ========================================== */
+    .about-features-detail {
+      padding: 60px 0;
+      text-align: left;
+      background-color: #f4fafb;
+    }
+
+    .features-detail-content-aligned {
+      text-align: left;
+      width: 100%;
+      margin: 0 auto 40px auto;
+    }
+
+    .features-detail-text {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.8;
+      margin: 0 0 50px 0;
+    }
+
+    @media (max-width: 768px) {
+      .info-table th {
+        width: 90px;
+      }
+    }
+
+    /* ==========================================
+      事務所概要セクションのスタイル
+     ========================================== */
+    .office-overview-section {
+      background: #ffffff;
+      padding: 60px 0;
+    }
+
+    .overview-table {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .overview-table tr {
+      border-bottom: 1px solid #eee;
+    }
+    .overview-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .overview-table th {
+      width: 180px;
+      text-align: left;
+      font-weight: bold;
+      color: #555;
+      padding: 20px 10px;
+      vertical-align: top;
+    }
+
+    .overview-table td {
+      padding: 20px 10px;
+      color: #222;
+      vertical-align: top;
+    }
+
+    .overview-table .note {
+      font-size: 13px;
+      color: #777777;
+      display: block;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .overview-table,
+      .overview-table tbody,
+      .overview-table tr,
+      .overview-table th,
+      .overview-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .overview-table tr {
+        padding: 15px 0;
+      }
+
+      .overview-table th {
+        padding: 5px 10px;
+        font-size: 14px;
+        color: var(--primary-color, #0f8b8d);
+      }
+
+      .overview-table td {
+        padding: 5px 10px 10px 10px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</BaseLayout>

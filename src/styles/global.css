@@ -1,0 +1,121 @@
+:root {
+  --primary-color: #0f8b8d; /* 一番上に持ってきて確実に効かせます */
+  --text-color: #333333;
+  --font-serif:
+    "Times New Roman", "Yu Mincho", "游明朝", "MS Mincho", "ＭＳ 明朝", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden; /* 👈 これを絶対に追加してください */
+  width: 100%; /* 👈 もし無ければこれも追加 */
+}
+
+body {
+  background-color: #ffffff; /* 💡【修正】薄い青を「白」にし、セクションの背景色を正しく発色させます */
+  color: #333333; /* 💡【修正】ベースの文字色を読みやすい濃いグレーに変更（または var(--text-color)） */
+  font-family:
+    "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    Meiryo, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.7;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* 👈 これを絶対に追加してください */
+  width: 100%; /* 👈 もし無ければこれも追加 */
+}
+
+main {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0; /* 💡【修正】左右上下の余白を0に。これでセクションの背景色が画面の端まで綺麗に広がります */
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  color: #666;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 4px 10px;
+  background: #eee;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+a:link,
+a:visited {
+  color: #333333; /* ここにお好みのカラーコードを入れてください */
+  text-decoration: none; /* 下線を消したい場合はこれを入れる */
+}
+
+/* サイト全体で使う矢印アニメーションの共通設定 */
+.anim-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease; /* 1つ目のコードの滑らかな動きを採用 */
+}
+
+.anim-arrow-left {
+  display: inline-block;
+  transition: transform 0.3s ease; /* 1つ目のコードの滑らかな動きを採用 */
+}
+
+/* マウスホバー時に矢印を右に5px滑らかに動かす */
+a:hover .anim-arrow,
+button:hover .anim-arrow,
+.service-card-tall:hover .anim-arrow,
+.service-card-wide:hover .anim-arrow {
+  transform: translateX(5px);
+}
+
+a:hover .anim-arrow-left,
+button:hover .anim-arrow-left,
+.service-card-tall:hover .anim-arrow-left,
+.service-card-wide:hover .anim-arrow-left {
+  transform: translateX(-5px);
+}
+
+/* src/layouts/BaseLayout.astro の中に追記、または既存の共通CSSへ */
+/* 全ページ共通のコンテナ設定 */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 全ページ共通のセクション見出し（下線付き） */
+.section-title {
+  text-align: center;
+  font-size: 28px;
+  color: #222222;
+  font-weight: bold;
+  position: relative;
+  display: block;
+  padding-bottom: 15px;
+  margin: 0 auto 40px;
+  width: 100%;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--primary-color, #0f8b8d);
+  border-radius: 2px;
+}

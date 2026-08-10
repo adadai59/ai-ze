@@ -1,0 +1,51 @@
+// 顧問契約：ご相談から契約までの流れ
+export const advisoryFlowSteps = [
+  {
+    step: 1,
+    icon: "ph-chats-circle",
+    title: "お問い合わせ・ご相談",
+    desc: "まずはお気軽にお問い合わせください。初回相談無料です。",
+    duration: "即日〜数日",
+    prep: "特になし",
+  },
+  {
+    step: 2,
+    icon: "ph-clipboard-text",
+    title: "ヒアリング・現状確認",
+    desc: "事業内容や経理状況を丁寧にヒアリングします。",
+    duration: "1週間程度",
+    prep: "直近の決算書、試算表（あれば）",
+  },
+  {
+    step: 3,
+    icon: "ph-note-pencil",
+    title: "プランのご提案・お見積り",
+    desc: "業務内容やご要望に応じて、最適な顧問プランと料金をご提案します。",
+    duration: "1週間程度",
+    prep: "特になし",
+  },
+  {
+    step: 4,
+    icon: "ph-signature",
+    title: "ご契約",
+    desc: "プラン内容にご納得いただけましたら、正式にご契約となります。",
+    duration: "即日",
+    prep: "認印",
+  },
+  {
+    step: 5,
+    icon: "ph-repeat",
+    title: "月次巡回監査・記帳代行の開始",
+    desc: "月次での訪問・確認や記帳代行など、日常的なサポートを開始します。",
+    duration: "契約翌月より開始",
+    prep: "通帳・請求書等の日常資料",
+  },
+  {
+    step: 6,
+    icon: "ph-calendar-check",
+    title: "決算・申告、継続フォロー",
+    desc: "決算・申告を行うとともに、翌期以降も継続的にサポートします。",
+    duration: "決算期に応じて継続",
+    prep: "特になし",
+  },
+];

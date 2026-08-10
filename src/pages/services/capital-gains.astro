@@ -1,0 +1,307 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithIcon from "../../components/HeroWithIcon.astro";
+
+// 共通コンポーネントのインポート
+import PainSection from "../../components/services/PainSection.astro";
+import ReasonsSection from "../../components/services/ReasonsSection.astro";
+import ServiceDetailSection from "../../components/services/ServiceDetailSection.astro";
+import RecommendSection from "../../components/services/RecommendSection.astro";
+import FlowSection from "../../components/services/FlowSection.astro";
+import { capitalGainsFlowSteps as flowSteps } from "../../data/flowsteps/capital-gains";
+import FaqSection from "../../components/services/FaqSection.astro";
+
+// ==========================================
+// このページ（譲渡所得）専用のデータ
+// ==========================================
+const painItems = [
+  {
+    icon: "ph-house-line",
+    title: "不動産の売却",
+    bullets: [
+      "売却益にいくら税金がかかるか不安",
+      "取得費・譲渡費用の範囲が分からない",
+    ],
+  },
+  {
+    icon: "ph-chart-line-up",
+    title: "株式の売却",
+    bullets: [
+      "未上場株式の評価方法が分からない",
+      "売却した株式の申告方法が分からない",
+    ],
+  },
+  {
+    icon: "ph-seal-check",
+    title: "各種特例の活用",
+    bullets: [
+      "特例の種類が多くどれが適用されるか分からない",
+      "特例を使える売却方法が分からない",
+    ],
+  },
+  {
+    icon: "ph-magnifying-glass",
+    title: "税務調査への不安",
+    bullets: ["申告内容に漏れがないか心配", "追徴課税やペナルティを避けたい"],
+  },
+];
+
+const reasonItems = [
+  {
+    icon: "ph-calculator",
+    title: "適正な譲渡益の算定",
+    desc: "取得費が不明な場合の概算取得費の活用や、売却方法で扱いが変わる譲渡費用の該当可否も含め、正確な譲渡益を算定します。",
+  },
+  {
+    icon: "ph-chart-line-up",
+    title: "株式評価・申告対応",
+    desc: "上場株式等及び未上場株式の評価から確定申告書の作成まで、一貫してサポートします。",
+  },
+  {
+    icon: "ph-book-open-text",
+    title: "特例適用を的確判断",
+    desc: "各種特例について、税法等で適用可否を判断し節税を追求します。また売却前であれば特例が適用できる方法をご検討いたします。",
+  },
+  {
+    icon: "ph-clock-countdown",
+    title: "事前相談で安心",
+    desc: "譲渡費用や特例の適用可否は売却方法によって変わります。契約前にご相談いただくことで、活用できる選択肢が広がります。",
+  },
+  {
+    icon: "ph-file-text",
+    title: "根拠資料で適正申告",
+    desc: "譲渡費用、取得費及び特例適用の根拠資料を整理し、税務署から指摘されにくい申告書を作成します。",
+  },
+];
+
+const serviceDetails = [
+  {
+    icon: "ph-calculator",
+    title: "譲渡所得の計算",
+    desc: "売却価格・取得費・譲渡費用を整理し、正確な譲渡所得の金額を算出します。",
+  },
+  {
+    icon: "ph-file-magnifying-glass",
+    title: "取得費の調査・算定",
+    desc: "購入時の契約書等が無い場合も、概算取得費の活用や資料調査により適切に算定します。",
+  },
+  {
+    icon: "ph-seal-check",
+    title: "各種特例の適用検討",
+    desc: "3,000万円特別控除(居住用財産・相続空き家)など、各種特例の適用可否を検討します。",
+  },
+  {
+    icon: "ph-chart-line-up",
+    title: "株式・投資信託の譲渡",
+    desc: "上場株式・未上場株式・投資信託等の売却による譲渡所得を計算し、申告書を作成します。",
+  },
+  {
+    icon: "ph-file-text",
+    title: "確定申告書の作成",
+    desc: "税務署への提出書類一式を作成し、期限内の申告をサポートします。",
+  },
+  {
+    icon: "ph-hourglass-medium",
+    title: "売却前のご相談",
+    desc: "譲渡費用や特例の適用可否は売却方法によって異なります。契約前にご相談いただくことで、有利な売却方法をご提案できます。",
+  },
+];
+
+const recommendItems = [
+  "不動産を売却された方",
+  "相続した空き家を売却する方",
+  "未上場株式を譲渡した方",
+  "取得費が分からない方",
+  "売却前に相談されたい方",
+];
+
+const faqItems = [
+  {
+    q: "譲渡所得はいくらから申告が必要ですか？",
+    a: "相続税のような基礎控除枠はなく、売却価額から取得費・譲渡費用を差し引いた譲渡所得がプラスになる場合は、原則として申告が必要です。特例適用により税額が生じない場合も、申告は必要です。",
+  },
+
+  {
+    q: "取得費が分からない場合はどうなりますか？",
+    a: "購入時の契約書等が見当たらない場合でも、譲渡価額の5%を取得費とする概算取得費の適用や、周辺資料からの調査により、適正な取得費を算定いたします。",
+  },
+  {
+    q: "売却前でも相談できますか？",
+    a: "むしろ売却前に相談していただいた方が、取得費の証明や特例の適用可否は売却方法によって扱いが変わるため、売却前のご相談をおすすめしています。",
+  },
+  {
+    q: "税務調査は入りやすいのですか？",
+    a: "不動産の売買代金や証券会社からの支払調書は税務署に把握されているため、申告内容に相違があると指摘を受けやすい傾向にあります。根拠資料に基づいた正確な申告により、リスクを抑えることができます。",
+  },
+];
+---
+
+<BaseLayout
+  title="サービス内容 | 譲渡所得（不動産・株式等） | 足立税理士事務所"
+>
+  <HeroWithIcon
+    englishTitle="Capital Gains"
+    japaneseTitle={"譲渡所得\n（不動産・株式等）"}
+    parentLinks={[{ name: "サービス内容", url: "/services" }]}
+  >
+    <i class="ph ph-chart-line-up" slot="icon"></i>
+  </HeroWithIcon>
+
+  {/* 各セクションをコンポーネント化してデータを渡す */}
+  <PainSection items={painItems} />
+
+  <ReasonsSection
+    title="譲渡所得の申告で選ばれる理由"
+    items={reasonItems}
+    columns={5}
+  />
+
+  <ServiceDetailSection items={serviceDetails} />
+
+  <RecommendSection items={recommendItems} />
+
+  {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">料金の目安</h2>
+      <div class="pricing-card">
+        <p class="pricing-label">相続税申告</p>
+        <p class="pricing-amount">遺産総額の <span>0.5%</span> 〜</p>
+        <p class="pricing-note">
+          財産構成・相続人数により変動します。正式なお見積りは初回相談時にご提示いたします。
+        </p>
+        <a href="/pricing" class="btn-flow-detail">
+          料金表を詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FlowSection
+    steps={flowSteps}
+    showDesc={false}
+    detailUrl="/flow#capital-gains"
+  />
+
+  <FaqSection items={faqItems} />
+</BaseLayout>
+
+<style>
+  /* ページ全体で共通する最小限のグローバルスタイルのみ残す */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  :global(.icon-ph),
+  :global(.icon-ph-lg),
+  :global(.feature-icon-ph) {
+    color: var(--primary-color, #0f8b8d) !important;
+    display: inline-block;
+  }
+  :global(.icon-ph) {
+    font-size: 26px !important;
+  }
+  :global(.icon-ph-lg) {
+    font-size: 32px !important;
+    margin-bottom: 14px;
+  }
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    margin-bottom: 15px;
+  }
+
+  /* 料金目安セクションのスタイル */
+  .pricing-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .pricing-card {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f4fafb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-sizing: border-box;
+  }
+  .pricing-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    margin: 0 0 12px;
+  }
+  .pricing-amount {
+    font-size: 20px;
+    color: #222222;
+    margin: 0 0 16px;
+  }
+  .pricing-amount span {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 30px;
+  }
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+  @media (max-width: 768px) {
+    .pricing-section {
+      padding: 60px 0;
+    }
+    .pricing-card {
+      padding: 36px 24px;
+    }
+    .btn-flow-detail {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

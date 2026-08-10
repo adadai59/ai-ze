@@ -1,0 +1,138 @@
+---
+interface Props {
+  title: string;
+  items: { icon: string; title: string; desc: string }[];
+  columns?: number;
+}
+const { title, items, columns = 4 } = Astro.props;
+---
+
+<section class="reasons-section">
+  <div class="reasons-header">
+    <h2 class="features-main-title">{title}</h2>
+  </div>
+  <div class="reasons-container container" style={`--cols: ${columns};`}>
+    {
+      items.map((item, i) => (
+        <div
+          class:list={[
+            "feature-card",
+            { "no-divider": (i + 1) % columns === 0 || i === items.length - 1 },
+          ]}
+        >
+          <i class={`ph-bold ${item.icon} feature-icon-ph`} />
+          <h3>{item.title}</h3>
+          <p>{item.desc}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .reasons-section {
+    background: #f4fafb;
+    padding: 90px 0 80px;
+  }
+  .reasons-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .features-main-title {
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .features-main-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+
+  .reasons-container {
+    display: grid;
+    /* 💡変更：列数をpropsから可変に */
+    grid-template-columns: repeat(var(--cols, 4), 1fr);
+    /* 💡変更：複数行になった場合の縦の余白を確保 */
+    gap: 40px 0;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px 24px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* 💡変更：no-divider クラスが付いていないカードにだけ縦線を表示 */
+  .feature-card:not(.no-divider)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background: #cbdcdc;
+  }
+
+  .feature-card h3 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 14px;
+    font-weight: bold;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+  }
+
+  @media (max-width: 960px) {
+    .reasons-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .feature-card:nth-child(2n)::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .reasons-section {
+      padding: 60px 0;
+    }
+    .features-main-title {
+      font-size: 24px;
+    }
+    .reasons-container {
+      grid-template-columns: 1fr;
+    }
+    .feature-card::after {
+      display: none;
+    }
+    .feature-card {
+      padding: 0;
+    }
+  }
+</style>

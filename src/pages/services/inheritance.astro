@@ -1,0 +1,293 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithIcon from "../../components/HeroWithIcon.astro";
+
+// 共通コンポーネントのインポート
+import PainSection from "../../components/services/PainSection.astro";
+import ReasonsSection from "../../components/services/ReasonsSection.astro";
+import ServiceDetailSection from "../../components/services/ServiceDetailSection.astro";
+import RecommendSection from "../../components/services/RecommendSection.astro";
+import FlowSection from "../../components/services/FlowSection.astro";
+import { inheritanceFlowSteps as flowSteps } from "../../data/flowsteps/inheritance";
+import FaqSection from "../../components/services/FaqSection.astro";
+
+// ==========================================
+// このページ（相続税申告）専用のデータ
+// ==========================================
+const painItems = [
+  {
+    icon: "ph-question",
+    title: "相続税がかかるか不安",
+    bullets: [
+      "基礎控除を超えるか分からない",
+      "不動産や非上場株式の評価方法が分からない",
+    ],
+  },
+  {
+    icon: "ph-hourglass-medium",
+    title: "申告期限が心配",
+    bullets: [
+      "何から手をつければいいか分からない",
+      "平日は仕事で手続きをする時間がない",
+    ],
+  },
+  {
+    icon: "ph-users-three",
+    title: "遺産分割・相続人トラブル",
+    bullets: [
+      "遺産をどう分けるか意見がまとまらない",
+      "疎遠な相続人と連絡を取るのが気まずい",
+    ],
+  },
+  {
+    icon: "ph-magnifying-glass",
+    title: "税務調査への不安",
+    bullets: [
+      "自分で申告した内容に漏れがないか心配",
+      "追徴課税やペナルティを避けたい",
+    ],
+  },
+];
+
+const reasonItems = [
+  {
+    icon: "ph-house-line",
+    title: "財産評価の専門性",
+    desc: "不動産や非上場株式の評価方法に精通し、適正な評価による税負担の軽減を追求します。",
+  },
+  {
+    icon: "ph-chat-circle-dots",
+    title: "柔軟な相談体制",
+    desc: "夜間やオンライン相談にも対応し、お忙しい方でもスムーズに手続きを進められます。",
+  },
+  {
+    icon: "ph-users-three",
+    title: "円満な遺産分割のサポート",
+    desc: "税負担や将来の相続も踏まえ、ご家族に合った遺産分割をご提案します。",
+  },
+  {
+    icon: "ph-user-focus",
+    title: "税務調査に強い",
+    desc: "元国税調査官の視点と書面添付制度の活用で、税務署に指摘されにくい適正な申告を行います。",
+  },
+];
+
+const serviceDetails = [
+  {
+    icon: "ph-calculator",
+    title: "財産評価",
+    desc: "不動産・非上場株式・預貯金など、相続財産を適正に評価します。",
+  },
+  {
+    icon: "ph-handshake",
+    title: "遺産分割協議のサポート",
+    desc: "相続人間でのトラブルを避けるため、分割案のご提案を行います。",
+  },
+  {
+    icon: "ph-files",
+    title: "相続税申告書の作成",
+    desc: "税務署の視点を踏まえた、適正かつ有利な申告書を作成します。",
+  },
+  {
+    icon: "ph-shield-check",
+    title: "税務調査対応",
+    desc: "万一の税務調査にも、元国税調査官として的確に対応いたします。",
+  },
+  {
+    icon: "ph-chart-line-up",
+    title: "二次相続対策",
+    desc: "将来発生する二次相続まで見据えたシミュレーションをご提供します。",
+  },
+  {
+    icon: "ph-certificate",
+    title: "書面添付制度への対応",
+    desc: "申告内容の適正性を税理士が保証し、税務調査省略の可能性を高めます。",
+  },
+];
+
+const recommendItems = [
+  "相続財産に不動産が多い方",
+  "相続人が複数いる方",
+  "申告期限が近づいている方",
+  "税務調査が不安な方",
+];
+
+const faqItems = [
+  {
+    q: "相続税はいくらからかかりますか？",
+    a: "基礎控除額（3,000万円＋600万円×法定相続人の数）を超える遺産がある場合に課税対象となります。まずは無料相談で概算をお調べします。",
+  },
+  {
+    q: "申告期限はいつまでですか？",
+    a: "相続の開始（被相続人の死亡）を知った日の翌日から10ヶ月以内です。期限が近い場合もお早めにご相談ください。",
+  },
+  {
+    q: "税務調査は必ず入るのですか？",
+    a: "必ずではありませんが、申告内容によっては調査対象となる場合があります。書面添付制度の活用により、調査省略の可能性を高めることができます。",
+  },
+];
+---
+
+<BaseLayout title="サービス内容 | 相続税申告 | 足立税理士事務所">
+  <HeroWithIcon
+    englishTitle="Inheritance Tax"
+    japaneseTitle="相続税申告"
+    parentLinks={[{ name: "サービス内容", url: "/services" }]}
+  >
+    <i class="ph ph-coins" slot="icon"></i>
+  </HeroWithIcon>
+
+  {/* 各セクションをコンポーネント化してデータを渡す */}
+  <PainSection items={painItems} />
+
+  <ReasonsSection title="相続税申告で選ばれる理由" items={reasonItems} />
+
+  <ServiceDetailSection items={serviceDetails} />
+
+  <RecommendSection items={recommendItems} />
+
+  {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">料金の目安</h2>
+      <div class="pricing-card">
+        <p class="pricing-label">相続税申告</p>
+        <p class="pricing-amount">遺産総額の <span>0.5%</span> 〜</p>
+        <p class="pricing-note">
+          財産構成・相続人数により変動します。正式なお見積りは初回相談時にご提示いたします。
+        </p>
+        <a href="/pricing" class="btn-flow-detail">
+          料金表を詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FlowSection
+    steps={flowSteps}
+    showDesc={false}
+    detailUrl="/flow#inheritance"
+  />
+
+  <FaqSection items={faqItems} />
+</BaseLayout>
+
+<style>
+  /* ページ全体で共通する最小限のグローバルスタイルのみ残す */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  :global(.icon-ph),
+  :global(.icon-ph-lg),
+  :global(.feature-icon-ph) {
+    color: var(--primary-color, #0f8b8d) !important;
+    display: inline-block;
+  }
+  :global(.icon-ph) {
+    font-size: 26px !important;
+  }
+  :global(.icon-ph-lg) {
+    font-size: 32px !important;
+    margin-bottom: 14px;
+  }
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    margin-bottom: 15px;
+  }
+
+  /* 料金目安セクションのスタイル */
+  .pricing-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .pricing-card {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f4fafb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-sizing: border-box;
+  }
+  .pricing-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    margin: 0 0 12px;
+  }
+  .pricing-amount {
+    font-size: 20px;
+    color: #222222;
+    margin: 0 0 16px;
+  }
+  .pricing-amount span {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 30px;
+  }
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+  @media (max-width: 768px) {
+    .pricing-section {
+      padding: 60px 0;
+    }
+    .pricing-card {
+      padding: 36px 24px;
+    }
+    .btn-flow-detail {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

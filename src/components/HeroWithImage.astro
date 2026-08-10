@@ -1,0 +1,117 @@
+---
+import Breadcrumb from "./Breadcrumb.astro";
+
+interface Props {
+  englishTitle: string;
+  japaneseTitle: string;
+  bgImageUrl: string;
+  parentLinks?: { name: string; url: string }[];
+}
+
+const { englishTitle, japaneseTitle, bgImageUrl, parentLinks } = Astro.props;
+---
+
+<section class="hero-with-image" style={`--bg-image: url('${bgImageUrl}')`}>
+  <div class="hero-with-image-overlay">
+    <div class="container">
+      <div class="hero-breadcrumb">
+        <Breadcrumb
+          currentPage={japaneseTitle}
+          parentLinks={parentLinks}
+          type="transparent"
+        />
+      </div>
+
+      <div class="hero-titles">
+        <span class="hero-eng">{englishTitle}</span>
+        <h1 class="hero-title">{japaneseTitle}</h1>
+      </div>
+
+      <div class="hero-slot">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-with-image {
+    width: 100%;
+    margin-top: 0;
+    background: var(--bg-image) no-repeat center center;
+    background-size: cover;
+    position: relative;
+  }
+
+  .hero-with-image-overlay {
+    width: 100%;
+    /* 💡外側の上下余白をアイコン版と完全に統一 */
+    padding: 24px 0 40px;
+    background-color: rgba(244, 250, 251, 0.75);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 💡コンテナの高さをアイコン版と完全に統一 */
+    min-height: 260px;
+  }
+
+  .hero-breadcrumb {
+    width: 100%;
+    align-self: flex-start;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .hero-titles {
+    text-align: center;
+  }
+
+  .hero-eng {
+    display: block;
+    font-size: 14px;
+    color: var(--primary-color, #0f8b8d);
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  .hero-title {
+    font-family:
+      "Times New Roman", "Yu Mincho", "游明朝", "MS Mincho", "ＭＳ 明朝", serif;
+    /* 💡文字サイズもアイコン版と合わせる */
+    font-size: 32px;
+    color: #222222;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .hero-slot {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .hero-with-image-overlay {
+      padding: 20px 0 30px;
+    }
+    .container {
+      min-height: 220px;
+    }
+    .hero-title {
+      font-size: 26px;
+    }
+  }
+</style>

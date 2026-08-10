@@ -1,0 +1,26 @@
+{
+  "name": "ai-test",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "npm run build && wrangler dev",
+    "astro": "astro",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "astro": "^5.1.0",
+    "microcms-js-sdk": "^3.4.0"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^12.1.0",
+    "@cloudflare/workers-types": "^5.20260730.1",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.118.0"
+  }
+}

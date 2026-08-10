@@ -1,0 +1,647 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithImage from "../../components/HeroWithImage.astro";
+import { getAllColumns, toJSTYearMonth, formatJSTDate } from "../../library/microcms";
+
+// 🌟 このページはビルド時に生成する（一覧なのでrenderはfalseでもOKだが、
+//   ISR運用にしないなら明示しておくと安全）
+export const prerender = true;
+
+const allColumns = await getAllColumns();
+
+// 新着順（日付降順）に並べる
+const sorted = [...allColumns].sort(
+  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+);
+
+// カテゴリの選択肢を、実際に存在する記事から動的に生成する
+// （「気分次第でカテゴリが増減する」運用のため、固定リストは持たない）
+const categories = Array.from(
+  new Map(
+    sorted
+      .filter((entry) => entry.category)
+      .map((entry) => [entry.category!.id, entry.category!.name]),
+  ).values(),
+).sort();
+
+const yearMonths = Array.from(
+  new Set(sorted.map((entry) => toJSTYearMonth(new Date(entry.date)))),
+).sort((a, b) => (a < b ? 1 : -1));
+---
+
+<BaseLayout title="コラム | 足立税理士事務所">
+  <HeroWithImage
+    englishTitle="Column"
+    japaneseTitle="コラム"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  />
+
+  <section class="column-list-section">
+    <div class="container">
+      <!-- 絞り込みフィルター（ヘッダーのドロップダウンと同じ見た目のカスタムUI、クリックで開閉） -->
+      <div class="filter-bar">
+        <div class="filter-field">
+          <span class="filter-label">カテゴリ</span>
+          <div class="filter-dropdown" data-filter="category">
+            <button
+              type="button"
+              class="filter-toggle"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span class="filter-toggle-label">すべて</span>
+              <span class="arrow" aria-hidden="true">▼</span>
+            </button>
+            <ul class="filter-menu" role="listbox">
+              <li role="option" data-value="all" aria-selected="true" class="is-selected">すべて</li>
+              {categories.map((c) => <li role="option" data-value={c} aria-selected="false">{c}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        <div class="filter-field">
+          <span class="filter-label">年月</span>
+          <div class="filter-dropdown" data-filter="month">
+            <button
+              type="button"
+              class="filter-toggle"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span class="filter-toggle-label">すべて</span>
+              <span class="arrow" aria-hidden="true">▼</span>
+            </button>
+            <ul class="filter-menu" role="listbox">
+              <li role="option" data-value="all" aria-selected="true" class="is-selected">すべて</li>
+              {
+                yearMonths.map((ym) => {
+                  const [y, m] = ym.split("-");
+                  const label = `${y}年${Number(m)}月`;
+                  return <li role="option" data-value={ym} aria-selected="false">{label}</li>;
+                })
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+     <!-- 記事カード一覧 -->
+      <div id="column-grid" class="column-grid">
+        {
+          sorted.map((entry) => {
+             const entryDate = new Date(entry.date);
+const ym = toJSTYearMonth(entryDate);
+const dateLabel = formatJSTDate(entryDate);
+const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
+const isUpdated = updatedLabel !== dateLabel;
+            return (
+              <a
+                href={`/column/${entry.id}`}
+                class="column-card"
+                data-category={entry.category?.name ?? ""}
+                data-month={ym}
+              >
+                <!-- 写真部分 -->
+                <div class="column-image-wrap">
+                  <img
+                    src={entry.eyecatch?.url}
+                    alt=""
+                    loading="lazy"
+                    width="400"
+                    height="300"
+                  />
+                </div>
+                <!-- カテゴリ -->
+                <div class="column-meta">
+                  <span class="column-category">{entry.category?.name ?? "未分類"}</span>
+                </div>
+                <!-- タイトル -->
+                <h3>{entry.title}</h3>
+                
+                <!-- 🌟 追加：導入部分（抜粋文） -->
+                <p class="column-excerpt">{entry.excerpt}</p>
+                
+                <!-- 日付 -->
+                <p class="column-date">
+                  {dateLabel}
+                  {isUpdated && (
+                    <span class="column-date-updated">（更新：{updatedLabel}）</span>
+                  )}
+                </p>
+              </a>
+            );
+          })
+        }
+      </div>
+
+      <!-- 絞り込み結果が0件のときの表示 -->
+      <div id="column-empty" class="column-empty" hidden>
+        <i class="ph-bold ph-magnifying-glass column-empty-icon"></i>
+        <p>該当する記事が見つかりませんでした。</p>
+        <button type="button" id="column-empty-reset" class="btn-reset-filter">
+          絞り込みをリセット
+        </button>
+      </div>
+
+      <!-- もっと見るボタン -->
+      <div class="load-more-wrapper">
+        <button type="button" id="load-more-btn" class="btn-load-more">
+          もっと見る
+        </button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .column-list-section {
+    padding: 60px 0 80px;
+    background-color: #ffffff;
+  }
+
+  /* 絞り込みバー */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    justify-content: center;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 10;
+  }
+  .filter-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .filter-label {
+    font-size: 13px;
+    color: #666666;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* ヘッダーの .dropdown-toggle / .dropdown-menu と統一したカスタムドロップダウン */
+  .filter-dropdown {
+    position: relative;
+  }
+
+  .filter-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 14px;
+    color: #0a0909;
+    background: #ffffff;
+    border: 1.5px solid #e2eeee;
+    border-radius: 20px;
+    padding: 8px 16px;
+    min-width: 150px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+  }
+  .filter-toggle:hover,
+  .filter-toggle:focus-visible,
+  .filter-dropdown.is-open .filter-toggle {
+    border-color: var(--primary-color, #0f8b8d);
+    outline: none;
+  }
+  .filter-toggle .arrow {
+    font-size: 10px;
+    color: var(--primary-color, #0f8b8d);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .filter-dropdown.is-open .filter-toggle .arrow {
+    transform: rotate(180deg);
+  }
+
+  .filter-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    min-width: 150px;
+    list-style: none;
+    margin: 0;
+    background-color: #ffffff;
+    padding: 0.4rem 0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: all 0.2s ease;
+    z-index: 50;
+    overflow: hidden;
+  }
+  .filter-dropdown.is-open .filter-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .filter-menu li {
+    font-size: 0.9rem;
+    color: #0a0909 ;
+    text-align: left;
+    padding: 0.3rem 1rem;
+    
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .filter-menu li + li {
+    border-top: 1px solid #f0eeea;
+  }
+  .filter-menu li::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: #0b6f72;
+    display: none;
+  }
+  .filter-menu li:hover {
+    background-color: #f0f6ff;
+    color: #0b6f72;
+  }
+  .filter-menu li:hover::before {
+    display: block;
+  }
+  .filter-menu li.is-selected {
+    font-weight: 500;
+    color: var(--primary-color, #0f8b8d);
+    background-color: rgba(11, 111, 114, 0.08);
+  }
+
+  /* カードグリッド */
+  .column-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px; /* ホームに合わせて余白を少し広げました */
+  }
+
+  .column-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .column-card:hover {
+    border-color: var(--primary-color, #0f8b8d);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(15, 139, 141, 0.15);
+  }
+
+  /* 写真用ラッパー（ホームの dummy と同じサイズ感・丸みに調整） */
+  .column-image-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    background: #f4fafb;
+    border: 1px solid #eaeaea;
+  }
+
+  .column-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .column-card:hover .column-image-wrap img {
+    transform: scale(1.03); /* ホバー時に写真が少しズームする演出（お好みで外してもOK） */
+  }
+
+  .column-meta {
+    margin-bottom: 12px;
+  }
+
+  .column-category {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    background: #e6f4f4;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+ .column-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0a0909;
+    line-height: 1.5;
+    margin: 0 0 10px 0; /* 下の余白を少し狭く調整 */
+    transition: color 0.3s;
+    /* 長いタイトルを2行で省略する設定 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .column-card:hover h3 {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  /* 🌟 追加：導入文のスタイル */
+  .column-excerpt {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+    flex-grow: 1; /* 余白を埋めて、日付を一番下に押し下げる */
+    /* 長すぎる場合は2行でカット（お好みで変えてください） */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .column-date {
+    font-size: 13px;
+    color: #888888;
+    margin: 0;
+  }
+  .column-date-updated {
+    font-size: 12px;
+    color: #aaaaaa;
+    margin-left: 4px;
+  }
+
+  /* 0件時の表示 */
+  .column-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666666;
+  }
+  .column-empty-icon {
+    font-size: 32px;
+    color: #cbdcdc;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .btn-reset-filter {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--primary-color, #0f8b8d);
+    background: none;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    border-radius: 20px;
+    padding: 8px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .btn-reset-filter:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+  }
+
+  /* もっと見る */
+  .load-more-wrapper {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .btn-load-more {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    background: #ffffff;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    border-radius: 4px;
+    padding: 12px 45px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-load-more:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+  }
+  .btn-load-more[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 960px) {
+    .column-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  @media (max-width: 600px) {
+    .column-list-section {
+      padding: 40px 0 60px;
+    }
+    .column-grid {
+      grid-template-columns: 1fr;
+    }
+    .filter-bar {
+      flex-direction: column;
+      align-items: center;
+    }
+    .filter-field {
+      justify-content: center;
+    }
+    .filter-label {
+      width: 4.4em;
+      flex-shrink: 0;
+    }
+  }
+</style>
+
+<script>
+  // クライアントサイドでのカテゴリ・年月絞り込み＋段階表示（もっと見る）
+  const PAGE_SIZE = 9;
+
+  const grid = document.getElementById("column-grid") as HTMLElement;
+  const emptyState = document.getElementById("column-empty") as HTMLElement;
+  const resetBtn = document.getElementById(
+    "column-empty-reset",
+  ) as HTMLButtonElement;
+  const loadMoreBtn = document.getElementById(
+    "load-more-btn",
+  ) as HTMLButtonElement;
+
+  const cards = Array.from(
+    grid.querySelectorAll<HTMLAnchorElement>(".column-card"),
+  );
+
+  const filterDropdowns = Array.from(
+    document.querySelectorAll<HTMLElement>(".filter-dropdown"),
+  );
+
+  const state: Record<string, string> = { category: "all", month: "all" };
+  let visibleCount = PAGE_SIZE;
+
+  function closeAllDropdowns(except?: HTMLElement) {
+    filterDropdowns.forEach((dd) => {
+      if (dd !== except) {
+        dd.classList.remove("is-open");
+        dd.querySelector(".filter-toggle")?.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function selectValue(dropdown: HTMLElement, value: string) {
+    const key = dropdown.dataset.filter as string;
+    const label = dropdown.querySelector(".filter-toggle-label") as HTMLElement;
+    const items = Array.from(
+      dropdown.querySelectorAll<HTMLLIElement>(".filter-menu li"),
+    );
+    const target = items.find((i) => i.dataset.value === value);
+    if (!target) return;
+
+    state[key] = value;
+    label.textContent = target.textContent;
+    items.forEach((i) => {
+      i.classList.toggle("is-selected", i === target);
+      i.setAttribute("aria-selected", String(i === target));
+    });
+  }
+
+  filterDropdowns.forEach((dropdown) => {
+    const toggle = dropdown.querySelector(".filter-toggle") as HTMLButtonElement;
+    const items = Array.from(
+      dropdown.querySelectorAll<HTMLLIElement>(".filter-menu li"),
+    );
+
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains("is-open");
+      closeAllDropdowns();
+      if (!isOpen) {
+        dropdown.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    items.forEach((item) => {
+      item.addEventListener("click", () => {
+        selectValue(dropdown, item.dataset.value as string);
+        dropdown.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+
+        visibleCount = PAGE_SIZE;
+        updateURLParams();
+        render();
+      });
+    });
+  });
+
+  document.addEventListener("click", () => closeAllDropdowns());
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAllDropdowns();
+  });
+
+  // 1. ページ読み込み時にURLのパラメーターをドロップダウンに反映
+  const params = new URLSearchParams(window.location.search);
+  const targetCategory = params.get("category");
+  const targetMonth = params.get("month");
+
+  if (targetCategory) {
+    const dd = document.querySelector<HTMLElement>(
+      '.filter-dropdown[data-filter="category"]',
+    );
+    const hasValue = dd?.querySelector(`[data-value="${targetCategory}"]`);
+    if (dd && hasValue) selectValue(dd, targetCategory);
+  }
+  if (targetMonth) {
+    const dd = document.querySelector<HTMLElement>(
+      '.filter-dropdown[data-filter="month"]',
+    );
+    const hasValue = dd?.querySelector(`[data-value="${targetMonth}"]`);
+    if (dd && hasValue) selectValue(dd, targetMonth);
+  }
+
+  // 🌟 プルダウンの状態に合わせてURLを書き換える関数
+  function updateURLParams() {
+    const newParams = new URLSearchParams();
+
+    if (state.category !== "all") {
+      newParams.set("category", state.category);
+    }
+    if (state.month !== "all") {
+      newParams.set("month", state.month);
+    }
+
+    const queryString = newParams.toString();
+    const newUrl = queryString
+      ? `${window.location.pathname}?${queryString}`
+      : window.location.pathname;
+
+    // 履歴を残さず（ブラウザの「戻る」を汚さず）にURLを更新
+    window.history.replaceState({}, document.title, newUrl);
+  }
+
+  function getFilteredCards() {
+    return cards.filter((card) => {
+      const matchCategory =
+        state.category === "all" || card.dataset.category === state.category;
+      const matchMonth =
+        state.month === "all" || card.dataset.month === state.month;
+      return matchCategory && matchMonth;
+    });
+  }
+
+  function render() {
+    const filtered = getFilteredCards();
+
+    // 一旦すべて非表示にしてから、絞り込み結果のうち表示件数分だけ見せる
+    cards.forEach((card) => {
+      card.style.display = "none";
+    });
+    filtered.slice(0, visibleCount).forEach((card) => {
+      card.style.display = "";
+    });
+
+    emptyState.hidden = filtered.length > 0;
+    grid.style.display = filtered.length > 0 ? "grid" : "none";
+
+    loadMoreBtn.hidden = filtered.length <= visibleCount;
+  }
+
+  loadMoreBtn.addEventListener("click", () => {
+    visibleCount += PAGE_SIZE;
+    render();
+  });
+
+  resetBtn.addEventListener("click", () => {
+    filterDropdowns.forEach((dd) => selectValue(dd, "all"));
+    visibleCount = PAGE_SIZE;
+
+    // リセットボタンを押したときにURLのパラメータも綺麗に消す処理
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+
+    render();
+  });
+
+  // 初回読み込み時の実行
+  render();
+</script>

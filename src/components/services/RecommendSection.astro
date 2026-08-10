@@ -1,0 +1,95 @@
+---
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<section class="recommend-section">
+  <div class="container">
+    <h2 class="section-title">こんな方におすすめです</h2>
+
+    <div class="recommend-list">
+      {
+        items.map((item) => (
+          <div class="recommend-item">
+            <i class="ph-bold ph-check" />
+            <span>{item}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- 💡サブタイトルをカード（.recommend-list）の下に移動 -->
+    <h5 class="section-subtitle">
+      一つでも当てはまる方は、税理士へのご相談・ご依頼をおすすめします。
+    </h5>
+  </div>
+</section>
+
+<style>
+  .recommend-section {
+    background: #f4fafb;
+    padding: 90px 0 80px;
+  }
+
+  /* 💡カードの下に合わせてマージン（margin-top: 32px）を再調整 */
+  .section-subtitle {
+    text-align: center;
+    font-size: 20px;
+    color: #222222;
+    margin: 32px auto 0;
+    line-height: 1.6;
+  }
+
+  .recommend-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .recommend-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-size: 15px;
+    color: #222222;
+    font-weight: bold;
+    border: 1px solid #e0f0f1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+
+  .recommend-item i {
+    color: var(--primary-color, #0f8b8d);
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .recommend-section {
+      padding: 60px 0;
+    }
+    .section-title {
+      font-size: 24px;
+    }
+    .section-subtitle {
+      font-size: 14px;
+      margin: 24px auto 0;
+    }
+    .recommend-list {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .recommend-item {
+      padding: 16px 20px;
+      font-size: 14px;
+    }
+  }
+</style>

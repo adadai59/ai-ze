@@ -1,0 +1,483 @@
+---
+
+---
+
+<div
+  id="contactModal"
+  class="contact-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="icon-headset">
+        <i class="fa-solid fa-headset"></i>
+      </div>
+      <h3 id="modalTitle">まずはお気軽にご相談ください</h3>
+      <p class="modal-subtitle">
+        資産税(相続税・贈与税・譲渡所得)に関する<br />
+        ご不安や疑問に丁寧に対応いたします。
+      </p>
+    </div>
+
+    <div class="modal-body">
+      <a href="tel:03-1234-5678" class="contact-card phone-card">
+        <div class="card-icon">
+          <i class="fa-solid fa-phone"></i>
+        </div>
+        <div class="card-content">
+          <p class="card-title">お電話でのお問い合わせ</p>
+          <p class="card-phone-number">03-1234-5678</p>
+          <p class="card-hours">受付: 平日9:00〜18:00</p>
+        </div>
+        <div class="card-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </a>
+
+      <div class="modal-divider">
+        <span class="divider-text">または</span>
+      </div>
+
+      <a href="/contact" class="contact-card form-card" id="formWindowLink">
+        <div class="card-icon">
+          <i class="fa-regular fa-envelope"></i>
+        </div>
+        <div class="card-content">
+          <p class="card-title">お問い合わせフォームへ</p>
+          <p class="card-subtitle">初回相談無料・別ウィンドウで開く</p>
+        </div>
+        <div class="card-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+      </a>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <span class="feature-icon">
+            <i class="ph-bold ph-currency-jpy icon-ph"></i>
+          </span>
+          <p class="feature-text">初回相談は無料です</p>
+        </div>
+
+        <div class="feature-item">
+          <span class="feature-icon">
+            <i class="ph-bold ph-shield-check icon-ph"></i>
+          </span>
+          <p class="feature-text">無理な営業は一切ありません</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button id="closeModal" class="close-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span>閉じる</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const initModal = () => {
+    const contactModal = document.getElementById("contactModal");
+    const closeModal = document.getElementById("closeModal");
+    const formWindowLink = document.getElementById("formWindowLink");
+
+    // 💡 ページ内のすべての「お問い合わせボタン」を取得できるように変更
+    const contactButtons = document.querySelectorAll(".js-contact-btn");
+    const menuToggle = document.getElementById("menuToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    const openModal = () => {
+      if (!contactModal) return;
+      contactModal.classList.add("is-visible");
+      contactModal.setAttribute("aria-hidden", "false");
+
+      // スマホメニューが開いていた場合は閉じる処理
+      navMenu?.classList.remove("is-active");
+      menuToggle?.classList.remove("is-active");
+      menuToggle?.setAttribute("aria-expanded", "false");
+
+      document.body.style.overflow = "hidden";
+      closeModal?.focus();
+    };
+
+    const handleCloseModal = () => {
+      if (!contactModal) return;
+      contactModal.classList.remove("is-visible");
+      contactModal.setAttribute("aria-hidden", "true");
+      document.body.removeAttribute("style");
+      document.body.style.overflow = "";
+    };
+
+    // すべてのボタンにクリックイベントを設定
+    contactButtons.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    if (closeModal) {
+      closeModal.addEventListener("click", handleCloseModal);
+    }
+
+    if (contactModal) {
+      contactModal.addEventListener("click", (e) => {
+        if (e.target === contactModal) handleCloseModal();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Escape" &&
+          contactModal.classList.contains("is-visible")
+        ) {
+          handleCloseModal();
+        }
+      });
+    }
+
+    if (formWindowLink) {
+      formWindowLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        const href = this.getAttribute("href");
+        if (href) {
+          window.open(
+            href,
+            "contactWindow",
+            "width=800,height=700,resizable=yes,scrollbars=yes",
+          );
+        }
+        handleCloseModal();
+      });
+    }
+
+    const phoneLink = document.querySelector(".contact-card.phone-card");
+    if (phoneLink) {
+      phoneLink.addEventListener("click", () => {
+        handleCloseModal();
+      });
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", initModal);
+  document.addEventListener("astro:after-swap", initModal);
+</script>
+
+<style>
+  /* 元のコードから「🌟 お問い合わせモーダル」および「📱 スマホ環境限定（モーダル微調整）」のCSSをここに移動 */
+  .contact-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .contact-modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+  .modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 500px;
+    max-height: calc(110vh - 40px);
+    padding: 30px 40px;
+    border-radius: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+  }
+  .contact-modal.is-visible .modal-content {
+    transform: translateY(0);
+  }
+  .modal-header {
+    text-align: center;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .icon-headset {
+    font-size: 2.2rem;
+    color: #0aac9f;
+    margin-bottom: 10px;
+  }
+  #modalTitle {
+    font-family:
+      "YuMincho", "Yu Mincho", "Hiragino Mincho ProN", "Biz Serif", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 0;
+    letter-spacing: 0.05em;
+  }
+  .modal-subtitle {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 8px 0 0 0;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .modal-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+  .card-icon {
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .card-content {
+    flex-grow: 1;
+  }
+  .card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .phone-card {
+    background-color: #f5f6f6;
+    color: #333333;
+    padding: 15px 25px;
+    border: 1px solid #eef0f0;
+  }
+  .phone-card .card-icon {
+    color: #0aac9f;
+    margin-right: 20px;
+  }
+  .phone-card .card-phone-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333333;
+    margin: 3px 0;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+  .phone-card .card-hours {
+    font-size: 1rem;
+    color: #777777;
+    margin: 0;
+    font-weight: 500;
+  }
+  .phone-card:hover {
+    background-color: #e7e8e8;
+    transform: translateY(-1px);
+  }
+  .modal-divider {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    margin: 15px 0;
+  }
+  .modal-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #e0e0e0;
+    z-index: 1;
+  }
+  .divider-text {
+    background-color: #ffffff;
+    padding: 0 12px;
+    font-size: 0.85rem;
+    color: #999999;
+    position: relative;
+    z-index: 2;
+    font-weight: 500;
+  }
+  .form-card {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 15px 25px;
+  }
+  .form-card .card-icon {
+    margin-right: 20px;
+  }
+  .form-card .card-title {
+    font-size: 1.15rem;
+  }
+  .form-card .card-subtitle {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 2px 0 0 0;
+    font-weight: 500;
+  }
+  .form-card .card-arrow {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 15px;
+  }
+  .form-card:hover {
+    background-color: #0b6f72;
+    transform: translateY(-1px);
+  }
+  .feature-list {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    color: #666666;
+    font-size: 0.85rem;
+  }
+
+  .feature-icon {
+    width: 24px; /* 💡 18pxだとアイコンがパツパツでハミ出すので、24pxに少し広げます */
+    height: 24px; /* 💡 同上 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+
+    /* font-size: 0.8rem; はアイコンに効かない・悪さをする可能性があるので削除してOKです */
+  }
+
+  /* 💡 アイコンそのものが器のド真ん中に収まるように強制する設定を追加 */
+  .feature-icon i {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    line-height: 1 !important;
+    /* 💡 最後の力技：見た目を見ながら数値を微調整 */
+    transform: translateY(
+      -2px
+    ); /* 1px 下にずらす（上に上げたい場合は -1px にする） */
+  }
+
+  /* 💡 3. 【最重要】文字側の勝手な余白を完全にゼロにする */
+  .feature-text {
+    margin: 0 !important; /* 👈 ブラウザが勝手に入れる上下の隙間を強制削除 */
+    padding: 0 !important; /* 念のため内側の余白もリセット */
+    line-height: 1.5; /* 行の高さを標準的な数値に固定 */
+    display: inline-block;
+  }
+
+  .feature-yen {
+    background-color: #f5f6f6;
+    color: #666666;
+    border-radius: 50%;
+    font-weight: 700;
+    border: 1px solid #dbdfdf;
+  }
+  .feature-shield {
+    color: #cccccc;
+    font-size: 0.9rem;
+  }
+  .feature-text {
+    margin: 0;
+    font-weight: 500;
+  }
+  .modal-footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    border-top: none;
+    padding-top: 15px;
+  }
+  .close-btn {
+    background: none;
+    border: none;
+    color: #999999;
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .close-btn:hover {
+    color: #333333;
+    background-color: #f5f6f6;
+  }
+
+  @media (max-width: 600px) {
+    .contact-modal {
+      padding: 10px;
+    }
+    .modal-content {
+      padding: 25px 15px;
+      max-height: calc(100vh - 20px);
+      border-radius: 0;
+    }
+    #modalTitle {
+      font-size: 1.3rem;
+    }
+    .modal-subtitle {
+      font-size: 0.85rem;
+    }
+    .phone-card,
+    .form-card {
+      padding: 12px 15px;
+    }
+    .phone-card .card-icon,
+    .form-card .card-icon {
+      margin-right: 15px;
+      font-size: 1.4rem;
+    }
+    .phone-card .card-phone-number {
+      font-size: 1.35rem;
+    }
+    .form-card .card-title {
+      font-size: 1.05rem;
+    }
+  }
+</style>

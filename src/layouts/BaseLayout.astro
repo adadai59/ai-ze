@@ -1,0 +1,104 @@
+---
+// src/layouts/BaseLayout.astro
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import ContactModal from "../components/ContactModal.astro";
+import Footer from "../components/Footer.astro";
+//import Breadcrumb from "../components/Breadcrumb.astro";
+
+interface Props {
+  title?: string;
+  // １.パンくずを SubPageHero に移譲したため、currentPage や hasHeaderBg 等の props は不要のためコメントアウト
+  //currentPage?: string;
+  //parentLinks?: { name: string; url: string }[];
+  // 💡新しく「背景グラデーションをONにするか」のフラグを追加（デフォルトはfalse）
+  //hasHeaderBg?: boolean;
+  description?: string;
+  // 💡フッターを非表示にしたいページ（お問い合わせページ等）向けのフラグ（デフォルトは表示）
+  hideFooter?: boolean;
+  // 💡ヘッダーをロゴだけのシンプルな形にしたいページ向けのフラグ（デフォルトは通常表示）
+  simpleHeader?: boolean;
+}
+
+const {
+  title = "足立税理士事務所",
+  description = "岡山の資産税専門・足立税理士事務所。相続税申告、生前対策・贈与、譲渡所得のご相談を承ります。",
+  //１と同じ理由
+  //currentPage,
+  //parentLinks,
+  //hasHeaderBg = false,
+  hideFooter = false,
+  simpleHeader = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  </head>
+  <body>
+    <Header simple={simpleHeader} />
+    <!--１と同じ理由 -->
+    <!--{
+      currentPage && (
+        <div class={`breadcrumb-container ${hasHeaderBg ? "has-bg" : ""}`}>
+          <Breadcrumb currentPage={currentPage} parentLinks={parentLinks} />
+        </div>
+      )
+  }-->
+
+    <main class="main-content">
+      <slot />
+    </main>
+
+    {!hideFooter && <Footer />}
+    <ContactModal />
+  </body>
+</html>
+
+<style>
+  /* 💡パンくずを抜いた代わりに、メインコンテンツ全体を固定ヘッダー（64px）分だけぴったり下にずらします */
+  .main-content {
+    margin-top: 64px;
+    width: 100%;
+  }
+  /*１と同じ理由*/
+  /* .breadcrumb-container {
+    width: 100%;
+    💡デフォルトは背景なし（透明）。ヘッダーの下に潜り込まない余白だけ持たせる
+    margin-top: 64px;
+    padding-top: 15px; /* パンくずの内側上部の余白を程よく設定 
+    padding-bottom: 15px;
+    box-sizing: border-box;
+  }
+
+  💡「has-bg」クラスがついた時だけ、あの薄緑グラデーションを敷く
+  .breadcrumb-container.has-bg {
+    background: linear-gradient(135deg, #f4fafb 0%, #e6f4f4 100%);
+    padding-bottom: 0; /* 背景がある時は下のセクションとくっつけたいので微調整
+  }
+
+  .breadcrumb-container :global(.breadcrumb) {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }  */
+
+  @media (max-width: 768px) {
+    .main-content {
+      margin-top: 64px; /* スマホもヘッダーの高さに合わせる */
+    }
+    /*１と同じ理由*/
+    /*.breadcrumb-container {
+      margin-top: 64px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }*/
+  }
+</style>

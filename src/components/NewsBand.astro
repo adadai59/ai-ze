@@ -1,0 +1,229 @@
+---
+// src/components/NewsBand.astro
+// ホームのヒーロー直下に置く「お知らせ」帯。
+// 新着順（date降順）に最大3件を自動表示。0件なら帯ごと非表示。
+//
+// 表示リンクの優先順位:
+//   1. externalLink がある     → そのURLへ（別タブ）※セミナー申込など
+//   2. externalLink はないが body がある → /news/[id] の詳細ページへ
+//   3. どちらもない             → リンクなしのプレーンテキスト
+//
+// NEWバッジは公開日から14日以内なら自動表示（手動フラグは持たない）
+
+import { getAllNews, formatJSTDate, type NewsItem } from "../library/microcms";
+// 🌟 category はコラムと共有の「カテゴリ」APIを参照（コンテンツ参照）
+
+const allNews = await getAllNews();
+
+const sorted = [...allNews].sort(
+  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
+);
+
+const latest = sorted.slice(0, 3);
+
+const NEW_THRESHOLD_DAYS = 14;
+const isNewItem = (dateStr: string) => {
+  const diffDays =
+    (Date.now() - new Date(dateStr).valueOf()) / (1000 * 60 * 60 * 24);
+  return diffDays <= NEW_THRESHOLD_DAYS;
+};
+---
+
+{
+  latest.length > 0 && (
+    <section class="news-band">
+      <div class="container news-band-inner">
+        <span class="news-band-label">
+          <i class="ph-bold ph-megaphone" />
+          お知らせ
+        </span>
+
+        <ul class="news-band-list">
+          {latest.map((item: NewsItem) => {
+            const tagLabel = item.category?.name ?? "お知らせ";
+            const isNew = isNewItem(item.date);
+            const href = item.externalLink
+              ? item.externalLink
+              : item.content
+                ? `/news/${item.id}`
+                : null;
+
+            return href ? (
+              <li class="news-item">
+                <a
+                  href={href}
+                  target={item.externalLink ? "_blank" : undefined}
+                  rel={item.externalLink ? "noopener noreferrer" : undefined}
+                >
+                  <span class="news-date">
+                    {formatJSTDate(new Date(item.date))}
+                  </span>
+                  <span class="news-tag">{tagLabel}</span>
+                  <span class="news-title">{item.title}</span>
+                  {isNew && <span class="news-new">NEW</span>}
+                </a>
+              </li>
+            ) : (
+              <li class="news-item news-item--plain">
+                <span class="news-date">
+                  {formatJSTDate(new Date(item.date))}
+                </span>
+                <span class="news-tag">{tagLabel}</span>
+                <span class="news-title">{item.title}</span>
+                {isNew && <span class="news-new">NEW</span>}
+              </li>
+            );
+          })}
+        </ul>
+
+        <a href="/news" class="news-band-more">
+          一覧を見る
+          <i class="ph-bold ph-arrow-right anim-arrow" />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .news-band {
+    background: #ffffff;
+    border-top: 1px solid #e2eeee;
+    border-bottom: 1px solid #e2eeee;
+  }
+
+  .news-band-inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 20px;
+  }
+
+  .news-band-label {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    padding: 7px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .news-band-label i {
+    font-size: 14px;
+  }
+
+  .news-band-list {
+    flex: 1 1 auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .news-item {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .news-item a {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .news-date {
+    flex: 0 0 auto;
+    font-size: 13px;
+    color: #999999;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .news-tag {
+    flex: 0 0 auto;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    background: #e6f4f4;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .news-title {
+    font-size: 14.5px;
+    color: #333333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .news-item a:hover .news-title {
+    color: var(--primary-color, #0f8b8d);
+    text-decoration: underline;
+  }
+
+  .news-new {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #e11d48;
+    padding: 1px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+  }
+
+  .news-band-more {
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .news-band-more:hover {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  @media (max-width: 720px) {
+    .news-band-inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+    .news-item,
+    .news-item a {
+      flex-wrap: wrap;
+    }
+    .news-title {
+      white-space: normal;
+    }
+    .news-band-more {
+      align-self: flex-end;
+    }
+  }
+</style>

@@ -1,0 +1,292 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithIcon from "../../components/HeroWithIcon.astro";
+
+// 共通コンポーネントのインポート
+import PainSection from "../../components/services/PainSection.astro";
+import ReasonsSection from "../../components/services/ReasonsSection.astro";
+import ServiceDetailSection from "../../components/services/ServiceDetailSection.astro";
+import RecommendSection from "../../components/services/RecommendSection.astro";
+import FlowSection from "../../components/services/FlowSection.astro";
+import { advisoryFlowSteps as flowSteps } from "../../data/flowsteps/advisory";
+import FaqSection from "../../components/services/FaqSection.astro";
+
+// ==========================================
+// このページ（顧問契約）専用のデータ
+// ==========================================
+const painItems = [
+  {
+    icon: "ph-clock",
+    title: "経理業務の負担",
+    bullets: ["日々の記帳に時間を取られている", "決算のたびに慌ただしくなる"],
+  },
+  {
+    icon: "ph-question",
+    title: "税務相談",
+    bullets: ["相談したいときにすぐ相談できない", "些細な質問もしていいか迷う"],
+  },
+  {
+    icon: "ph-link",
+    title: "資産税との連携",
+    bullets: [
+      "相続や事業承継のことも相談したい",
+      "顧問税理士と別の専門家を探すのが手間",
+    ],
+  },
+  {
+    icon: "ph-chart-bar-horizontal",
+    title: "経営状況の把握",
+    bullets: [
+      "経営状況をタイムリーに把握できていない",
+      "試算表を見ても数字の意味がよく分からない",
+    ],
+  },
+];
+
+const reasonItems = [
+  {
+    icon: "ph-books",
+    title: "記帳・決算を一括対応",
+    desc: "日々の記帳代行から月次巡回監査、決算まで、経理業務をまとめてサポートします。",
+  },
+  {
+    icon: "ph-chat-circle-dots",
+    title: "いつでも相談できる体制",
+    desc: "些細な疑問でも気軽に相談いただけるよう、レスポンスの速さを大切にしています。",
+  },
+  {
+    icon: "ph-house-line",
+    title: "資産税にも精通した対応力",
+    desc: "相続・贈与・譲渡所得のご相談にも対応できるため、事業承継や資産形成のご相談も一緒にできます。",
+  },
+  {
+    icon: "ph-chart-bar-horizontal",
+    title: "経理業務の見える化",
+    desc: "試算表や月次データをもとに、経営状況をタイムリーに把握できるようサポートします。",
+  },
+];
+
+const serviceDetails = [
+  {
+    icon: "ph-list-checks",
+    title: "月次巡回監査",
+    desc: "毎月の帳簿内容を確認し、経営状況の変化をタイムリーに把握します。",
+  },
+  {
+    icon: "ph-book",
+    title: "記帳代行",
+    desc: "日々の取引の記帳を代行し、経理業務の負担を軽減します。",
+  },
+  {
+    icon: "ph-file-text",
+    title: "決算・申告書の作成",
+    desc: "決算書の作成から確定申告まで対応します。",
+  },
+  {
+    icon: "ph-chat-circle-dots",
+    title: "随時の税務相談",
+    desc: "日々の取引や税務上の疑問について、随時ご相談いただけます",
+  },
+  {
+    icon: "ph-house-line",
+    title: "資産税に関するご相談",
+    desc: "相続・贈与・譲渡所得など、資産税に関するご相談にも対応します。",
+  },
+  {
+    icon: "ph-chart-bar-horizontal",
+    title: "試算表・経営資料の提供",
+    desc: "月次試算表や経営に役立つ資料を提供し、状況把握をサポートします。",
+  },
+];
+
+const recommendItems = [
+  "法人・個人事業主の方",
+  "経理業務を外注したい方",
+  "些細なことでも気軽に相談したい方",
+  "相続・事業承継も見据えたい方",
+];
+
+const faqItems = [
+  {
+    q: "顧問契約でどこまで対応してもらえますか？？",
+    a: "月次の記帳代行・巡回監査から決算・申告書の作成まで対応します。一般的な税務相談は顧問料の範囲内で無料ですが、検討が必要な込み入ったご相談は、別途スポットで対応させていただく場合があります。",
+  },
+  {
+    q: "訪問頻度はどれくらいですか？",
+    a: "事業内容や取引量に応じて、面談時にご相談の上で決定します。オンラインでの面談にも対応しております。",
+  },
+  {
+    q: "自分で記帳していますが、顧問契約はできますか？",
+    a: "もちろん可能です。ご自身で記帳されている場合は、内容の確認やアドバイスを中心としたプランをご提案します。",
+  },
+  {
+    q: "相続や贈与の相談も一緒にできますか？",
+    a: "一般的なご相談は無料の範囲内で承ります。実際に相続税・贈与税の申告など具体的な対応が必要になった場合は、別途お見積りいたします。",
+  },
+];
+---
+
+<BaseLayout title="サービス内容 | 顧問契約 | 足立税理士事務所">
+  <HeroWithIcon
+    englishTitle="Advisory"
+    japaneseTitle="顧問契約"
+    parentLinks={[{ name: "サービス内容", url: "/services" }]}
+  >
+    <i class="ph ph-handshake" slot="icon"></i>
+  </HeroWithIcon>
+
+  {/* 各セクションをコンポーネント化してデータを渡す */}
+  <PainSection items={painItems} />
+
+  <ReasonsSection title="顧問契約で選ばれる理由" items={reasonItems} />
+
+  <ServiceDetailSection items={serviceDetails} />
+
+  <RecommendSection items={recommendItems} />
+
+  {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
+  <section class="pricing-section">
+    <div class="container">
+      <h2 class="section-title">料金の目安</h2>
+      <div class="pricing-card">
+        <p class="pricing-label">相続税申告</p>
+        <p class="pricing-amount">遺産総額の <span>0.5%</span> 〜</p>
+        <p class="pricing-note">
+          財産構成・相続人数により変動します。正式なお見積りは初回相談時にご提示いたします。
+        </p>
+        <a href="/pricing" class="btn-flow-detail">
+          料金表を詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FlowSection
+    title="ご相談から契約までの流れ"
+    steps={flowSteps}
+    showDesc={false}
+    detailUrl="/flow#advisory"
+  />
+
+  <FaqSection items={faqItems} />
+</BaseLayout>
+
+<style>
+  /* ページ全体で共通する最小限のグローバルスタイルのみ残す */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  :global(.icon-ph),
+  :global(.icon-ph-lg),
+  :global(.feature-icon-ph) {
+    color: var(--primary-color, #0f8b8d) !important;
+    display: inline-block;
+  }
+  :global(.icon-ph) {
+    font-size: 26px !important;
+  }
+  :global(.icon-ph-lg) {
+    font-size: 32px !important;
+    margin-bottom: 14px;
+  }
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    margin-bottom: 15px;
+  }
+
+  /* 料金目安セクションのスタイル */
+  .pricing-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+  .pricing-card {
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    background: #f4fafb;
+    border-radius: 12px;
+    padding: 50px 40px;
+    box-sizing: border-box;
+  }
+  .pricing-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    margin: 0 0 12px;
+  }
+  .pricing-amount {
+    font-size: 20px;
+    color: #222222;
+    margin: 0 0 16px;
+  }
+  .pricing-amount span {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 30px;
+  }
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+  @media (max-width: 768px) {
+    .pricing-section {
+      padding: 60px 0;
+    }
+    .pricing-card {
+      padding: 36px 24px;
+    }
+    .btn-flow-detail {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+</style>

@@ -1,0 +1,406 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroWithImage from "../../components/HeroWithImage.astro";
+---
+
+<BaseLayout title="サービス内容 | 足立税理士事務所">
+  <!-- 共通下層ヘッダー -->
+  <HeroWithImage
+    englishTitle="Services"
+    japaneseTitle="サービス内容"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  />
+
+  <article class="services-page-wrapper">
+    <!-- メインの3カラム：資産税特化サービス -->
+    <div class="services-grid-triple">
+      <!-- 相続税申告 -->
+      <a href="/services/inheritance" class="service-card-tall">
+        <div class="card-icon-wrapper">
+          <i class="ph ph-coins"></i>
+        </div>
+        <span class="card-title-en">Inheritance Tax</span>
+        <h2 class="card-title-ja">相続税申告</h2>
+
+        <p class="card-description">
+          元国税調査官の知見を活かし、税務署の視点を踏まえた適正かつ有利な相続税申告を行います。
+        </p>
+        <!-- 💡チェック項目を追加 -->
+        <ul class="card-features">
+          <li><i class="ph ph-check"></i>財産評価・遺産分割のご提案</li>
+          <li><i class="ph ph-check"></i>税務調査を見据えた申告書作成</li>
+          <li><i class="ph ph-check"></i>書面添付制度への対応</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-price">遺産総額の 0.5%〜</span>
+          <span class="card-link"
+            >詳しく見る <i class="ph-bold ph-arrow-right anim-arrow"></i></span
+          >
+        </div>
+      </a>
+
+      <!-- 生前対策・贈与 -->
+      <a href="/services/estate-planning" class="service-card-tall">
+        <div class="card-icon-wrapper">
+          <i class="ph ph-gift"></i>
+        </div>
+        <span class="card-title-en">Estate Planning</span>
+        <h2 class="card-title-ja">生前対策・贈与</h2>
+
+        <p class="card-description">
+          歴年贈与・相続時精算課税から各種非課税措置まで、将来の相続を見据えた計画的な贈与をサポートします。
+        </p>
+        <!-- 💡チェック項目を追加 -->
+        <ul class="card-features">
+          <li><i class="ph ph-check"></i>生前贈与シミュレーション</li>
+          <li><i class="ph ph-check"></i>贈与税申告書の作成</li>
+          <li><i class="ph ph-check"></i>各種非課税特例の活用提案</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-price">55,000円〜 / 件</span>
+          <span class="card-link"
+            >詳しく見る <i class="ph-bold ph-arrow-right anim-arrow"></i></span
+          >
+        </div>
+      </a>
+
+      <!-- 譲渡所得(不動産・株式等) -->
+      <a href="/services/capital-gains" class="service-card-tall">
+        <div class="card-icon-wrapper">
+          <i class="ph ph-chart-line-up"></i>
+        </div>
+        <span class="card-title-en">Capital Gains</span>
+        <h2 class="card-title-ja">譲渡所得(不動産・株式等)</h2>
+
+        <p class="card-description">
+          不動産の売却・買い替え、株式などの有価証券やその他資産の売却に伴う譲渡所得税の計算・申告を的確に行います。
+        </p>
+        <!-- 💡チェック項目を追加 -->
+        <ul class="card-features">
+          <li><i class="ph ph-check"></i>取得費・譲渡費用の精査</li>
+          <li><i class="ph ph-check"></i>居住用財産等の特例適用</li>
+          <li><i class="ph ph-check"></i>確定申告書の作成・提出</li>
+        </ul>
+        <div class="card-footer">
+          <span class="card-price">88,000円〜 / 件</span>
+          <span class="card-link"
+            >詳しく見る <i class="ph-bold ph-arrow-right anim-arrow"></i></span
+          >
+        </div>
+      </a>
+    </div>
+
+    <!-- 区切り線（その他のサポート） -->
+    <div class="services-divider">
+      <span>その他のサポート</span>
+    </div>
+
+    <!-- 下部の2カラム -->
+    <div class="services-grid-double">
+      <!-- 顧問契約 -->
+      <a href="/services/advisory" class="service-card-wide">
+        <div class="card-icon-wrapper">
+          <i class="ph ph-handshake"></i>
+        </div>
+        <span class="card-title-en">Advisory</span>
+        <h2 class="card-title-ja">顧問契約</h2>
+
+        <p class="card-description">
+          個人・法人のお客様に向け、税理士本人が直接対応する税務・会計の顧問業務を承ります。
+        </p>
+        <div class="card-footer">
+          <span class="card-price">月額 33,000円〜</span>
+          <span class="card-link"
+            >詳しく見る <i class="ph-bold ph-arrow-right anim-arrow"></i></span
+          >
+        </div>
+      </a>
+
+      <!-- 業務効率化支援 -->
+      <a href="/services/dx-support" class="service-card-wide">
+        <div class="card-icon-wrapper">
+          <i class="ph ph-cpu"></i>
+        </div>
+        <span class="card-title-en">DX Support</span>
+        <h2 class="card-title-ja">業務効率化支援</h2>
+
+        <p class="card-description">
+          クラウド会計の導入や経理フローの見直しで、バックオフィス業務の効率化を支援します。
+        </p>
+        <div class="card-footer">
+          <span class="card-price">お見積り</span>
+          <span class="card-link"
+            >詳しく見る <i class="ph-bold ph-arrow-right anim-arrow"></i></span
+          >
+        </div>
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  :root {
+    --font-sans:
+      "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+      Meiryo, sans-serif;
+    --font-serif:
+      "Times New Roman", "Yu Mincho", "游明朝", "MS Mincho", "ＭＳ 朝", serif;
+  }
+
+  .services-page-wrapper {
+    padding: 80px 0;
+    background-color: #ffffff;
+  }
+
+  /* --- レイアウト構造 --- */
+  .services-grid-triple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 0 auto 80px auto;
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .services-grid-double {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin: 0 auto;
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  /* --- カード共通基本設定 --- */
+  .service-card-tall,
+  .service-card-wide {
+    background: #ffffff;
+    border: 1px solid #e2e8e8;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: inherit;
+    /* コラムカードと同様の滑らかなアニメーションを設定 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  /* 上部3枚のカード（縦長） */
+  .service-card-tall {
+    padding: 40px 30px;
+  }
+
+  /* 下部2枚のカード（横長・上下幅を狭く） */
+  .service-card-wide {
+    padding: 15px 30px;
+  }
+
+  /* カードホバー時の変化（上に4px浮き上がり、影を強める） */
+  .service-card-tall:hover,
+  .service-card-wide:hover {
+    border-color: var(--primary-color, #0f8b8d);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(15, 139, 141, 0.15);
+  }
+
+  /* 💡ホバー時に「詳しく見る」の文字色を変え、矢印を動かす */
+  .service-card-tall:hover .card-link,
+  .service-card-wide:hover .card-link {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  /* アイコン */
+  .card-icon-wrapper {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-icon-wrapper i {
+    font-size: 40px;
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  .service-card-wide .card-icon-wrapper {
+    margin-bottom: 15px;
+  }
+
+  /* タイトル */
+  .card-title-ja {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    color: #222222;
+    font-weight: bold;
+    /* 変更：下の余白（4px → 16px）を広げて、文章との間隔を確保 */
+    margin: 0 0 16px 0;
+    letter-spacing: 0.02em;
+  }
+
+  .card-title-en {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--primary-color, #0f8b8d);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    display: block;
+    /* 変更：下の余白（5px → 8px）を少し広げて、日本語タイトルとのバランスを整える */
+    margin-bottom: 5px;
+  }
+
+  .service-card-wide .card-title-en {
+    margin-bottom: 12px;
+  }
+
+  /* 説明文（左寄せ） */
+  .card-description {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    color: #555555;
+    line-height: 1.7;
+    margin: 0 0 20px 0; /* 下のチェックリストとの余白を調整 */
+    text-align: left;
+    width: 100%;
+  }
+
+  .service-card-wide .card-description {
+    margin-bottom: 20px;
+  }
+
+  /* 💡チェック項目リストのスタイル（左寄せ配置） */
+  .card-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    width: 100%;
+    text-align: left;
+  }
+
+  .card-features li {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #444444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .card-features li:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-features li i {
+    color: var(--primary-color, #0f8b8d);
+    font-size: 15px;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  /* --- カードフッター --- */
+  .card-footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid #e2e8e8; /* 濃くした線に統一 */
+    padding-top: 20px;
+  }
+
+  /* 金額サイズ (20px) */
+  .card-price {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: #222222;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+  }
+
+  /* 詳しく見る（標準時は黒系、ホバー色切り替え用にtransitionを追加） */
+  .card-link {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: #222222;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.3s ease;
+  }
+
+  /* --- 中間の区切り線 --- */
+  .services-divider {
+    text-align: center;
+    position: relative;
+    margin: 40px auto 60px auto;
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .services-divider::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 50%;
+    height: 1px;
+    background-color: #e2e8e8;
+    z-index: 1;
+  }
+
+  .services-divider span {
+    position: relative;
+    z-index: 2;
+    background-color: #ffffff;
+    padding: 0 20px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: #777777;
+    letter-spacing: 0.1em;
+  }
+
+  /* --- レスポンシブ設計 --- */
+  @media (max-width: 1024px) {
+    .services-grid-triple {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .services-page-wrapper {
+      padding: 50px 0;
+    }
+    .services-grid-triple,
+    .services-grid-double {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .service-card-tall {
+      padding: 35px 25px;
+    }
+    .service-card-wide {
+      padding: 25px 20px;
+    }
+    .services-grid-triple {
+      margin-bottom: 50px;
+    }
+    .card-link {
+      color: var(--primary-color, #0f8b8d);
+      transition: color 0.3s ease;
+    }
+  }
+</style>

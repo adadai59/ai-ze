@@ -1,0 +1,51 @@
+// 生前対策・贈与：ご相談から申告までの流れ
+export const estatePlanningFlowSteps = [
+  {
+    step: 1,
+    icon: "ph-chats-circle",
+    title: "お問い合わせ・ご相談",
+    desc: "まずはお気軽にお問い合わせください。初回相談無料です。",
+    duration: "即日〜数日",
+    prep: "特になし",
+  },
+  {
+    step: 2,
+    icon: "ph-clipboard-text",
+    title: "ヒアリング",
+    desc: "ご家族の状況や資産内容を丁寧にヒアリングします。",
+    duration: "1週間程度",
+    prep: "家族構成、財産の概要が分かる資料",
+  },
+  {
+    step: 3,
+    icon: "ph-chart-line",
+    title: "贈与税シミュレーション・プランのご提案",
+    desc: "贈与税・相続税を比較試算し、ご家族に合った贈与プランをご提案します。",
+    duration: "2週間程度",
+    prep: "特になし",
+  },
+  {
+    step: 4,
+    icon: "ph-signature",
+    title: "ご契約",
+    desc: "プラン内容にご納得いただけましたら、正式にご契約となります。",
+    duration: "即日",
+    prep: "認印",
+  },
+  {
+    step: 5,
+    icon: "ph-pencil-line",
+    title: "贈与契約書の作成・実行支援",
+    desc: "贈与契約書の作成や、不動産・自社株の名義変更に必要な書類収集をサポートします。",
+    duration: "2〜4週間",
+    prep: "贈与財産に関する資料（登記簿謄本等）",
+  },
+  {
+    step: 6,
+    icon: "ph-calendar-check",
+    title: "贈与税申告・継続フォロー",
+    desc: "必要に応じて贈与税申告を代行し、翌年以降の贈与計画まで継続的にサポートします。",
+    duration: "翌年の申告期限まで継続",
+    prep: "特になし",
+  },
+];

@@ -1,0 +1,310 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroWithImage from "../components/HeroWithImage.astro";
+import FlowSection from "../components/services/FlowSection.astro";
+
+// 各サービスの「流れ」データは、サービスページと共通のデータソースを参照する。
+// （内容の二重管理を避けるため、データ本体は src/data/flowSteps/ に一本化している）
+import { inheritanceFlowSteps } from "../data/flowsteps/inheritance";
+import { estatePlanningFlowSteps } from "../data/flowsteps/estate-planning";
+import { capitalGainsFlowSteps } from "../data/flowsteps/capital-gains";
+import { advisoryFlowSteps } from "../data/flowsteps/advisory";
+import { dxSupportFlowSteps } from "../data/flowsteps/dx-support";
+---
+
+<BaseLayout title="ご依頼の流れ | 足立税理士事務所">
+  <HeroWithImage
+    englishTitle="Flow"
+    japaneseTitle="ご依頼の流れ"
+    bgImageUrl="/images/dane-deaner-_-KLkj7on_c-unsplash.jpg"
+  >
+    <nav class="page-toc">
+      <ul>
+        <li><a href="#inheritance">相続税申告</a></li>
+        <li><a href="#estate-planning">生前対策・贈与</a></li>
+        <li><a href="#capital-gains">譲渡所得</a></li>
+        <li><a href="#advisory">顧問契約</a></li>
+        <li><a href="#dx-support">業務効率化支援</a></li>
+      </ul>
+    </nav>
+  </HeroWithImage>
+
+  <!-- 1. 相続税申告 -->
+  <div id="inheritance" class="flow-service-block">
+    <div class="container">
+      <h2 class="sub-section-title">相続税申告</h2>
+      <p class="flow-intro-text">
+        相続税申告は、相続開始から10ヶ月以内に完了させる必要がある、期限が明確に定められたご依頼です。財産の内容によって必要な期間が変わるため、早めのご相談をおすすめします。
+      </p>
+    </div>
+    <FlowSection
+      title="相続税申告の流れ"
+      steps={inheritanceFlowSteps}
+      detailed={true}
+      transparent={true}
+    />
+    <div class="container">
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 生前対策・贈与 -->
+  <div id="estate-planning" class="flow-service-block alt-bg">
+    <div class="container">
+      <h2 class="sub-section-title">生前対策・贈与</h2>
+      <p class="flow-intro-text">
+        生前対策・贈与は、単発の手続きではなく、数年単位で継続的にご提案していく性質のご依頼です。早く始めるほど選べる対策の幅が広がります。
+      </p>
+    </div>
+    <FlowSection
+      title="生前対策・贈与の流れ"
+      steps={estatePlanningFlowSteps}
+      detailed={true}
+      transparent={true}
+    />
+    <div class="container">
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 譲渡所得 -->
+  <div id="capital-gains" class="flow-service-block">
+    <div class="container">
+      <h2 class="sub-section-title">譲渡所得（不動産・株式等）</h2>
+      <p class="flow-intro-text">
+        譲渡所得は、売却前のご相談によって選べる特例や節税の余地が大きく変わる、タイミングが重要なご依頼です。
+      </p>
+    </div>
+    <FlowSection
+      title="譲渡所得の流れ"
+      steps={capitalGainsFlowSteps}
+      detailed={true}
+      transparent={true}
+    />
+    <div class="container">
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 顧問契約 -->
+  <div id="advisory" class="flow-service-block alt-bg">
+    <div class="container">
+      <h2 class="sub-section-title">顧問契約</h2>
+      <p class="flow-intro-text">
+        顧問契約は、単発の依頼ではなく、契約後も継続的にサポートを行う伴走型のご依頼です。
+      </p>
+    </div>
+    <FlowSection
+      title="顧問契約の流れ"
+      steps={advisoryFlowSteps}
+      detailed={true}
+      transparent={true}
+    />
+    <div class="container">
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 業務効率化支援 -->
+  <div id="dx-support" class="flow-service-block">
+    <div class="container">
+      <h2 class="sub-section-title">業務効率化支援</h2>
+      <p class="flow-intro-text">
+        業務効率化支援は、導入して終わりではなく、運用が定着するまでを一緒に進めるご依頼です。
+      </p>
+    </div>
+    <FlowSection
+      title="業務効率化支援の流れ"
+      steps={dxSupportFlowSteps}
+      detailed={true}
+      transparent={true}
+    />
+    <div class="container">
+      <div class="back-to-top-wrapper">
+        <a href="#" class="back-to-top-link">
+          <i class="ph-bold ph-caret-up"></i> ページ上部へ戻る
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 見出しの下線ルール（about.astro / pricing.astroと共通） */
+  .sub-section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222;
+    margin-top: 0;
+    margin-bottom: 24px;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    font-weight: bold;
+  }
+  .sub-section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+
+  /* 💡変更：導入文・FlowSection・トップへ戻るリンクをまとめて1つの背景色ブロックにする */
+  .flow-service-block {
+    padding: 60px 0 30px;
+    background-color: #ffffff;
+  }
+  .flow-service-block.alt-bg {
+    background-color: #f4fafb;
+  }
+
+  .flow-intro-text {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.8;
+  }
+
+  /* ページ内目次（about.astro / pricing.astroと共通） */
+  .page-toc {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .page-toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px 24px;
+  }
+  .page-toc li {
+    margin: 0;
+  }
+  .page-toc a {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--primary-color, #0f8b8d);
+    text-decoration: none;
+    padding: 6px 16px;
+    background-color: #ffffff;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    border-radius: 20px;
+    transition: all 0.25s ease;
+    font-weight: 500;
+  }
+  .page-toc a:hover {
+    background-color: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+    border-color: var(--primary-color, #0f8b8d);
+    transform: translateY(-1px);
+  }
+
+  div[id] {
+    scroll-margin-top: 100px;
+  }
+
+  /* 👇 中途半端な画面幅（1024px以下）でボタンが1個だけ孤立して折り返すのを防ぐ */
+  @media (max-width: 1024px) {
+    .page-toc ul {
+      gap: 10px 16px;
+    }
+    .page-toc a {
+      font-size: 13px;
+      padding: 6px 14px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page-toc {
+      margin-top: 20px;
+      padding: 0 10px;
+    }
+    .page-toc ul {
+      gap: 10px 12px;
+    }
+    .page-toc a {
+      font-size: 13px;
+      padding: 5px 12px;
+    }
+  }
+
+  /* 「ページ上部へ戻る」（about.astro / pricing.astroと共通） */
+  .back-to-top-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+    padding: 20px 0 0;
+    width: 100%;
+  }
+  .back-to-top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #424242;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    padding: 5px 0;
+  }
+  .back-to-top-link i {
+    font-size: 14px;
+    transition: transform 0.2s ease;
+  }
+  .back-to-top-link:hover {
+    color: var(--primary-color, #0f8b8d);
+  }
+  .back-to-top-link:hover i {
+    transform: translateY(-3px);
+  }
+
+  @media (max-width: 768px) {
+    .sub-section-title {
+      font-size: 24px;
+    }
+    .flow-service-block {
+      padding: 40px 0 20px;
+    }
+    .back-to-top-wrapper {
+      padding: 12px 0 0;
+    }
+    .back-to-top-link {
+      font-size: 13px;
+      padding: 8px 0;
+    }
+  }
+</style>

@@ -1,0 +1,226 @@
+---
+// src/pages/disclaimer.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="免責事項 | 足立税理士事務所">
+  <section class="disclaimer-page-header">
+    <div class="disclaimer-page-header-inner">
+      <div class="disclaimer-icon-wrapper">
+        <i class="ph ph-warning-circle"></i>
+      </div>
+      <h1 class="disclaimer-page-title">免責事項</h1>
+      <p class="disclaimer-page-lead">
+        当サイトのご利用にあたり、あらかじめ以下の内容をご確認ください。
+      </p>
+    </div>
+  </section>
+
+  <article class="disclaimer-article">
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">1</span>掲載情報について</h2>
+      <p>
+        当サイトでは、正確な情報を掲載するよう努めていますが、その正確性、完全性、最新性を保証するものではありません。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">2</span>損害等の責任</h2>
+      <p>
+        当サイトに掲載された情報を利用したことにより生じたいかなる損害についても、当事務所は責任を負いかねます。
+      </p>
+      <p>
+        また、税制や法令は改正されることがありますので、具体的なご相談については個別にお問い合わせください。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2>
+        <span class="disclaimer-num">3</span>専門的な税務相談との違いについて
+      </h2>
+      <p>
+        当サイトに掲載しているコラム記事その他の情報は、一般的な情報提供を目的としたものであり、個別の税務判断や申告内容を保証するものではありません。
+      </p>
+      <p>
+        実際の申告その他税務に関するご判断にあたっては、必ず当事務所又は税理士等の専門家に個別にご相談のうえ対応してください。当サイトの情報のみに基づいて行われた行為により生じた損害について、当事務所は責任を負いかねます。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">4</span>外部リンクについて</h2>
+      <p>
+        当サイトからリンクしている外部サイトの内容について、当事務所は責任を負いません。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">5</span>サイトの運営・保守について</h2>
+      <p>
+        当事務所は、システムの保守・点検、通信回線の障害その他やむを得ない事由により、予告なく当サイトの全部又は一部の提供を中断又は停止する場合があります。これにより生じたいかなる損害についても、当事務所は責任を負いかねます。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">6</span>著作権について</h2>
+      <p>
+        当サイトに掲載している文章、画像、その他のコンテンツの著作権は、当事務所または正当な権利者に帰属します。
+      </p>
+      <p>法令で認められる場合を除き、無断転載・複製・改変等を禁止します。</p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">7</span>準拠法及び合意管轄</h2>
+      <p>
+        本免責事項の解釈及び適用にあたっては、日本法を準拠法とします。当サイトのご利用に関して当事務所とお客様との間で紛争が生じた場合には、〇〇地方裁判所を第一審の専属的合意管轄裁判所とします。
+      </p>
+    </section>
+
+    <section class="disclaimer-section">
+      <h2><span class="disclaimer-num">8</span>免責事項の変更</h2>
+      <p>本免責事項は、必要に応じて予告なく変更する場合があります。</p>
+    </section>
+
+    <p class="disclaimer-established">制定日：20〇〇年〇月〇日</p>
+  </article>
+</BaseLayout>
+
+<style>
+  :root {
+    --font-sans:
+      "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+      Meiryo, sans-serif;
+  }
+
+  /* --- ページ上部（画像なしのシンプルな見出しセクション） --- */
+  .disclaimer-page-header {
+    background-color: #f4fafb;
+    border-bottom: 1px solid #e2eeee;
+    padding: 70px 20px 36px;
+    text-align: center;
+  }
+  .disclaimer-page-header-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .disclaimer-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background-color: #ffffff;
+    border: 1px solid #0f8b8d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  .disclaimer-icon-wrapper i {
+    color: var(--primary-color, #0f8b8d);
+    font-size: 30px;
+  }
+  .disclaimer-page-title {
+    font-family: var(--font-sans);
+    font-size: 32px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.03em;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .disclaimer-page-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+  .disclaimer-page-lead {
+    font-family: var(--font-sans);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #555555;
+    margin: 0;
+  }
+
+  /* --- 本文 --- */
+  .disclaimer-article {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 20px 100px;
+    font-family: var(--font-sans);
+    color: #333333;
+    line-height: 1.9;
+    font-size: 15px;
+  }
+
+  .disclaimer-section {
+    margin-bottom: 36px;
+  }
+  .disclaimer-section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .disclaimer-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0 0 14px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2eeee;
+  }
+
+  .disclaimer-num {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .disclaimer-section p {
+    margin: 0 0 12px 0;
+  }
+  .disclaimer-section p:last-child {
+    margin-bottom: 0;
+  }
+
+  .disclaimer-established {
+    margin: 48px 0 0 0;
+    padding-top: 20px;
+    border-top: 1px solid #e2eeee;
+    font-size: 13.5px;
+    color: #888888;
+    text-align: right;
+  }
+
+  /* --- スマホ対応 --- */
+  @media (max-width: 768px) {
+    .disclaimer-page-header {
+      padding: 60px 20px 30px;
+    }
+    .disclaimer-page-title {
+      font-size: 26px;
+    }
+    .disclaimer-article {
+      padding: 40px 20px 70px;
+      font-size: 14.5px;
+    }
+    .disclaimer-section h2 {
+      font-size: 16px;
+    }
+  }
+</style>

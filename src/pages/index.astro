@@ -1,0 +1,1395 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllColumns, formatJSTDate } from "../library/microcms"; // 🌟 追加
+import NewsBand from "../components/NewsBand.astro"; // ← 追加
+
+export const prerender = true; // 🌟 これを追加
+
+// 👇 最新のコラムを3件取得する処理
+const allColumns = await getAllColumns();
+const latestColumns = [...allColumns]
+  .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+  .slice(0, 3);
+---
+
+<BaseLayout title="足立税理士事務所 | 資産税に特化税理士事務所">
+  <section class="main-visual">
+    <div class="mv-container">
+      <div class="mv-content">
+        <p class="mv-tagline">元国税調査官だからこその専門性</p>
+        <h2 class="mv-title">
+          相続・贈与・譲渡所得を<br />安心してお任せください
+        </h2>
+        <p class="mv-desc">
+          相続税調査・財産評価など、国税で培った豊富な実務経<br
+          />験を活かし、相続税申告から生前対策まで、お客様一人<br
+          />ひとりに合わせて丁寧に対応いたします。
+        </p>
+
+        <div class="mv-cta-area">
+          <button type="button" class="btn-main-contact js-contact-btn">
+            お問い合わせはこちら
+          </button>
+
+          <div class="mv-benefits">
+            <span class="benefit-item">
+              <i class="ph-bold ph-currency-jpy icon-ph"></i> 初回相談無料
+            </span>
+            <span class="benefit-item">
+              <i class="ph-bold ph-clock icon-ph"></i> 相続税の不安を30分で整理
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<NewsBand />  <!-- ← ここに追加 -->
+  
+<section class="features">
+    <div class="features-header">
+  <h2 class="section-title">安心してご相談いただける理由</h2>
+</div>
+
+    <div class="features-container container">
+      <div class="feature-card">
+        <i class="ph-bold ph-user-focus feature-icon-ph"></i>
+        <h3>元国税調査官</h3>
+        <p>
+          税務署の調査・審査の視点を踏まえ、
+          実務に即したアドバイスをご提供します。
+        </p>
+      </div>
+      <div class="feature-card">
+        <i class="ph-bold ph-house-line feature-icon-ph"></i>
+        <h3>資産税に特化</h3>
+        <p>相続税・贈与税・譲渡所得を専門に 豊富な実務経験で対応します。</p>
+      </div>
+      <div class="feature-card">
+        <i class="ph-bold ph-globe feature-icon-ph"></i>
+        <h3>オンラインで全国対応</h3>
+        <p>Zoom等によるオンライン相談で 全国どこからでもご相談いただけます。</p>
+      </div>
+      <div class="feature-card">
+        <i class="ph-bold ph-certificate feature-icon-ph"></i>
+        <h3>税理士本人が直接対応</h3>
+        <p>ご相談から申告まで 税理士本人が責任をもって対応します。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="container">
+      <h2 class="section-title">資産税に特化したサービス</h2>
+
+      <!-- 上段：3カラム（カードサイズ維持、ホバー時の上下幅をタイトに） -->
+      <div class="services-grid-simple">
+        <a href="/services/inheritance" class="service-card-simple">
+          <div class="service-content-inner">
+            <div class="service-icon-wrap">
+              <i class="ph-bold ph-coins"></i>
+            </div>
+            <h3>相続税</h3>
+            <p class="service-hover-text">
+              確かな実務経験に基づき、適正かつスムーズな相続税の申告をサポートいたします。
+            </p>
+            <div class="service-more-text">
+              詳しく見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </div>
+          </div>
+        </a>
+        <a href="/services/estate-planning" class="service-card-simple">
+          <div class="service-content-inner">
+            <div class="service-icon-wrap">
+              <i class="ph-bold ph-gift"></i>
+            </div>
+            <h3>生前対策・贈与</h3>
+            <p class="service-hover-text">
+              将来のトラブルを防ぎ、最適な資産承継を行うための具体的なプランをご提案します。
+            </p>
+            <div class="service-more-text">
+              詳しく見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </div>
+          </div>
+        </a>
+        <a href="/services/capital-gains" class="service-card-simple">
+          <div class="service-content-inner">
+            <div class="service-icon-wrap">
+              <i class="ph-bold ph-chart-line-up"></i>
+            </div>
+            <h3>譲渡所得（不動産・株式等）</h3>
+            <p class="service-hover-text">
+              不動産の売却・買い替え、株式などの有価証券やその他資産の売却に伴う譲渡所得の計算・申告を的確に行います。
+            </p>
+            <div class="service-more-text">
+              詳しく見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 中段：区切りテキスト -->
+      <div class="services-divider">
+        <span>その他のサポート</span>
+      </div>
+
+      <!-- 下段：2カラム（縦幅をスリムに、ホバー時の上下幅をさらにタイトに） -->
+      <div class="services-grid-btn">
+        <a href="/services/advisory" class="service-card-bottom">
+          <div class="service-content-inner">
+            <h3>顧問契約</h3>
+            <p class="service-hover-text">
+              税務のパートナーとして、日々の取引確認から決算・申告、経営相談までサポートします。
+            </p>
+            <div class="service-more-text">
+              詳しく見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </div>
+          </div>
+        </a>
+        <a href="/services/dx-support" class="service-card-bottom">
+          <div class="service-content-inner">
+            <h3>業務効率化支援</h3>
+            <p class="service-hover-text">
+              クラウド会計ソフトの導入やペーパーレス化など、バックオフィスのデジタル化を支援します。
+            </p>
+            <div class="service-more-text">
+              詳しく見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="flow-section">
+    <div class="container">
+      <h2 class="section-title">ご相談から申告までの流れ</h2>
+      <div class="flow-steps">
+        <!-- STEP 01 -->
+        <div class="step">
+          <div class="step-visual">
+            <div class="step-number-circle">1</div>
+            <div class="step-icon-circle">
+              <i class="ph-bold ph-chats-circle"></i>
+            </div>
+          </div>
+          <h3 class="step-title">お問い合わせ・ご相談</h3>
+        </div>
+
+        <div class="step-arrow"><i class="ph-bold ph-caret-right"></i></div>
+
+        <!-- STEP 02 -->
+        <div class="step">
+          <div class="step-visual">
+            <div class="step-number-circle">2</div>
+            <div class="step-icon-circle">
+              <i class="ph-bold ph-clipboard-text"></i>
+            </div>
+          </div>
+          <h3 class="step-title">ヒアリング・お見積り</h3>
+        </div>
+
+        <div class="step-arrow"><i class="ph-bold ph-caret-right"></i></div>
+
+        <!-- STEP 03 -->
+        <div class="step">
+          <div class="step-visual">
+            <div class="step-number-circle">3</div>
+            <div class="step-icon-circle">
+              <i class="ph-bold ph-signature"></i>
+            </div>
+          </div>
+          <h3 class="step-title">ご契約・資料収集</h3>
+        </div>
+
+        <div class="step-arrow"><i class="ph-bold ph-caret-right"></i></div>
+
+        <!-- STEP 04 -->
+        <div class="step">
+          <div class="step-visual">
+            <div class="step-number-circle">4</div>
+            <div class="step-icon-circle">
+              <i class="ph-bold ph-pencil-line"></i>
+            </div>
+          </div>
+          <h3 class="step-title">申告書作成・確認</h3>
+        </div>
+
+        <div class="step-arrow"><i class="ph-bold ph-caret-right"></i></div>
+
+        <!-- STEP 05 -->
+        <div class="step">
+          <div class="step-visual">
+            <div class="step-number-circle">5</div>
+            <div class="step-icon-circle">
+              <i class="ph-bold ph-building-office"></i>
+            </div>
+          </div>
+          <h3 class="step-title">申告・納付</h3>
+        </div>
+      </div>
+
+      <div class="flow-cta-wrap">
+        <a href="/flow" class="btn-flow-detail">
+          ご依頼の流れを詳しく見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="latest-columns-section">
+    <div class="container">
+      <h2 class="section-title">最新のコラム</h2>
+
+     <!-- 最新のコラム -->
+      <div class="columns-grid">
+        {
+          latestColumns.map((entry) => {
+             const dateLabel = formatJSTDate(new Date(entry.date));
+const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
+            const isUpdated = updatedLabel !== dateLabel;
+
+            return (
+              <a href={`/column/${entry.id}`} class="column-card">
+                <!-- 写真部分 -->
+                <div class="column-image-wrap">
+                  <img
+                    src={entry.eyecatch?.url}
+                    alt=""
+                    loading="lazy"
+                    width="400"
+                    height="300"
+                  />
+                </div>
+                <!-- カテゴリ -->
+                <div class="column-meta">
+                  <span class="column-category">{entry.category?.name ?? "未分類"}</span>
+                </div>
+                <!-- タイトル -->
+                <h3>{entry.title}</h3>
+                <!-- 導入部分（抜粋文） -->
+                <p class="column-excerpt">{entry.excerpt}</p>
+                <!-- 日付 -->
+                <p class="column-date">
+                  {dateLabel}
+                  {isUpdated && (
+                    <span class="column-date-updated">（更新：{updatedLabel}）</span>
+                  )}
+                </p>
+              </a>
+            );
+          })
+        }
+      </div>
+
+      <div class="column-cta-wrap">
+        <a href="/column" class="btn-column-detail">
+          コラム一覧を見る
+          <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-faq-section">
+    <div class="container info-faq-grid">
+      <div class="office-info">
+        <h3 class="sub-section-title">
+          どんな税理士が対応するのか、気になりませんか?
+        </h3>
+        <div class="home-about-intro-content">
+          <p class="home-about-lead-text">
+            代表税理士のプロフィール・事務所の想いをご紹介しています。
+          </p>
+          <div class="home-about-btn-wrap">
+            <a href="/about" class="home-about-link-btn">
+              事務所紹介ページを見る
+              <i class="ph-bold ph-arrow-right btn-arrow-icon anim-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-area">
+        <h3 class="sub-section-title">よくある質問</h3>
+        <div class="faq-list">
+          <div class="faq-item">
+            <p class="faq-q"><span>Q.</span> 初回相談は無料ですか？</p>
+            <p class="faq-a">
+              はい、初回のご相談（30分程度）は無料で承っております。まずはお気軽にお問い合わせください。
+            </p>
+          </div>
+          <div class="faq-item">
+            <p class="faq-q">
+              <span>Q.</span> 遠方からの相談でも大丈夫ですか？
+            </p>
+            <p class="faq-a">
+              はい、オンライン（Zoom等）を用いて全国どこの地域からでもご相談・ご依頼が可能です。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ==========================================
+      メインビジュアル
+     ========================================== */
+  .main-visual {
+    width: 100%;
+    height: 680px;
+    margin-top: -64px;
+    padding-top: 64px;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.95) 25%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      url("/images/premium_photo-1680190485141-f2f75f45fe0e.avif") no-repeat
+        center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .mv-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mv-content {
+    max-width: 580px;
+  }
+
+  .mv-tagline {
+    font-size: 25px;
+    color: var(--primary-color, #0f8b8d) !important;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .mv-title {
+    font-size: 35px;
+    color: #222222 !important;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+
+  .mv-desc {
+    font-size: 16px;
+    color: #444444 !important;
+    margin-bottom: 35px;
+    line-height: 1.8;
+  }
+
+  .mv-cta-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-main-contact {
+    margin: 0;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+    text-decoration: none;
+    text-align: center;
+    padding: 18px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 128, 128, 0.25);
+    transition:
+      background 0.3s,
+      transform 0.2s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .btn-main-contact:hover {
+    background: #0b6f72;
+    transform: translateY(-2px);
+  }
+
+  .mv-benefits {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #444444;
+    font-weight: 500;
+    padding-left: 5px;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .benefit-item i {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    margin-top: -3px;
+  }
+
+  /* ==========================================
+      共通コンテナ設定
+     ========================================== */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 28px;
+    color: #222222;
+    font-weight: bold;
+    position: relative;
+    display: block;
+    padding-bottom: 15px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+
+  .section-title::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--primary-color, #0f8b8d);
+    border-radius: 2px;
+  }
+
+  /* ==========================================
+      1. 安心してご相談いただける理由
+     ========================================== */
+  .features {
+    background: #f4fafb;
+    padding: 80px 0;
+  }
+
+  .features-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .features-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 30px;
+    position: relative;
+  }
+
+  .feature-card:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: #e5e5e5;
+  }
+
+  .feature-card h3 {
+    font-size: 18px;
+    color: #222;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  :global(.icon-ph) {
+    font-size: 18px !important;
+    color: #008080 !important;
+    display: inline-block;
+  }
+
+  :global(.feature-icon-ph) {
+    font-size: 40px !important;
+    color: #008080 !important;
+    margin-bottom: 15px;
+    display: inline-block;
+  }
+
+  /* ==========================================
+      2. 資産税に特化したサービス
+     ========================================== */
+  .services-section {
+    background: #ffffff;
+    padding: 120px 0 100px;
+  }
+
+  .services-grid-simple,
+  .services-grid-btn {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .services-grid-simple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .service-card-simple {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .service-card-simple .service-content-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 30px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .service-card-simple:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 128, 128, 0.1);
+    border-color: var(--primary-color, #0f8b8d);
+  }
+
+  .service-card-simple .service-icon-wrap {
+    font-size: 40px;
+    color: var(--primary-color, #0f8b8d);
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: scale(1);
+  }
+  .service-card-simple:hover .service-icon-wrap {
+    opacity: 0;
+    transform: scale(0);
+    margin-bottom: 0;
+    height: 0;
+  }
+
+  .service-card-simple h3 {
+    font-size: 19px;
+    font-weight: bold;
+    color: #222222;
+    margin: 0;
+    transform: translateY(-8px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: center;
+    width: 100%;
+  }
+  .service-card-simple:hover h3 {
+    transform: translateY(-65px);
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  .service-card-simple .service-hover-text {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 64px;
+    font-size: 13px;
+    color: #444444;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    visibility: hidden;
+  }
+  .service-card-simple:hover .service-hover-text {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .service-more-text {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #222222;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin: 0;
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease;
+  }
+
+  .service-card-simple .service-more-text {
+    bottom: 22px;
+  }
+
+  .service-card-simple:hover .service-more-text,
+  .service-card-bottom:hover .service-more-text {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  /* ==========================================
+      中段：中央区切りテキスト
+     ========================================== */
+  .services-divider {
+    text-align: center;
+    margin: 40px 0 24px;
+    position: relative;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .services-divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #e5e5e5;
+    z-index: 0;
+  }
+
+  .services-divider span {
+    font-size: 14px;
+    color: #777777;
+    background: #ffffff;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+    font-weight: bold;
+  }
+
+  /* ==========================================
+      下段：2カラム（縦幅コンパクト）
+     ========================================== */
+  .services-grid-btn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+
+  .service-card-bottom {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    text-decoration: none;
+    display: block;
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .service-card-bottom .service-content-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 15px 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .service-card-bottom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 128, 128, 0.1);
+    border-color: var(--primary-color, #0f8b8d);
+  }
+
+  .service-card-bottom h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222222;
+    margin: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: center;
+    width: 100%;
+  }
+
+  .service-card-bottom:hover h3 {
+    transform: translateY(-30px);
+    color: var(--primary-color, #0f8b8d);
+    font-size: 14px;
+  }
+
+  .service-card-bottom .service-hover-text {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    top: 38px;
+    font-size: 13px;
+    color: #444444;
+    line-height: 1.4;
+    text-align: left;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    visibility: hidden;
+  }
+  .service-card-bottom:hover .service-hover-text {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .service-card-bottom .service-more-text {
+    bottom: 7px;
+  }
+
+  /* ==========================================
+      3. ご相談から申告までの流れ
+     ========================================== */
+  .flow-section {
+    background: #f4fafb;
+    padding: 120px 0 80px;
+  }
+
+  .flow-steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 5px;
+    max-width: 1050px;
+    margin: 0 auto;
+  }
+
+  .step {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 5px;
+  }
+
+  .step-visual {
+    position: relative;
+    margin-bottom: 25px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .step-number-circle {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 26px;
+    background: #008080;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .step-icon-circle {
+    width: 90px;
+    height: 90px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #008080;
+    font-size: 34px;
+    z-index: 1;
+    box-shadow: 0 4px 10px rgba(0, 128, 128, 0.04);
+  }
+
+  .step-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222222;
+    margin: 0 0 12px 0;
+    white-space: nowrap;
+  }
+
+  .step-description {
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+    padding: 0 4px;
+  }
+
+  .step-arrow {
+    color: #b5b5b5;
+    font-size: 18px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .flow-cta-wrap {
+    text-align: center;
+    margin-top: 45px;
+  }
+
+  .btn-flow-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+
+  .btn-flow-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+
+  /* ==========================================
+      4. 最新のコラム
+     ========================================== */
+  .latest-columns-section {
+    background: #ffffff;
+    padding: 80px 0;
+  }
+
+  .columns-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .column-card {
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .column-card:hover {
+    border-color: var(--primary-color, #0f8b8d);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(15, 139, 141, 0.15);
+  }
+
+  /* 写真用ラッパー（コラム一覧ページと統一：4:3のアスペクト比） */
+  .column-image-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    background: #f4fafb;
+    border: 1px solid #eaeaea;
+  }
+
+  .column-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .column-card:hover .column-image-wrap img {
+    transform: scale(1.03);
+  }
+  
+  .column-meta {
+    margin-bottom: 12px;
+  }
+
+  .column-category {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--primary-color, #0f8b8d);
+    background: #e6f4f4;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  /* タイトル */
+  .column-card h3 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222222;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+    transition: color 0.3s;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .column-card:hover h3 {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  /* 導入文 */
+  .column-excerpt {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .column-date {
+    font-size: 13px;
+    color: #888888;
+    margin: 0;
+  }
+  .column-date-updated {
+    font-size: 12px;
+    color: #aaaaaa;
+    margin-left: 4px;
+  }
+
+  .column-cta-wrap {
+    text-align: center;
+    margin-top: 45px;
+  }
+
+  .btn-column-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 12px 45px;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s;
+    min-width: 150px;
+  }
+
+  .btn-column-detail:hover {
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+  }
+
+  /* ==========================================
+      5. 事務所概要 & よくある質問
+     ========================================== */
+  .info-faq-section {
+    background: #f4fafb;
+    padding: 80px 0;
+    width: 100%;
+  }
+
+  .info-faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+  }
+
+  .sub-section-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e5e5;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .faq-item {
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .faq-q {
+    font-size: 15px;
+    font-weight: bold;
+    color: #222;
+    margin: 0 0 10px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .faq-q span {
+    color: var(--primary-color, #0f8b8d);
+  }
+
+  .faq-a {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .home-about-lead-text {
+    font-size: 14px;
+    color: #555555;
+    margin-top: 0;
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  .home-about-btn-wrap {
+    text-align: left;
+  }
+
+  .home-about-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid var(--primary-color, #0f8b8d);
+    color: var(--primary-color, #0f8b8d) !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 14px 40px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    background-color: #ffffff !important;
+    min-width: 150px;
+  }
+
+  .home-about-link-btn:hover {
+    background: var(--primary-color, #0f8b8d) !important;
+    color: #ffffff !important;
+  }
+
+  /* ==========================================
+      【追加】タブレット・中画面サイズでの重なり・改行防止
+     ========================================== */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .service-card-simple h3 {
+      font-size: 16px !important;
+      white-space: nowrap !important;
+      letter-spacing: -0.5px;
+    }
+
+    .service-card-simple:hover h3 {
+      transform: translateY(-60px) !important;
+    }
+
+    .service-card-simple .service-hover-text {
+      bottom: 54px !important;
+      font-size: 12px !important;
+      line-height: 1.5 !important;
+    }
+
+    .service-card-simple .service-more-text {
+      bottom: 12px !important;
+    }
+    .service-card-bottom h3 {
+      font-size: 14px;
+    }
+
+    .service-card-bottom:hover h3 {
+      font-size: 13px;
+    }
+
+    .service-card-bottom .service-hover-text {
+      font-size: 11px;
+    }
+
+    .service-card-bottom .service-more-text {
+      font-size: 11px;
+    }
+  }
+  /* ==========================================
+      スマホ・タブレット用のレスポンシブ設定
+     ========================================== */
+  @media (max-width: 768px) {
+    .main-visual {
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.95) 60%,
+          rgba(255, 255, 255, 0.7) 100%
+        ),
+        url("/images/premium_photo-1680190485141-f2f75f45fe0e.avif") no-repeat
+          center center;
+      height: auto;
+      padding: 120px 0 60px 0;
+    }
+
+    .features,
+    .services-section,
+    .flow-section,
+    .latest-columns-section,
+    .info-faq-section {
+      padding: 60px 0;
+    }
+
+    .features-container {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .feature-card:not(:last-child)::after {
+      display: none;
+    }
+    .feature-card:not(:last-child) {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 30px;
+    }
+    .feature-card p {
+      text-align: left;
+    }
+
+    .services-grid-simple,
+    .services-grid-btn,
+    .info-faq-grid,
+    .columns-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .services-divider {
+      margin: 30px 0 15px;
+    }
+
+    .service-card-simple,
+    .service-card-bottom {
+      height: auto;
+    }
+
+    .service-card-simple .service-content-inner,
+    .service-card-bottom .service-content-inner {
+      padding: 24px !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .service-card-simple .service-icon-wrap {
+      display: block !important;
+      opacity: 1 !important;
+      transform: none !important;
+      font-size: 40px;
+      color: var(--primary-color, #0f8b8d);
+      margin-bottom: 12px !important;
+      height: auto !important;
+    }
+
+    .service-card-simple h3,
+    .service-card-bottom h3 {
+      transform: none !important;
+      font-size: 18px !important;
+      margin: 0 0 12px 0 !important;
+      text-align: center;
+      color: #000000;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .services-section .service-hover-text,
+    .service-card-simple .service-hover-text,
+    .service-card-bottom .service-hover-text {
+      position: static !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      text-align: left;
+      margin: 0 0 16px 0 !important;
+      padding: 0;
+      width: 100%;
+    }
+
+    .service-more-text,
+    .service-card-simple .service-more-text,
+    .service-card-bottom .service-more-text {
+      position: static !important;
+      display: inline-flex;
+      justify-content: center;
+      color: var(--primary-color, #0f8b8d);
+      margin-top: auto;
+      width: 100%;
+    }
+
+    .flow-steps {
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+    .step {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 20px;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .step-title {
+      white-space: normal;
+      font-size: 16px;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .step-description {
+      text-align: left;
+      width: 100%;
+      max-width: 400px;
+      padding: 0;
+    }
+    .step-arrow {
+      transform: rotate(90deg);
+      margin: 5px auto;
+    }
+
+    .column-card {
+      padding: 16px;
+    }
+    .column-image-dummy {
+      height: 140px;
+      margin-bottom: 16px;
+    }
+
+    .btn-column-detail,
+    .btn-flow-detail,
+    .home-about-link-btn {
+      width: 100% !important;
+      box-sizing: border-box;
+      padding: 14px 20px;
+      text-align: center;
+    }
+    .home-about-lead-text {
+      text-align: left;
+    }
+    .mv-tagline {
+      font-size: 20px !important;
+      white-space: nowrap !important;
+      letter-spacing: -0.5px;
+    }
+    .mv-title {
+      font-size: 25px !important;
+      line-height: 1.4 !important;
+    }
+    .mv-benefits {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      width: 100%;
+      padding-left: 0 !important;
+    }
+
+    .benefit-item {
+      font-size: 13px !important;
+      white-space: nowrap !important;
+    }
+    .mv-desc {
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+    }
+    .mv-title br,
+    .mv-desc br {
+      display: none;
+    }
+
+    .section-title {
+      font-size: 20px !important;
+      word-break: normal !important;
+      overflow-wrap: break-word !important;
+    }
+   .sub-section-title {
+      font-size: 18px;
+   }
+  }
+</style>

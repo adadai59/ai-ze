@@ -1,0 +1,140 @@
+---
+interface Props {
+  items: {
+    icon: string;
+    title: string;
+    bullets: string[];
+  }[];
+}
+const { items } = Astro.props;
+---
+
+<section class="pain-section">
+  <div class="container">
+    <h2 class="section-title">こんなお悩みありませんか？</h2>
+
+    <div class="pain-grid">
+      {
+        items.map((item) => (
+          <div class="pain-card">
+            {/* 💡 アイコンとタイトルを横並びにするコンテナ */}
+            <div class="card-header">
+              <i class={`ph-bold ${item.icon} icon-ph`} />
+              <h3 class="pain-card-title">{item.title}</h3>
+            </div>
+
+            <ul class="pain-list">
+              {item.bullets.map((bullet) => (
+                <li>{bullet}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .pain-section {
+    background: #ffffff;
+    padding: 90px 0 80px;
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 100%;
+  }
+
+  .pain-card {
+    background: #f4fafb;
+    border-radius: 8px;
+    padding: 24px 20px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #cce9ea;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .pain-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(15, 139, 141, 0.12);
+    border-color: var(--primary-color, #0f8b8d);
+  }
+
+  /* 💡 アイコン＋タイトルの横並びエリア */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* アイコンと文字の間隔 */
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cce9ea; /* 仕切り線（不要なら削除可） */
+  }
+
+  /* 💡 アイコンサイズを少しコンパクトに調整 */
+  .card-header :global(.icon-ph) {
+    font-size: 20px !important;
+    flex-shrink: 0;
+  }
+
+  /* 💡 小さめのタイトルスタイル */
+  .pain-card-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #222222;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 箇条書きスタイル */
+  .pain-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pain-list li {
+    font-size: 13.5px;
+    color: #444444;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 8px;
+  }
+
+  .pain-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .pain-list li::before {
+    content: "・";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--primary-color, #0f8b8d);
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .pain-section {
+      padding: 60px 0;
+    }
+    .section-title {
+      font-size: 24px;
+    }
+    .pain-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .pain-card {
+      padding: 20px 16px;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import Breadcrumb from "./Breadcrumb.astro";
+
+interface Props {
+  englishTitle: string;
+  japaneseTitle: string;
+  parentLinks?: { name: string; url: string }[];
+}
+
+const { englishTitle, japaneseTitle, parentLinks } = Astro.props;
+---
+
+<section class="hero-with-icon">
+  <div class="container">
+    <div class="hero-breadcrumb">
+      <Breadcrumb
+        currentPage={japaneseTitle}
+        parentLinks={parentLinks}
+        type="transparent"
+      />
+    </div>
+
+    <div class="hero-content-wrapper">
+      <div class="hero-icon-wrapper">
+        <slot name="icon" />
+      </div>
+      <div class="hero-titles">
+        <span class="hero-eng">{englishTitle}</span>
+        <h1 class="hero-title">{japaneseTitle}</h1>
+      </div>
+    </div>
+
+    <!-- 画像版と高さを合わせるための見えないスペーサー -->
+    <div class="hero-slot-spacer"></div>
+  </div>
+</section>
+
+<style>
+  .hero-with-icon {
+    width: 100%;
+    background-color: #f0f7f7;
+    /* 💡外側の上下余白を画像版と完全に統一 */
+    padding: 24px 0 40px;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 💡コンテナの高さを画像版と完全に統一 */
+    min-height: 265px;
+  }
+
+  .hero-breadcrumb {
+    width: 100%;
+    align-self: flex-start;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .hero-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background-color: #ffffff;
+    border: 1px solid #0f8b8d;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .hero-icon-wrapper :global(i),
+  .hero-icon-wrapper :global(svg) {
+    color: #0f8b8d;
+    fill: #0f8b8d;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+
+  .hero-titles {
+    text-align: center;
+  }
+
+  .hero-eng {
+    display: block;
+    font-size: 14px;
+    color: #0f8b8d;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+
+  .hero-title {
+    font-family:
+      "Times New Roman", "Yu Mincho", "游明朝", "MS Mincho", "ＭＳ 明朝", serif;
+    font-size: 32px;
+    color: #222222;
+    font-weight: bold;
+    margin: 0;
+    /* 💡以下の2行を追加して改行を有効化し、行間を少し整えます */
+    white-space: pre-line;
+    line-height: 1.4;
+  }
+
+  /* 下部の余白を自動で埋めて高さを維持する仕組み */
+  .hero-slot-spacer {
+    margin-top: auto;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .hero-with-icon {
+      padding: 20px 0 30px;
+    }
+    .container {
+      min-height: 220px;
+    }
+    .hero-title {
+      font-size: 26px;
+    }
+  }
+</style>

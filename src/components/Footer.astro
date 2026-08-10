@@ -1,0 +1,281 @@
+<footer class="site-footer">
+  <!-- 💡追加：フッター上部に結合したCTAエリア -->
+  <div class="footer-cta">
+    <div class="footer-cta-container">
+      <h2 class="cta-title">まずはお気軽にご相談ください</h2>
+      <p class="cta-text">
+        初回相談は無料です。相続税・贈与税・譲渡所得のお悩みは、資産税専門の足立税理士事務所へ。
+      </p>
+      <button
+        type="button"
+        class="cta-button js-contact-btn"
+        aria-haspopup="dialog"
+        aria-controls="contactModal"
+      >
+        <i class="fa-regular fa-comment-dots" aria-hidden="true"
+        ></i>お問い合わせはこちら
+      </button>
+    </div>
+  </div>
+
+  <!-- メインのフッターコンテンツ -->
+  <div class="footer-container">
+    <div class="footer-info">
+      <h3 class="footer-logo">足立税理士事務所</h3>
+      <p class="footer-address">
+        〒000-0000<br />
+        東京都〇〇区〇〇 1-2-3<br />
+        〇〇ビル 4F
+      </p>
+      <p class="footer-tel">TEL: 03-1234-5678</p>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>メニュー</h4>
+        <ul>
+          <li><a href="/">ホーム</a></li>
+          <li><a href="/about">事務所紹介</a></li>
+          <li><a href="/services">サービス内容</a></li>
+          <li><a href="/pricing">料金表</a></li>
+          <li><a href="/flow">ご依頼の流れ</a></li>
+          <li><a href="/column">コラム</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>サービス内容</h4>
+        <ul>
+          <li><a href="/services/inheritance">相続税申告</a></li>
+          <li><a href="/services/estate-planning">生前対策・贈与</a></li>
+          <li><a href="/services/capital-gains">譲渡所得</a></li>
+          <li><a href="/services/advisory">顧問契約</a></li>
+          <li><a href="/services/dx-support">業務効率化支援</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>その他</h4>
+        <ul>
+          <li><a href="/privacy-policy">個人情報保護方針</a></li>
+          <li><a href="/disclaimer">免責事項</a></li>
+          <li>
+            <button
+              type="button"
+              class="footer-link-btn js-contact-btn"
+              aria-haspopup="dialog"
+              aria-controls="contactModal">お問い合わせ</button
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copyright">
+    <p>&copy; 2026 足立税理士事務所 All Rights Reserved.</p>
+  </div>
+</footer>
+
+<style>
+  /* --- 全体設定 --- */
+  .site-footer {
+    background-color: #222d2f;
+    color: #ffffff;
+    font-size: 14px;
+  }
+
+  /* --- CTAエリアのスタイル --- */
+  .footer-cta {
+    background-color: #0f8b8d; /* テーマカラーの緑 */
+    padding: 50px 20px; /* 💡上下幅を 80px → 50px に狭めました */
+    text-align: center;
+  }
+
+  .footer-cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-size: 26px; /* 💡幅に合わせて少しだけスマートに調整 */
+    font-weight: bold;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+  }
+
+  .cta-text {
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin: 0 0 25px 0; /* 💡ボタンとの隙間を少し詰めました */
+    color: #ffffff;
+    opacity: 0.9;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    color: #0f8b8d;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 14px 44px; /* 💡ボタン自体の上下幅も少しスマートに */
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+    border: none; /* これで周りの線が消えます */
+    outline: none; /* クリックした時の余計な枠線も消します */
+    cursor: pointer; /* マウスを乗せたときに指マークにします */
+  }
+
+  /* 💡カーソルが当たった（ホバー）時の色変化 */
+  .cta-button:hover {
+    background-color: #e6f3f3; /* 💡ほんのり緑がかった明るい色に変化 */
+    color: #0d7a7c; /* 💡文字色も連動して少し濃い緑に */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  }
+
+  /* --- メインフッターのレイアウト --- */
+  .footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 0 20px; /* 💡上下の余白をさらにコンパクトに */
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .footer-info {
+    max-width: 300px;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ffffff;
+  }
+
+  .footer-address {
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 5px;
+  }
+
+  .footer-tel {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+    min-width: 140px;
+  }
+
+  .footer-col h4 {
+    font-size: 15px;
+    font-weight: bold;
+    margin: 0;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .footer-col a:link,
+  .footer-col a:visited {
+    color: #cccccc;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  /* --- その他の中の「お問い合わせ」ボタン（モーダルを開く。見た目はリンクと同じに揃える） --- */
+  .footer-link-btn {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: #cccccc;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    text-align: left;
+    transition: color 0.2s;
+  }
+
+  .footer-link-btn:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    margin-top: 25px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    color: #888888;
+    font-size: 12px;
+  }
+
+  /* --- レスポンシブ（スマホ対応） --- */
+  @media (max-width: 768px) {
+    .footer-cta {
+      padding: 40px 20px; /* 💡スマホ時も少し狭めに調整 */
+    }
+    .cta-title {
+      font-size: 20px;
+    }
+    .cta-button {
+      padding: 12px 36px;
+      font-size: 15px;
+      width: 100%;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+    .footer-container {
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 20px;
+    }
+    .footer-links {
+      flex-direction: column;
+      gap: 24px;
+    }
+    .footer-col {
+      min-width: auto;
+    }
+  }
+</style>
