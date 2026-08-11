@@ -21,7 +21,7 @@ const sorted = [...allNews].sort(
 
 const latest = sorted.slice(0, 3);
 
-const NEW_THRESHOLD_DAYS = 14;
+const NEW_THRESHOLD_DAYS = 7;
 const isNewItem = (dateStr: string) => {
   const diffDays =
     (Date.now() - new Date(dateStr).valueOf()) / (1000 * 60 * 60 * 24);
