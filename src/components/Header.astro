@@ -218,7 +218,7 @@ const { simple = false } = Astro.props;
       );
       dropdownToggles.forEach((toggle) => {
         toggle.addEventListener("click", (e) => {
-          if (window.innerWidth <= 1080) {
+          if (window.innerWidth <= 1240) {
             e.preventDefault();
             const parent = toggle.closest(".has-dropdown");
             if (!parent) return;
@@ -534,9 +534,9 @@ const { simple = false } = Astro.props;
     }
 
     /* ==========================================================================
-      PC表示専用（1081px以上）
+      PC表示専用（1241px以上）
       ========================================================================== */
-    @media (min-width: 1081px) {
+    @media (min-width: 1241px) {
       .nav-list > li > a:not(.active)::after,
       .nav-list > li > .dropdown-toggle:not(.active)::after {
         content: "";
@@ -645,9 +645,9 @@ const { simple = false } = Astro.props;
     }
 
     /* ==========================================================================
-      中途半端な画面サイズ（1081px〜1350px）での文字溢れ・重なり対策
+      中途半端な画面サイズ（1241px〜1500px）での文字溢れ・重なり対策
       ========================================================================== */
-    @media (min-width: 1081px) and (max-width: 1350px) {
+    @media (min-width: 1241px) and (max-width: 1500px) {
       .nav-menu {
         margin-left: 40px !important;
       }
@@ -661,6 +661,9 @@ const { simple = false } = Astro.props;
         font-size: 0.95rem !important;
         padding: 0.35rem 0.6rem !important; /* ★上下を狭める */
       }
+      .header-cta-container {
+        margin-left: 1rem !important;
+      }
       .nav-menu .btn-contact {
         padding: 10px 18px !important;
         font-size: 1rem !important;
@@ -668,9 +671,9 @@ const { simple = false } = Astro.props;
     }
 
     /* ==========================================================================
-      ハンバーガー表示（スマホ）専用（1080px以下）
+      ハンバーガー表示（スマホ）専用（1240px以下）
       ========================================================================== */
-    @media (max-width: 1080px) {
+    @media (max-width: 1240px) {
       .site-header {
         top: 0;
         padding: 0;
