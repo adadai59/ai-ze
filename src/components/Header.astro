@@ -6,6 +6,7 @@ const isAboutActive = pathname.startsWith("/about");
 const isServicesActive = pathname.startsWith("/services");
 const isPricingActive = pathname.startsWith("/pricing");
 const isFlowActive = pathname.startsWith("/flow");
+const isNewsActive = pathname.startsWith("/news"); // 🌟 追加
 const isColumnActive = pathname.startsWith("/column");
 
 interface Props {
@@ -127,6 +128,11 @@ const { simple = false } = Astro.props;
             <li>
               <a href="/flow" class:list={[{ active: isFlowActive }]}>
                 ご依頼の流れ
+              </a>
+            </li>
+            <li>
+              <a href="/news" class:list={[{ active: isNewsActive }]}>
+                お知らせ
               </a>
             </li>
             <li>
@@ -285,7 +291,7 @@ const { simple = false } = Astro.props;
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
-      height: 64px;
+      height: 76px;
       z-index: 100;
       background-color: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
@@ -308,7 +314,7 @@ const { simple = false } = Astro.props;
       width: 100%;
       max-width: 100%;
       height: 100%;
-      padding: 0 32px;
+      padding: 0 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -351,12 +357,12 @@ const { simple = false } = Astro.props;
       align-items: center;
       flex-grow: 1;
       width: auto;
-      margin-left: 60px;
+      margin-left: 72px;
     }
     .nav-list {
       list-style: none;
       display: flex;
-      gap: 2.5rem;
+      gap: 2.8rem;
       margin: 0;
       padding: 0;
       align-items: center;
@@ -424,7 +430,7 @@ const { simple = false } = Astro.props;
       width: max-content;
       background-color: var(--primary-color);
       color: #ffffff;
-      padding: 10px 24px;
+      padding: 12px 28px;
       border: none;
       border-radius: 4px;
       font-weight: bold;
@@ -670,7 +676,7 @@ const { simple = false } = Astro.props;
         padding: 0;
       }
       .header-container {
-        height: 64px;
+        height: 76px;
         border-radius: 0;
       }
       .logo a {
@@ -712,7 +718,7 @@ const { simple = false } = Astro.props;
       }
       .nav-menu {
         position: fixed;
-        top: 64px;
+        top: 76px;
         right: -100%;
         width: 70%;
         max-width: 250px;

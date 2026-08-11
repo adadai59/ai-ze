@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getAllColumns, formatJSTDate } from "../library/microcms"; // 🌟 追加
-import NewsBand from "../components/NewsBand.astro"; // ← 追加
+import NewsBand from "../components/NewsBand.astro"; // 🌟 追加
+import HeroSlider from "../components/HeroSlider.astro"; // ← 追加
+import { getAllColumns, formatJSTDate } from "../library/microcms";
 
-export const prerender = true; // 🌟 これを追加
+export const prerender = true;
 
 // 👇 最新のコラムを3件取得する処理
 const allColumns = await getAllColumns();
@@ -13,40 +14,12 @@ const latestColumns = [...allColumns]
 ---
 
 <BaseLayout title="足立税理士事務所 | 資産税に特化税理士事務所">
-  <section class="main-visual">
-    <div class="mv-container">
-      <div class="mv-content">
-        <p class="mv-tagline">元国税調査官だからこその専門性</p>
-        <h2 class="mv-title">
-          相続・贈与・譲渡所得を<br />安心してお任せください
-        </h2>
-        <p class="mv-desc">
-          相続税調査・財産評価など、国税で培った豊富な実務経<br
-          />験を活かし、相続税申告から生前対策まで、お客様一人<br
-          />ひとりに合わせて丁寧に対応いたします。
-        </p>
+  <HeroSlider />
 
-        <div class="mv-cta-area">
-          <button type="button" class="btn-main-contact js-contact-btn">
-            お問い合わせはこちら
-          </button>
+  <!-- 🌟 追加：お知らせ帯（ヒーロー直下） -->
+  <NewsBand />
 
-          <div class="mv-benefits">
-            <span class="benefit-item">
-              <i class="ph-bold ph-currency-jpy icon-ph"></i> 初回相談無料
-            </span>
-            <span class="benefit-item">
-              <i class="ph-bold ph-clock icon-ph"></i> 相続税の不安を30分で整理
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<NewsBand />  <!-- ← ここに追加 -->
-  
-<section class="features">
+  <section class="features">
     <div class="features-header">
   <h2 class="section-title">安心してご相談いただける理由</h2>
 </div>
@@ -340,121 +313,6 @@ const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
 </BaseLayout>
 
 <style>
-  /* ==========================================
-      メインビジュアル
-     ========================================== */
-  .main-visual {
-    width: 100%;
-    height: 680px;
-    margin-top: -64px;
-    padding-top: 64px;
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.95) 25%,
-        rgba(255, 255, 255, 0.5) 50%,
-        rgba(255, 255, 255, 0) 100%
-      ),
-      url("/images/premium_photo-1680190485141-f2f75f45fe0e.avif") no-repeat
-        center center;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .mv-container {
-    max-width: 1100px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 20px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .mv-content {
-    max-width: 580px;
-  }
-
-  .mv-tagline {
-    font-size: 25px;
-    color: var(--primary-color, #0f8b8d) !important;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .mv-title {
-    font-size: 35px;
-    color: #222222 !important;
-    font-weight: bold;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
-    line-height: 1.2;
-  }
-
-  .mv-desc {
-    font-size: 16px;
-    color: #444444 !important;
-    margin-bottom: 35px;
-    line-height: 1.8;
-  }
-
-  .mv-cta-area {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .btn-main-contact {
-    margin: 0;
-    display: block;
-    width: 100%;
-    max-width: 400px;
-    background: var(--primary-color, #0f8b8d);
-    color: #ffffff !important;
-    text-decoration: none;
-    text-align: center;
-    padding: 18px;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0, 128, 128, 0.25);
-    transition:
-      background 0.3s,
-      transform 0.2s;
-    cursor: pointer;
-    border: none;
-    outline: none;
-  }
-
-  .btn-main-contact:hover {
-    background: #0b6f72;
-    transform: translateY(-2px);
-  }
-
-  .mv-benefits {
-    display: flex;
-    gap: 20px;
-    font-size: 14px;
-    color: #444444;
-    font-weight: 500;
-    padding-left: 5px;
-  }
-
-  .benefit-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .benefit-item i {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 1;
-    margin-top: -3px;
-  }
 
   /* ==========================================
       共通コンテナ設定
@@ -540,12 +398,6 @@ const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
     color: #666;
     line-height: 1.6;
     text-align: left;
-  }
-
-  :global(.icon-ph) {
-    font-size: 18px !important;
-    color: #008080 !important;
-    display: inline-block;
   }
 
   :global(.feature-icon-ph) {
@@ -1194,19 +1046,6 @@ const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
       スマホ・タブレット用のレスポンシブ設定
      ========================================== */
   @media (max-width: 768px) {
-    .main-visual {
-      background:
-        linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.95) 60%,
-          rgba(255, 255, 255, 0.7) 100%
-        ),
-        url("/images/premium_photo-1680190485141-f2f75f45fe0e.avif") no-repeat
-          center center;
-      height: auto;
-      padding: 120px 0 60px 0;
-    }
-
     .features,
     .services-section,
     .flow-section,
@@ -1352,35 +1191,6 @@ const updatedLabel = formatJSTDate(new Date(entry.updatedAt));
     }
     .home-about-lead-text {
       text-align: left;
-    }
-    .mv-tagline {
-      font-size: 20px !important;
-      white-space: nowrap !important;
-      letter-spacing: -0.5px;
-    }
-    .mv-title {
-      font-size: 25px !important;
-      line-height: 1.4 !important;
-    }
-    .mv-benefits {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-      gap: 8px !important;
-      width: 100%;
-      padding-left: 0 !important;
-    }
-
-    .benefit-item {
-      font-size: 13px !important;
-      white-space: nowrap !important;
-    }
-    .mv-desc {
-      font-size: 14px !important;
-      line-height: 1.6 !important;
-    }
-    .mv-title br,
-    .mv-desc br {
-      display: none;
     }
 
     .section-title {

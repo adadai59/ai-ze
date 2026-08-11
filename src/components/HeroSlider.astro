@@ -1,0 +1,437 @@
+---
+// src/components/HeroSlider.astro
+//
+// ヒーローセクションをスライド形式にしたコンポーネント。
+// 写真・タグライン・タイトル・説明文がセットでスライドごとに切り替わる。
+// 自動再生（6秒ごと）+ 左右矢印・ドットでの手動操作に対応。
+//
+// 🚧 スライド2・3は差し替え用のサンプルです。
+//    実際に使う写真は public/images/ に追加し、image のパスを差し替え、
+//    tagline / titleHtml / descHtml も実際のコピーに書き換えてください。
+
+export interface HeroSlide {
+  image: string;
+  tagline: string;
+  titleHtml: string; // <br /> を含められるようリッチテキストとして扱う
+  descHtml: string;
+}
+
+const heroSlides: HeroSlide[] = [
+  {
+    image: "/images/premium_photo-1680190485141-f2f75f45fe0e.avif",
+    tagline: "元国税調査官だからこその専門性",
+    titleHtml: "相続・贈与・譲渡所得を<br />安心してお任せください",
+    descHtml:
+      "相続税調査・財産評価など、国税で培った豊富な実務経<br />験を活かし、相続税申告から生前対策まで、お客様一人<br />ひとりに合わせて丁寧に対応いたします。",
+  },
+  {
+    // 🚧 サンプル。実際の写真・コピーに差し替えてください
+    image: "/images/premium_photo-1680190485141-f2f75f45fe0e.avif",
+    tagline: "オンラインで全国どこからでも",
+    titleHtml: "Zoomでのご相談で<br />遠方の方も安心",
+    descHtml:
+      "全国どこからでもオンラインでご相談いただけます。<br />移動の負担なく、専門的なアドバイスを受けられます。",
+  },
+  {
+    // 🚧 サンプル。実際の写真・コピーに差し替えてください
+    image: "/images/premium_photo-1680190485141-f2f75f45fe0e.avif",
+    tagline: "税理士本人が直接対応",
+    titleHtml: "ご相談から申告まで<br />一貫してサポート",
+    descHtml:
+      "税理士本人が最初から最後まで責任を持って対応します。<br />安心してお任せください。",
+  },
+];
+---
+
+<section class="hero-slider" id="hero-slider">
+  <div class="hero-slides">
+    {
+      heroSlides.map((slide, i) => (
+        <div
+          class={`hero-slide${i === 0 ? " is-active" : ""}`}
+          style={`--slide-bg: url(${slide.image});`}
+          data-index={i}
+        >
+          <div class="mv-container">
+            <div class="mv-content">
+              <p class="mv-tagline">{slide.tagline}</p>
+              <h2 class="mv-title" set:html={slide.titleHtml} />
+              <p class="mv-desc" set:html={slide.descHtml} />
+
+              <div class="mv-cta-area">
+                <button type="button" class="btn-main-contact js-contact-btn">
+                  お問い合わせはこちら
+                </button>
+
+                <div class="mv-benefits">
+                  <span class="benefit-item">
+                    <i class="ph-bold ph-currency-jpy icon-ph" /> 初回相談無料
+                  </span>
+                  <span class="benefit-item">
+                    <i class="ph-bold ph-clock icon-ph" />{" "}
+                    相続税の不安を30分で整理
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  <button
+    type="button"
+    class="hero-arrow hero-arrow-prev"
+    aria-label="前のスライドへ"
+  >
+    <i class="ph-bold ph-caret-left"></i>
+  </button>
+  <button
+    type="button"
+    class="hero-arrow hero-arrow-next"
+    aria-label="次のスライドへ"
+  >
+    <i class="ph-bold ph-caret-right"></i>
+  </button>
+
+  <div class="hero-dots">
+    {
+      heroSlides.map((_, i) => (
+        <button
+          type="button"
+          class={`hero-dot${i === 0 ? " is-active" : ""}`}
+          data-index={i}
+          aria-label={`スライド${i + 1}へ`}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .hero-slider {
+    position: relative;
+    width: 100%;
+    height: 680px;
+    margin-top: -76px;
+    overflow: hidden;
+  }
+
+  .hero-slides {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    padding-top: 76px;
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.95) 25%,
+        rgba(255, 255, 255, 0.5) 50%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      var(--slide-bg);
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+    z-index: 0;
+  }
+
+  .hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+
+  .mv-container {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .mv-content {
+    max-width: 580px;
+  }
+
+  .mv-tagline {
+    font-size: 25px;
+    color: var(--primary-color, #0f8b8d) !important;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .mv-title {
+    font-size: 35px;
+    color: #222222 !important;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+
+  .mv-desc {
+    font-size: 16px;
+    color: #444444 !important;
+    margin-bottom: 35px;
+    line-height: 1.8;
+  }
+
+  .mv-cta-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-main-contact {
+    margin: 0;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    background: var(--primary-color, #0f8b8d);
+    color: #ffffff !important;
+    text-decoration: none;
+    text-align: center;
+    padding: 18px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 128, 128, 0.25);
+    transition:
+      background 0.3s,
+      transform 0.2s;
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  .btn-main-contact:hover {
+    background: #0b6f72;
+    transform: translateY(-2px);
+  }
+
+  .mv-benefits {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #444444;
+    font-weight: 500;
+    padding-left: 5px;
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .benefit-item i {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1;
+    margin-top: -3px;
+  }
+
+  :global(.hero-slider .icon-ph) {
+    font-size: 18px !important;
+    color: #008080 !important;
+    display: inline-block;
+  }
+
+  /* 矢印ボタン */
+  .hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #e5e5e5;
+    color: var(--primary-color, #0f8b8d);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+  .hero-arrow:hover {
+    background: #ffffff;
+    transform: translateY(-50%) scale(1.05);
+  }
+  .hero-arrow-prev {
+    left: 24px;
+  }
+  .hero-arrow-next {
+    right: 24px;
+  }
+
+  /* ドット */
+  .hero-dots {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 3;
+  }
+  .hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(15, 139, 141, 0.25);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+  .hero-dot.is-active {
+    background: var(--primary-color, #0f8b8d);
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 768px) {
+    .hero-slider {
+      height: auto;
+      min-height: 560px;
+    }
+    .hero-slide {
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.95) 60%,
+          rgba(255, 255, 255, 0.7) 100%
+        ),
+        var(--slide-bg);
+      padding: 120px 0 100px;
+      align-items: flex-start;
+    }
+    .mv-tagline {
+      font-size: 20px !important;
+      white-space: nowrap !important;
+      letter-spacing: -0.5px;
+    }
+    .mv-title {
+      font-size: 25px !important;
+      line-height: 1.4 !important;
+    }
+    .mv-benefits {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      width: 100%;
+      padding-left: 0 !important;
+    }
+    .benefit-item {
+      font-size: 13px !important;
+      white-space: nowrap !important;
+    }
+    .mv-desc {
+      font-size: 14px !important;
+      line-height: 1.6 !important;
+    }
+    .mv-title :global(br),
+    .mv-desc :global(br) {
+      display: none;
+    }
+    .hero-arrow {
+      width: 36px;
+      height: 36px;
+      font-size: 15px;
+    }
+    .hero-arrow-prev {
+      left: 12px;
+    }
+    .hero-arrow-next {
+      right: 12px;
+    }
+    .hero-dots {
+      bottom: 16px;
+    }
+  }
+</style>
+
+<script>
+  const slider = document.getElementById("hero-slider");
+
+  if (slider) {
+    const slides = Array.from(
+      slider.querySelectorAll<HTMLElement>(".hero-slide"),
+    );
+    const dots = Array.from(
+      slider.querySelectorAll<HTMLButtonElement>(".hero-dot"),
+    );
+    const prevBtn = slider.querySelector<HTMLButtonElement>(".hero-arrow-prev");
+    const nextBtn = slider.querySelector<HTMLButtonElement>(".hero-arrow-next");
+
+    const AUTOPLAY_MS = 6000;
+    let current = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    function goTo(index: number) {
+      const total = slides.length;
+      current = ((index % total) + total) % total;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle("is-active", i === current);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("is-active", i === current);
+      });
+    }
+
+    function next() {
+      goTo(current + 1);
+    }
+    function prev() {
+      goTo(current - 1);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = setInterval(next, AUTOPLAY_MS);
+    }
+    function stopAutoplay() {
+      if (timer) clearInterval(timer);
+    }
+
+    nextBtn?.addEventListener("click", () => {
+      next();
+      startAutoplay(); // 手動操作後もタイマーをリセットして自動再生を継続
+    });
+    prevBtn?.addEventListener("click", () => {
+      prev();
+      startAutoplay();
+    });
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        goTo(Number(dot.dataset.index));
+        startAutoplay();
+      });
+    });
+
+    // ホバー中は自動再生を一時停止（じっくり読みたい人向け）
+    slider.addEventListener("mouseenter", stopAutoplay);
+    slider.addEventListener("mouseleave", startAutoplay);
+
+    startAutoplay();
+  }
+</script>
