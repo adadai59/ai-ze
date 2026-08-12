@@ -423,6 +423,7 @@ const { simple = false } = Astro.props;
       transition: opacity 0.3s ease;
     }
 
+    /* ボタン全体のスタイル */
     .nav-menu .btn-contact {
       display: inline-flex;
       align-items: center;
@@ -443,6 +444,8 @@ const { simple = false } = Astro.props;
       white-space: nowrap;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
+
+    /*  ボタンの中の「アイコンだけ」にかけるスタイル */
     .btn-contact i {
       font-size: 1.2rem;
       margin-right: 12px;
@@ -643,11 +646,71 @@ const { simple = false } = Astro.props;
         box-shadow: 0 8px 20px rgba(15, 139, 141, 0.3);
       }
     }
+    /* ==========================================================================
+      中途半端な画面サイズ（1450px〜1500px）での文字溢れ・重なり対策
+      ========================================================================== */
+    @media (min-width: 1401px) and (max-width: 1500px) {
+      .nav-menu {
+        margin-left: 40px !important;
+      }
+      .nav-list {
+        gap: 1.2rem !important;
+        margin-left: auto !important;
+      }
+      .nav-menu a:link,
+      .nav-menu a:visited,
+      .dropdown-toggle {
+        font-size: 1rem !important;
+        padding: 0.35rem 0.6rem !important; /* ★上下を狭める */
+      }
+      .header-cta-container {
+        margin-left: 1rem !important;
+      }
+      .nav-menu .btn-contact {
+        padding: 10px 18px !important;
+        font-size: 1.05rem !important;
+      }
+      /*  ボタンの中の「アイコンだけ」にかけるスタイル */
+      .btn-contact i {
+        font-size: 1.15rem;
+        margin-right: 11px;
+      }
+    }
+    /* ==========================================================================
+      中途半端な画面サイズ（1450px〜1500px）での文字溢れ・重なり対策
+      ========================================================================== */
+    @media (min-width: 1301px) and (max-width: 1400px) {
+      .nav-menu {
+        margin-left: 40px !important;
+      }
+      .nav-list {
+        gap: 1.2rem !important;
+        margin-left: auto !important;
+      }
+      .nav-menu a:link,
+      .nav-menu a:visited,
+      .dropdown-toggle {
+        font-size: 1rem !important;
+        padding: 0.35rem 0.6rem !important; /* ★上下を狭める */
+      }
+      .header-cta-container {
+        margin-left: 1rem !important;
+      }
+      .nav-menu .btn-contact {
+        padding: 10px 18px !important;
+        font-size: 1.05rem !important;
+      }
+      /*  ボタンの中の「アイコンだけ」にかけるスタイル */
+      .btn-contact i {
+        font-size: 1.15rem;
+        margin-right: 11px;
+      }
+    }
 
     /* ==========================================================================
       中途半端な画面サイズ（1241px〜1500px）での文字溢れ・重なり対策
       ========================================================================== */
-    @media (min-width: 1241px) and (max-width: 1500px) {
+    @media (min-width: 1201px) and (max-width: 1300px) {
       .nav-menu {
         margin-left: 40px !important;
       }
@@ -666,14 +729,48 @@ const { simple = false } = Astro.props;
       }
       .nav-menu .btn-contact {
         padding: 10px 18px !important;
-        font-size: 1rem !important;
+        font-size: 0.97rem !important;
+      }
+      /*  ボタンの中の「アイコンだけ」にかけるスタイル */
+      .btn-contact i {
+        font-size: 1rem;
+        margin-right: 10px;
       }
     }
-
+    /* ==========================================================================
+      中途半端な画面サイズ（1241px〜1500px）での文字溢れ・重なり対策
+      ========================================================================== */
+    @media (min-width: 1176px) and (max-width: 1200px) {
+      .nav-menu {
+        margin-left: 40px !important;
+      }
+      .nav-list {
+        gap: 1.2rem !important;
+        margin-left: auto !important;
+      }
+      .nav-menu a:link,
+      .nav-menu a:visited,
+      .dropdown-toggle {
+        font-size: 0.9rem !important;
+        padding: 0.35rem 0.6rem !important; /* ★上下を狭める */
+      }
+      .header-cta-container {
+        margin-left: 1rem !important;
+      }
+      .nav-menu .btn-contact {
+        padding: 10px 15px !important;
+        font-size: 0.95rem !important;
+      }
+      /*  ボタンの中の「アイコンだけ」にかけるスタイル */
+      .btn-contact i {
+        font-size: 0.97rem;
+        margin-right: 10px;
+      }
+    }
     /* ==========================================================================
       ハンバーガー表示（スマホ）専用（1240px以下）
       ========================================================================== */
-    @media (max-width: 1240px) {
+    @media (max-width: 1175px) {
       .site-header {
         top: 0;
         padding: 0;
