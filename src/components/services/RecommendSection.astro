@@ -1,8 +1,9 @@
 ---
 interface Props {
   items: string[];
+  subtitle: string[];
 }
-const { items } = Astro.props;
+const { items, subtitle } = Astro.props;
 ---
 
 <section class="recommend-section">
@@ -22,7 +23,7 @@ const { items } = Astro.props;
 
     <!-- 💡サブタイトルをカード（.recommend-list）の下に移動 -->
     <h5 class="section-subtitle">
-      一つでも当てはまる方は、税理士へのご相談・ご依頼をおすすめします。
+      {subtitle.map((subtitle) => <span>{subtitle}</span>)}
     </h5>
   </div>
 </section>

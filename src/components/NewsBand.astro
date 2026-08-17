@@ -218,9 +218,23 @@ const isNewItem = (dateStr: string) => {
     .news-item,
     .news-item a {
       flex-wrap: wrap;
+      align-items: center;
+      row-gap: 6px;
+      column-gap: 10px;
+    }
+    .news-date {
+      order: 1;
+    }
+    .news-new {
+      order: 2;
+    }
+    .news-tag {
+      order: 3;
     }
     .news-title {
       white-space: normal;
+      flex: 1 1 100%;
+      order: 4;
     }
     .news-band-more {
       align-self: flex-end;

@@ -69,6 +69,8 @@ const reasonItems = [
   },
 ];
 
+const sectionsubtitle = ["一つでも当てはまる方は、ご依頼をおすすめします。"];
+
 const serviceDetails = [
   {
     icon: "ph-cloud",
@@ -149,7 +151,7 @@ const faqItems = [
 
   <ServiceDetailSection items={serviceDetails} />
 
-  <RecommendSection items={recommendItems} />
+  <RecommendSection items={recommendItems} , subtitle={sectionsubtitle} />
 
   {/* 5. 料金の目安（固有デザインのため直書き推奨） */}
   <section class="pricing-section">
