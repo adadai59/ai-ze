@@ -1,17 +1,22 @@
 ---
-// src/components/NewsBand.astro
-// ホームのヒーロー直下に置く「お知らせ」帯。
-// 新着順（date降順）に最大3件を自動表示。0件なら帯ごと非表示。
-//
-// 表示リンクの優先順位:
-//   1. externalLink がある     → そのURLへ（別タブ）※セミナー申込など
-//   2. externalLink はないが body がある → /news/[id] の詳細ページへ
-//   3. どちらもない             → リンクなしのプレーンテキスト
-//
-// NEWバッジは公開日から14日以内なら自動表示（手動フラグは持たない）
+/**
+ * src/components/NewsBand.astro
+ *
+ * ホームのヒーロー直下に置く「お知らせ」帯。
+ * 新着順（date降順）に最大3件を自動表示。0件なら帯ごと非表示。
+ *
+ * 表示リンクの優先順位:
+ *   1. externalLink がある
+ *      → そのURLへ（別タブ）※セミナー申込など
+ *   2. externalLink はないが body がある
+ *      → /news/[id] の詳細ページへ
+ *   3. どちらもない
+ *      → リンクなしのプレーンテキスト
+ *
+ * NEWバッジは公開日から7日以内なら自動表示。
+ */
 
 import { getAllNews, formatJSTDate, type NewsItem } from "../library/microcms";
-// 🌟 category はコラムと共有の「カテゴリ」APIを参照（コンテンツ参照）
 
 const allNews = await getAllNews();
 
@@ -20,13 +25,6 @@ const sorted = [...allNews].sort(
 );
 
 const latest = sorted.slice(0, 3);
-
-const NEW_THRESHOLD_DAYS = 7;
-const isNewItem = (dateStr: string) => {
-  const diffDays =
-    (Date.now() - new Date(dateStr).valueOf()) / (1000 * 60 * 60 * 24);
-  return diffDays <= NEW_THRESHOLD_DAYS;
-};
 ---
 
 {
@@ -41,7 +39,7 @@ const isNewItem = (dateStr: string) => {
         <ul class="news-band-list">
           {latest.map((item: NewsItem) => {
             const tagLabel = item.category?.name ?? "お知らせ";
-            const isNew = isNewItem(item.date);
+
             const href = item.externalLink
               ? item.externalLink
               : item.content
@@ -49,7 +47,7 @@ const isNewItem = (dateStr: string) => {
                 : null;
 
             return href ? (
-              <li class="news-item" data-news-date={entry.date}>
+              <li class="news-item" data-news-date={item.date}>
                 <a
                   href={href}
                   target={item.externalLink ? "_blank" : undefined}
@@ -58,21 +56,28 @@ const isNewItem = (dateStr: string) => {
                   <span class="news-date">
                     {formatJSTDate(new Date(item.date))}
                   </span>
+
                   <span class="news-tag">{tagLabel}</span>
+
                   <span class="news-title">{item.title}</span>
+
+                  {item.externalLink && (
+                    <i class="ph-bold ph-arrow-square-out news-external-icon" />
+                  )}
+
                   <span class="news-new">NEW</span>
                 </a>
               </li>
             ) : (
-              <li
-                class="news-item news-item--plain"
-                data-news-date={entry.date}
-              >
+              <li class="news-item news-item--plain" data-news-date={item.date}>
                 <span class="news-date">
                   {formatJSTDate(new Date(item.date))}
                 </span>
+
                 <span class="news-tag">{tagLabel}</span>
+
                 <span class="news-title">{item.title}</span>
+
                 <span class="news-new">NEW</span>
               </li>
             );
@@ -124,6 +129,7 @@ const isNewItem = (dateStr: string) => {
     border-radius: 999px;
     white-space: nowrap;
   }
+
   .news-band-label i {
     font-size: 14px;
   }
@@ -186,6 +192,12 @@ const isNewItem = (dateStr: string) => {
     text-decoration: underline;
   }
 
+  .news-external-icon {
+    font-size: 14px;
+    color: #999999;
+    flex: 0 0 auto;
+  }
+
   .news-new {
     flex: 0 0 auto;
     font-size: 10px;
@@ -208,6 +220,7 @@ const isNewItem = (dateStr: string) => {
     align-items: center;
     gap: 4px;
   }
+
   .news-band-more:hover {
     color: var(--primary-color, #0f8b8d);
   }
@@ -218,6 +231,7 @@ const isNewItem = (dateStr: string) => {
       align-items: stretch;
       gap: 16px;
     }
+
     .news-item,
     .news-item a {
       flex-wrap: wrap;
@@ -225,37 +239,43 @@ const isNewItem = (dateStr: string) => {
       row-gap: 6px;
       column-gap: 10px;
     }
+
     .news-date {
       order: 1;
     }
+
     .news-new {
       order: 2;
     }
+
     .news-tag {
       order: 3;
     }
+
     .news-title {
       white-space: normal;
       flex: 1 1 100%;
       order: 4;
     }
+
     .news-band-more {
       align-self: flex-end;
     }
   }
 </style>
+
 <script>
   const NEW_THRESHOLD_DAYS = 7;
-  const threshold = NEW_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
+  const thresholdMs = NEW_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
 
   document.querySelectorAll(".news-item[data-news-date]").forEach((item) => {
-    const date = item.getAttribute("data-news-date");
+    const dateStr = item.getAttribute("data-news-date");
 
-    if (!date) return;
+    if (!dateStr) return;
 
-    const diff = Date.now() - new Date(date).getTime();
+    const diffMs = Date.now() - new Date(dateStr).getTime();
 
-    if (diff > threshold) {
+    if (diffMs > thresholdMs) {
       item.querySelector(".news-new")?.remove();
     }
   });

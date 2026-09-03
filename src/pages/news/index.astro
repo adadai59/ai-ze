@@ -29,7 +29,6 @@ const sorted = [...allNews].sort(
           <ul class="news-list">
             {sorted.map((entry: NewsItem) => {
               const tagLabel = entry.category?.name ?? "お知らせ";
-              const isNew = isNewItem(entry.date);
               const href = entry.externalLink
                 ? entry.externalLink
                 : entry.content
@@ -46,12 +45,16 @@ const sorted = [...allNews].sort(
                     <span class="news-date">
                       {formatJSTDate(new Date(entry.date))}
                     </span>
+
                     <span class="news-tag">{tagLabel}</span>
+
                     <span class="news-title">{entry.title}</span>
+
                     {entry.externalLink && (
                       <i class="ph-bold ph-arrow-square-out news-external-icon" />
                     )}
-                    {isNew && <span class="news-new">NEW</span>}
+
+                    <span class="news-new">NEW</span>
                   </a>
                 </li>
               ) : (
@@ -62,9 +65,12 @@ const sorted = [...allNews].sort(
                   <span class="news-date">
                     {formatJSTDate(new Date(entry.date))}
                   </span>
+
                   <span class="news-tag">{tagLabel}</span>
+
                   <span class="news-title">{entry.title}</span>
-                  {isNew && <span class="news-new">NEW</span>}
+
+                  <span class="news-new">NEW</span>
                 </li>
               );
             })}
@@ -101,7 +107,6 @@ const sorted = [...allNews].sort(
     max-width: 780px;
   }
 
-  /* 行全体の定義（区切り線と上下パディングの維持） */
   .news-item {
     border-bottom: 1px solid #eaeaea;
     padding: 20px 4px;
@@ -110,11 +115,11 @@ const sorted = [...allNews].sort(
     gap: 16px;
     min-width: 0;
   }
+
   .news-item:first-child {
     border-top: 1px solid #eaeaea;
   }
 
-  /* inline-flex により、文字領域以外はホバーに反応させない */
   .news-item a {
     display: inline-flex;
     align-items: baseline;
@@ -179,6 +184,7 @@ const sorted = [...allNews].sort(
     padding: 60px 20px;
     color: #666666;
   }
+
   .news-empty-icon {
     font-size: 32px;
     color: #cbdcdc;
@@ -192,8 +198,26 @@ const sorted = [...allNews].sort(
       flex-wrap: wrap;
       gap: 8px 12px;
     }
+
     .news-title {
       white-space: normal;
     }
   }
 </style>
+
+<script>
+  const NEW_THRESHOLD_DAYS = 7;
+  const thresholdMs = NEW_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
+
+  document.querySelectorAll(".news-item[data-news-date]").forEach((item) => {
+    const dateStr = item.getAttribute("data-news-date");
+
+    if (!dateStr) return;
+
+    const diffMs = Date.now() - new Date(dateStr).getTime();
+
+    if (diffMs > thresholdMs) {
+      item.querySelector(".news-new")?.remove();
+    }
+  });
+</script>
