@@ -13,13 +13,6 @@ const allNews = await getAllNews();
 const sorted = [...allNews].sort(
   (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
 );
-
-const NEW_THRESHOLD_DAYS = 7;
-const isNewItem = (dateStr: string) => {
-  const diffDays =
-    (Date.now() - new Date(dateStr).valueOf()) / (1000 * 60 * 60 * 24);
-  return diffDays <= NEW_THRESHOLD_DAYS;
-};
 ---
 
 <BaseLayout title="お知らせ | 足立税理士事務所">
@@ -44,7 +37,7 @@ const isNewItem = (dateStr: string) => {
                   : null;
 
               return href ? (
-                <li class="news-item">
+                <li class="news-item" data-news-date={entry.date}>
                   <a
                     href={href}
                     target={entry.externalLink ? "_blank" : undefined}
@@ -62,7 +55,10 @@ const isNewItem = (dateStr: string) => {
                   </a>
                 </li>
               ) : (
-                <li class="news-item news-item--plain">
+                <li
+                  class="news-item news-item--plain"
+                  data-news-date={entry.date}
+                >
                   <span class="news-date">
                     {formatJSTDate(new Date(entry.date))}
                   </span>

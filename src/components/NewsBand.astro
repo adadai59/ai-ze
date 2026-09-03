@@ -49,7 +49,7 @@ const isNewItem = (dateStr: string) => {
                 : null;
 
             return href ? (
-              <li class="news-item">
+              <li class="news-item" data-news-date={entry.date}>
                 <a
                   href={href}
                   target={item.externalLink ? "_blank" : undefined}
@@ -60,17 +60,20 @@ const isNewItem = (dateStr: string) => {
                   </span>
                   <span class="news-tag">{tagLabel}</span>
                   <span class="news-title">{item.title}</span>
-                  {isNew && <span class="news-new">NEW</span>}
+                  <span class="news-new">NEW</span>
                 </a>
               </li>
             ) : (
-              <li class="news-item news-item--plain">
+              <li
+                class="news-item news-item--plain"
+                data-news-date={entry.date}
+              >
                 <span class="news-date">
                   {formatJSTDate(new Date(item.date))}
                 </span>
                 <span class="news-tag">{tagLabel}</span>
                 <span class="news-title">{item.title}</span>
-                {isNew && <span class="news-new">NEW</span>}
+                <span class="news-new">NEW</span>
               </li>
             );
           })}
@@ -241,3 +244,19 @@ const isNewItem = (dateStr: string) => {
     }
   }
 </style>
+<script>
+  const NEW_THRESHOLD_DAYS = 7;
+  const threshold = NEW_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
+
+  document.querySelectorAll(".news-item[data-news-date]").forEach((item) => {
+    const date = item.getAttribute("data-news-date");
+
+    if (!date) return;
+
+    const diff = Date.now() - new Date(date).getTime();
+
+    if (diff > threshold) {
+      item.querySelector(".news-new")?.remove();
+    }
+  });
+</script>
